@@ -8,7 +8,7 @@
             </router-link></mt-tab-item>
           <mt-tab-item id="2">
             <router-link :to="'sell1'">
-              <span class="sell">卖车</span>
+              <span>卖车</span>
             </router-link>
           </mt-tab-item>
           <mt-tab-item id="3">
@@ -82,6 +82,12 @@ nav .sell {
 .mint-navbar .mint-tab-item.is-selected {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
   color: #333333;
+}
+.mint-navbar .mint-tab-item.is-selected span{
+  font-size: 18px;
+}
+.mint-tab-item-label a span{
+  font-size: 16px
 }
 .que {
   width: 100%;

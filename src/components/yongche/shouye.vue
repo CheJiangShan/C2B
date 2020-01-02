@@ -11,12 +11,12 @@
           </mt-tab-item>
           <mt-tab-item id="2">
             <router-link :to="'sell1'">
-              <span class="sell">卖车</span>
+              <span>卖车</span>
             </router-link>
           </mt-tab-item>
-          <mt-tab-item id="3">用车</mt-tab-item>
+          <mt-tab-item id="3"><span>用车</span></mt-tab-item>
           <mt-tab-item id="4"><router-link :to="'shop'">
-              <span class="sell">商城</span>
+              <span>商城</span>
             </router-link></mt-tab-item>
         </mt-navbar>
       </nav>
@@ -214,6 +214,12 @@ nav .sell {
 .mint-navbar .mint-tab-item.is-selected {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
   color: #333333;
+}
+.mint-navbar .mint-tab-item.is-selected span{
+  font-size: 18px;
+}
+.mint-tab-item-label a span{
+  font-size: 16px
 }
 .header {
   width: 100%;

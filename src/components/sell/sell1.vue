@@ -2,23 +2,24 @@
   <div class="sell">
     <!-- 导航 -->
     <div class="roof">
-      <nav>
+       <nav>
         <mt-navbar v-model="selected">
           <mt-tab-item id="1">
             <router-link :to="'pay'">
               <span>买车</span>
             </router-link>
           </mt-tab-item>
-          <mt-tab-item id="2">卖车
-          </mt-tab-item>
+          <mt-tab-item id="2"><span>卖车</span></mt-tab-item>
           <mt-tab-item id="3">
             <router-link :to="'shouye'">
               <span>用车</span>
             </router-link>
           </mt-tab-item>
-          <mt-tab-item id="4"> <router-link :to="'shop'">
+          <mt-tab-item id="4">
+            <router-link :to="'shop'">
               <span>商城</span>
-            </router-link></mt-tab-item>
+            </router-link>
+          </mt-tab-item>
         </mt-navbar>
       </nav>
       <img src="../../assets/1.png" alt />
@@ -263,6 +264,12 @@ nav .sell {
 .mint-navbar .mint-tab-item.is-selected {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
   color: #333333;
+}
+.mint-navbar .mint-tab-item.is-selected span{
+  font-size: 18px;
+}
+.mint-tab-item-label a span{
+  font-size: 16px
 }
 .pic {
   width: 100%;

@@ -18,11 +18,9 @@
     <div class="middle"></div>
     <div class="basic">
       <div class="set" @click="collect()">
-        <span>
-          参数配置
-          <img src="../../assets/xiaojiantou.png" alt v-show="isShow" @click="toshow()" />
-          <img src="../../assets/sanjiao.png" alt v-show="!isShow" @click="tohid()" />
-        </span>
+       <span>基本参数</span>
+        <img class="diyi" src="../../assets/xiaojiantou.png" alt v-show="isShow" @click="toshow()" />
+        <img class="dier" src="../../assets/sanjiao.png" alt v-show="!isShow" @click="tohid()" />
       </div>
       <div class="biao">
         <img src="../../assets/biaopei.png" alt />
@@ -165,13 +163,17 @@ header p {
   color: rgba(51, 51, 51, 1);
   /* line-height: 52px; */
 }
-.set img {
-  width: 12px;
-  height: 6px;
+.set img{
+  padding-top: 2px;
+  padding-left: 5px
 }
-.set img:first-child {
+.diyi {
   width: 8px;
   height: 14px;
+}
+.dier {
+  width: 12px;
+  height: 6px;
 }
 .biao {
   padding-right: 30px;
