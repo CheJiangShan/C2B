@@ -8,7 +8,7 @@
     <div class="total">
       <img src="../../assets/banner.png" alt />
       <div class="contain">
-        <span>{{name}}</span>
+        <span>{{ name }}</span>
         <div class="check">
           <span>查看该车型出厂配置</span>
           <img class="pic" src="../../assets/xiaojiantou.png" alt />
@@ -20,17 +20,17 @@
       <div class="first">
         <img src="../../assets/city.png" alt />
         <span>所在城市</span>
-        <p>{{list}}</p>
+        <p>{{ list }}</p>
       </div>
       <div class="first">
         <img src="../../assets/riqi.png" alt />
         <span>上牌日期</span>
-        <p>{{timer}}</p>
+        <p>{{ timer }}</p>
       </div>
       <div class="first">
         <img src="../../assets/meter.png" alt />
         <span>行驶里程</span>
-        <p>{{miles}}万公里</p>
+        <p>{{ miles }}万公里</p>
       </div>
       <div class="first">
         <img src="../../assets/pailiang.png" alt />
@@ -49,22 +49,29 @@
       <div class="state">
         <p @click="showPopup()">
           车况：
-          <span>{{ddays}}</span>
+          <span>{{ ddays }}</span>
           <img src="../../assets/xiaojiantou.png" alt />
         </p>
 
-        <van-popup v-model="show" closeable position="bottom" :style="{ height: '38%' }">
+        <van-popup
+          v-model="show"
+          closeable
+          position="bottom"
+          :style="{ height: '38%' }"
+        >
           <div class="select">
             <span>选择车况</span>
           </div>
           <div class="anniu">
             <button
-              v-for="(item,i) in but"
+              v-for="(item, i) in but"
               :key="i"
               :pay-money="item.name"
-              :class="activeClass == item.id? 'active':''"
-              @click="ddd($event,item.id) "
-            >{{item.name}}</button>
+              :class="activeClass == item.id ? 'active' : ''"
+              @click="ddd($event, item.id)"
+            >
+              {{ item.name }}
+            </button>
           </div>
           <div class="sure" @click="toSure()">确定</div>
         </van-popup>
@@ -86,7 +93,9 @@
         <div>
           <h1>外观：原厂漆，漆面轻微瑕疵；车窗玻璃光洁。</h1>
           <h1>内饰：方向盘及按键无磨损；座椅及内饰崭新；车内无异味。</h1>
-          <h1>工况：发动机及变速箱运行良好且无维修；底盘及电气系统运营良好；暗示保养且记录完整。</h1>
+          <h1>
+            工况：发动机及变速箱运行良好且无维修；底盘及电气系统运营良好；暗示保养且记录完整。
+          </h1>
         </div>
       </div>
     </div>
@@ -144,6 +153,7 @@
 </template>
 <script>
 const echarts = require("echarts");
+import { assess } from "../api/apisum";
 import { option } from "../sell/option";
 export default {
   data() {
@@ -173,7 +183,7 @@ export default {
       // suozaidi: localStorage.getItem("suozaidi"),
     };
   },
-  created() {
+  async created() {
     let token = "xt3Oxc4Se6vzMgdH2KE832axJYimIa6o";
     localStorage.setItem("token", token);
     let suozaidi = localStorage.getItem("suozaidi");
@@ -182,17 +192,20 @@ export default {
     // let list=localStorage.getItem("list");
     let timer = localStorage.getItem("timer");
     let miles = localStorage.getItem("miles");
-    this.axios
-      .post("https://api.chejiangshan.com/assess", {
-        token: token,
-        city: suozaidi,
-        veh_id: id,
-        car_license: timer,
-        mileage: miles
-      })
-      .then(res => {
-        console.log(res.data);
-      });
+
+    const assessres = await assess(token, suozaidi, id, timer, miles);
+    console.log(assessres)
+    // this.axios
+    //   .post("https://api.chejiangshan.com/assess", {
+    //     token: token,
+    //     city: suozaidi,
+    //     veh_id: id,
+    //     car_license: timer,
+    //     mileage: miles
+    //   })
+    //   .then(res => {
+    //     console.log(res.data);
+    //   });
   },
   mounted() {
     //  let list = localStorage.getItem(list);
@@ -425,7 +438,7 @@ header span {
 }
 .anniu .active {
   background: rgba(91, 151, 255, 1);
-  color: #ffffff
+  color: #ffffff;
 }
 .sure {
   width: 100%;

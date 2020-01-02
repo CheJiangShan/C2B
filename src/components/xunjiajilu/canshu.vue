@@ -18,12 +18,23 @@
     <div class="middle"></div>
     <div class="basic">
       <div class="set" @click="collect()">
-        <span>
-          参数配置
-          <img src="../../assets/xiaojiantou.png" alt v-show="isShow" @click="toshow()" />
-          <img src="../../assets/sanjiao.png" alt v-show="!isShow" @click="tohid()" />
+        <span :v-model="param">
+          {{ param }}
+          <img
+            src="../../assets/xiaojiantou.png"
+            alt
+            v-show="isShow"
+            @click="toshow()"
+          />
+          <img
+            src="../../assets/sanjiao.png"
+            alt
+            v-show="!isShow"
+            @click="tohid()"
+          />
         </span>
       </div>
+
       <div class="biao">
         <img src="../../assets/biaopei.png" alt />
         <span>标配</span>
@@ -33,7 +44,29 @@
         <span>无</span>
       </div>
     </div>
-    <div class="tb" v-show="hid">
+
+    <div class="set-select" style="height:440px;width:100%;">
+      <div class="f-top" style="width:100%;background-color:#fff;">
+        <div
+          class="f-top-item"
+          @click="seletedItem(item.name, item.id)"
+          v-for="item in list_param"
+          :key="item.id"
+          :class="item.id == paramSelected ? 'activeItem' : ''"
+          style="width:107px;
+          height:30px;
+          background:rgba(240,245,255,1);
+          border-radius:2px;
+          margin-left:15px;
+          margin-bottom:10px"
+        >
+          {{ item.name }}
+        </div>
+      </div>
+      <div class="f-bottom"></div>
+    </div>
+
+    <div class="tb" v-show="true">
       <table border="1" cellspacing="0">
         <tr v-for="value in 8" :key="value">
           <td>参考价(元)</td>
@@ -47,9 +80,53 @@
 export default {
   data() {
     return {
+      list_param: [
+        {
+          id: 1,
+          name: "基本参数"
+        },
+        {
+          id: 2,
+          name: "车身"
+        },
+        {
+          id: 3,
+          name: "发动机"
+        },
+        {
+          id: 4,
+          name: "变速箱"
+        },
+        {
+          id: 5,
+          name: "底盘转向"
+        },
+        {
+          id: 6,
+          name: "车轮制动"
+        },
+        {
+          id: 7,
+          name: "主/被动安全装备"
+        },
+        {
+          id: 8,
+          name: "辅佐/操控配置"
+        },
+        {
+          id: 9,
+          name: "外部/防盗配置"
+        },
+        {
+          id: 10,
+          name: "内部配置"
+        }
+      ],
       selected: "1",
       isShow: true,
-      hid: false
+      hid: false,
+      param: "基本参数",
+      paramSelected: 1
     };
   },
   created() {},
@@ -59,6 +136,14 @@ export default {
     fanhui() {
       this.$router.push({ path: "/xiangqing" });
     },
+    // 选择item的某一个
+    seletedItem(text, id) {
+      // console.log(id);
+      this.param = text;
+      console.log(this.paramSelected);
+      this.paramSelected = id;
+    },
+
     collect() {
       this.isShow = !this.isShow;
     },
@@ -152,6 +237,42 @@ header p {
   justify-content: space-between;
   padding-left: 15px;
   align-items: center;
+}
+
+
+/* 这个是基本参数的样式 */
+.set-select {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: fixed;
+}
+.f-top {
+  box-sizing: border-box;
+  padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+}
+.f-bottom {
+  flex: 1;
+  background: rgba(51, 51, 51, 1);
+  opacity: 0.2;
+}
+.f-top-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 20px;
+}
+.activeItem {
+  background: rgba(91, 151, 255, 1) !important;
+  color: rgba(255, 255, 255, 1);
 }
 .set {
   display: flex;

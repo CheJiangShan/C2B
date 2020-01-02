@@ -99,7 +99,15 @@
           <span>品牌</span>
           <span>车型</span>
         </div>
-          <mt-picker :slots="slots" value-key="name" ref="picker" @change="onValuesChange" :item-height="itemHeight"></mt-picker>
+        <div @click="beginSearch(key1, key2, key3)">
+          <mt-picker
+            :slots="slots"
+            value-key="name"
+            ref="picker"
+            @change="onValuesChange"
+            :item-height="itemHeight"
+          ></mt-picker>
+        </div>
       </div>
     </div>
     <div class="move">
@@ -122,6 +130,75 @@
     </div>
     <div class="middle"></div>
 
+    <!-- 搜索新车的 -->
+    <div v-show="searchNewShow" class="afterslot">
+      <div class="slothot">
+        <li class="slotfirst" v-for="item in NewShowList" :key="item.id">
+          <div class="all">
+            <div class="kind">
+              <p>{{ item.fullname }}</p>
+            </div>
+            <!-- <div class="cost">
+                    <p>
+                      厂商指导价:
+                      <span>{{item.selling_price}}万</span>
+                    </p>
+                  </div> -->
+          </div>
+          <div class="down">
+            <div class="genre">
+              <p style="font-size:12px;color:rgba(255,82,79,1);">
+                厂商指导价:
+                <span style="font-size:13px;">{{ item.selling_price }}</span>
+              </p>
+            </div>
+            <div class="detail">
+              <a href="tel:400-111-3777">沟通顾问</a>
+              <div class="xiaojiantou">
+                <img src="../../assets/xiaojiantou.png" alt />
+              </div>
+            </div>
+          </div>
+        </li>
+      </div>
+    </div>
+
+    <!-- 搜索一网打尽 -->
+    <div v-show="searchWangShow" class="afterslot">
+      <div class="slothot">
+        <li class="slotfirst" v-for="item in WangShowList" :key="item.id">
+          <div class="all">
+            <div class="kind">
+              <p>法拉利</p>
+            </div>
+            <!-- <div class="cost">
+                    <p>
+                      厂商指导价:
+                      <span>{{item.selling_price}}万</span>
+                    </p>
+                  </div> -->
+          </div>
+          <div class="down">
+            <div class="genre">
+              <p style="font-size:12px;color:rgba(119,119,119,1);">
+                新车16款，二手车8款
+                <!-- <span style="font-size:13px;"> </span> -->
+              </p>
+            </div>
+            <div class="detail">
+              <a
+                @click="tochexing()"
+                style="font-size:11px;color:rgba(164,163,163,1)"
+                >共24款车型</a
+              >
+              <div class="xiaojiantou">
+                <img src="../../assets/xiaojiantou.png" alt />
+              </div>
+            </div>
+          </div>
+        </li>
+      </div>
+    </div>
     <!-- 热卖 -->
     <div class="hot">
       <div class="new">
@@ -135,14 +212,14 @@
     </div>
     <div class="kind">
       <div class="list">
-        <dl v-for="(item,i) in list.新车" :key="i">
+        <dl v-for="(item, i) in list.新车" :key="i">
           <dt>
             <img src="../../assets/banner.png" @click="toNew()" alt />
           </dt>
-          <p>{{item.fullname}}</p>
+          <p>{{ item.fullname }}</p>
           <dd>
             厂商指导价：
-            <span>{{item.selling_price}}万</span>
+            <span>{{ item.selling_price }}万</span>
           </dd>
         </dl>
       </div>
@@ -162,14 +239,14 @@
     </div>
     <div class="forth">
       <div class="list1">
-        <dl v-for="(item,i) in list.二手" :key="i">
+        <dl v-for="(item, i) in list.二手" :key="i">
           <dt>
             <img src="../../assets/banner.png" @click="toSecond()" alt />
           </dt>
-          <p>{{item.fullname}}</p>
+          <p>{{ item.fullname }}</p>
           <dd>
             厂商指导价：
-            <span>{{item.price}}万</span>
+            <span>{{ item.price }}万</span>
           </dd>
         </dl>
       </div>
@@ -182,11 +259,11 @@
   </div>
 </template>
 
-
 <script>
+import { threeSearch, newCareMessage } from "../api/apisum";
 import footered from "../footer/footer";
 // import myaddress from "../pay/city.json";
-import { Toast } from "mint-ui";
+import { Toast } from "mint-ui";
 export default {
   name: "pay",
   components: {
@@ -194,56 +271,71 @@ export default {
   },
   data() {
     return {
-        selected: "1", hid: false,
-        list: [],
-        addressList: [],
-        carClass: '',
-        itemHeight: 28,
-        msg: "创建地址",
-        slots: [
-            {
-                flex: 1,
-                values: [],
-                defaultIndex: 1,
-                className: "slot1",
-                textAlign: "center"
-            },
-            {
-                divider: true,
-                content: "-",
-                className: "slot2"
-            },
-            {
-                flex: 1,
-                values: [],
-                defaultIndex: 1,
-                className: "slot3",
-                textAlign: "center"
-            },
-            {
-                divider: true,
-                content: "-",
-                className: "slot4"
-            },
-            {
-                flex: 1,
-                values: [],
-                defaultIndex: 10,
-                className: "slot5",
-                textAlign: "center"
-            }
-        ]
+      selected: "1",
+      hid: false,
+      list: [],
+      addressList: [],
+      carClass: "",
+      itemHeight: 28,
+      searchNewShow: false, //新车搜索结果
+      NewShowList: [],
+      searchWangShow: false, //一网打尽搜索结果
+      WangShowList: [],
+      msg: "创建地址",
+      // 搜索关键字
+      key1: "",
+      key2: "",
+      key3: "",
+      slots: [
+        {
+          flex: 1,
+          values: [],
+          defaultIndex: 3,
+          className: "slot1",
+          textAlign: "center"
+        },
+        {
+          divider: true,
+          content: "-",
+          className: "slot2"
+        },
+        {
+          flex: 1,
+          values: [],
+          defaultIndex: 2,
+          className: "slot3",
+          textAlign: "center"
+        },
+        {
+          divider: true,
+          content: "-",
+          className: "slot4"
+        },
+        {
+          flex: 1,
+          values: [],
+          defaultIndex: 2,
+          className: "slot5",
+          textAlign: "center"
+        }
+      ]
     };
   },
-  created() {
-    this.axios.post("https://api.chejiangshan.com/deal").then(res => {
-      // console.log(res.data);
-      this.list = res.data.data;
-    });
+  async created() {
+    const newres=await newCareMessage()
+    this.list=newres.data.data;
+   
     //获取三级联动信息
-    this.getThreeList()
+    this.getThreeList();
+    // this.getSearchRes(this.key1,this.key2,this.key3)
   },
+  // mounted() {
+  //   console.log(this.key1)
+  // },
   methods: {
+    tochexing() {
+      this.$router.push({ path: "/xiangqing1" });
+    },
     switchTo(path) {
       this.$router.replace(path);
     },
@@ -252,11 +344,11 @@ export default {
     },
     shut() {
       this.$refs.close.style.display = "none";
-         let shangbaoshuju = '敬请期待';
-              let instance = Toast(shangbaoshuju);
-              setTimeout(() => {
-                instance.close();
-              }, 2000);
+      let shangbaoshuju = "敬请期待";
+      let instance = Toast(shangbaoshuju);
+      setTimeout(() => {
+        instance.close();
+      }, 2000);
     },
     toNew() {
       this.$router.push({ path: "/new" });
@@ -265,15 +357,28 @@ export default {
       this.$router.push({ path: "/second" });
     },
     onValuesChange(picker, values) {
-        console.log(picker,values)
-        var carClassMap = {
-            0: '',
-            1: 'z-center',
-            2: 'z-right',
-        };
-        if(values[2]){
-
-        }
+      // console.log(values);
+      // console.log(values[0].name);
+      // console.log(values[1].name);
+      // console.log(values[2].name);
+      // this.key1 = values[0].name;
+      if (values[0].name == "新车") {
+        this.key1 = 1;
+      } else if (values[0].name == "二手车") {
+        this.key1 = 1;
+      } else {
+        this.key1 = 3;
+      }
+      this.key2 = values[1].name;
+      this.key3 = values[2].name;
+      // console.log(this.key1)
+      var carClassMap = {
+        0: "",
+        1: "z-center",
+        2: "z-right"
+      };
+      if (values[2]) {
+      }
 
       var that = this;
       if (!values[0]) {
@@ -281,9 +386,9 @@ export default {
           if (that.addressList.length) {
             // 赋默认值
             picker.setValues([
-                that.addressList[0],
-                that.addressList[0].children[0],
-                that.addressList[0].children[0].children[0]
+              that.addressList[0],
+              that.addressList[0].children[0],
+              that.addressList[0].children[0].children[0]
             ]);
           }
         });
@@ -295,44 +400,89 @@ export default {
         }
         picker.setSlotValues(2, town);
       }
+      // this.key1=values[0]
     },
-      //获取三级联动信息
-      getThreeList(){
-        var that = this;
-          this.axios.post("https://api.chejiangshan.com/deal-sear").then(res => {
-              var addressList = [];
-              res.data.data.forEach(item => {
-                  var obj = {
-                      name: item[0],
-                      code: 0,
-                      children: []
-                  };
-                  item.children.forEach((item1,idx1) => {
-                      var name = item1.brand;
-                      if(!name) name = item1.ranges;
-                      var obj1 = {
-                          name: name,
-                          code: 1,
-                          children: []
-                      };
-                      item1.son.forEach((item2,idx2) => {
-                          var obj2 = {
-                              name: item2,
-                              code: 2,
-                              children: []
-                          };
-                          obj1.children.push(obj2)
-                      });
-                      obj.children.push(obj1)
-                  });
-                  addressList.push(obj)
-              });
-              that.addressList = addressList;
-              that.slots[0].values = that.addressList;
-              that.slots[2].values = that.addressList[0].children;
-              that.slots[4].values = that.addressList[0].children[0].children;
+
+    //获取三级联动信息
+
+    async getThreeList() {
+      var that = this;
+      const tres = await threeSearch();
+      var addressList = [];
+      tres.data.data.forEach(item => {
+        var obj = {
+          name: item[0],
+          code: 0,
+          children: []
+        };
+        item.children.forEach((item1, idx1) => {
+          var name = item1.brand;
+          if (!name) name = item1.ranges;
+          var obj1 = {
+            name: name,
+            code: 1,
+            children: []
+          };
+          item1.son.forEach((item2, idx2) => {
+            var obj2 = {
+              name: item2,
+              code: 2,
+              children: []
+            };
+            obj1.children.push(obj2);
           });
-      }
+          obj.children.push(obj1);
+        });
+        addressList.push(obj);
+      });
+      that.addressList = addressList;
+      that.slots[0].values = that.addressList;
+      that.slots[2].values = that.addressList[0].children;
+      that.slots[4].values = that.addressList[0].children[0].children;
+    },
+
+
+    // 获得搜索结果
+    // getSearchRes(k1,k2,k3){
+    //    var that = this;
+    //    this.axios.post("https://api.chejiangshan.com/deal-result",{status:k1,parameter1:k2,parameter2:k3}).then(res=>{
+    //      console.log(res)
+    //    })
+    // }
+    //
+
+
+
+    //搜索接口
+    beginSearch(k1, k2, k3) {
+      console.log(2111);
+      console.log(k2);
+      var that = this;
+      this.axios
+        .post("https://api.chejiangshan.com/deal-result", {
+          status: k1,
+          parameter1: k2,
+          parameter2: k3
+        })
+        .then(res => {
+          //  console.log(res.data.code)
+          // console.log(res.data.data);
+          if (res.data.code == 1) {
+            //searchNewShow: false, //新车搜索结果
+            // NewShowList:[],
+            this.searchNewShow = true;
+            this.searchNewShow = false;
+            this.NewShowList = res.data.data;
+          }
+          if (res.data.code == 3) {
+            //  searchWangShow: false, //一网打尽搜索结果
+            //       WangShowList: [],
+            this.searchWangShow = true;
+            this.searchNewShow = false;
+            this.WangShowList = res.data.data;
+          }
+        });
+    }
   }
 };
 </script>
@@ -692,7 +842,9 @@ nav .sell {
   display: flex;
   overflow: auto;
 }
-.list::-webkit-scrollbar {display:none}
+.list::-webkit-scrollbar {
+  display: none;
+}
 .list dl {
   margin-left: 15px;
   width: 45%;
@@ -819,5 +971,84 @@ nav .sell {
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
   line-height: 28px !important;
+}
+
+/* 搜索 */
+li {
+  list-style: none;
+}
+.afterslot .slotfirst {
+  width: 345px;
+  height: 68px;
+  background: rgba(240, 245, 255, 1);
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+.afterslot .all {
+  width: 345px;
+  height: 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.afterslot .kind {
+  height: 20px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 20px;
+  margin-left: 10px;
+}
+.afterslot .cost {
+  width: 131px;
+  height: 22px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(255, 82, 79, 1);
+  line-height: 17px;
+  margin-right: -6px;
+}
+.afterslot .cost span {
+  font-size: 14px;
+}
+.afterslot .down {
+  width: 345px;
+  height: 34px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.afterslot .genre {
+  width: 218px;
+  height: 17px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(119, 119, 119, 1);
+  line-height: 17px;
+  margin-left: 10px;
+}
+.afterslot .detail {
+  width: 75px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+.afterslot .detail a {
+  text-decoration: none;
+  font-size: 11px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(164, 163, 163, 1);
+  line-height: 16px;
+}
+.afterslot .detail img {
+  width: 7px;
+  height: 12px;
+  margin: auto 0;
+  margin-left: 5px;
 }
 </style>
