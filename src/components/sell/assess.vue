@@ -3,7 +3,7 @@
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
       <span>评估报告</span>
-      <img src="../../assets/fenxiang.png" alt />
+      <img @click="toShare()" src="../../assets/fenxiang.png" alt />
     </header>
     <div class="total">
       <img src="../../assets/banner.png" alt />
@@ -321,6 +321,7 @@ header span {
   height: 97px;
   display: flex;
   justify-content: space-around;
+  border-bottom: 1px solid #F6F7FB
 }
 .first {
   width: 64px;
@@ -345,6 +346,7 @@ header span {
   text-align: center;
 }
 .complex {
+  margin-top: 15px;
   width: 100%;
   height: 214px;
   background: url(../../assets/zonghe.png) no-repeat;
@@ -356,7 +358,7 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  line-height: 22px;
+  line-height: 23px;
   margin-left: 13px;
 }
 .complex p {
@@ -480,6 +482,7 @@ header span {
   margin: -3px auto;
 }
 .recent {
+  margin-top: 20px;
   width: 100%;
   height: 248px;
   background: url(../../assets/tupian.png) no-repeat;
@@ -491,7 +494,7 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  line-height: 22px;
+  line-height: 23px;
   margin-left: 13px;
 }
 .new {
@@ -523,7 +526,6 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
-  /* line-height: 25px; */
   padding: 15px 0 8px 0;
   text-align: center;
 }
@@ -538,6 +540,7 @@ header span {
   margin-left: 10px
 }
 .scrap {
+  margin-top: 20px;
   width: 100%;
   height: 242px;
   background: url(../../assets/canzhi.png) no-repeat;
@@ -548,10 +551,11 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  line-height: 22px;
+  line-height: 23px;
   margin-left: 13px;
 }
 .need {
+  margin-top: 20px;
   width: 100%;
   height: 282px;
   background: url(../../assets/maiche.png) no-repeat;
@@ -562,7 +566,7 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  line-height: 22px;
+  line-height: 23px;
   margin-left: 13px;
   margin-bottom: 20px;
 }

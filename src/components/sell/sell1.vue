@@ -82,7 +82,7 @@
               <span class="meter"></span>
               <input class="shuru" type="text" placeholder="请输入" v-model="value1" dir="rtl" />
               <span class="in">万公里</span>
-              <img src="../../assets/xiaojiantou.png" alt />
+              <!-- <img src="../../assets/xiaojiantou.png" alt /> -->
             </div>
           </li>
           <van-action-sheet v-model="chey" title>

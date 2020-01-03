@@ -4,7 +4,9 @@
     <div class="roof">
       <nav>
         <mt-navbar v-model="selected">
-          <mt-tab-item id="1"><span>买车</span></mt-tab-item>
+          <mt-tab-item id="1">
+            <span>买车</span>
+          </mt-tab-item>
           <mt-tab-item id="2">
             <router-link :to="'sell1'">
               <span class="sell">卖车</span>
@@ -143,7 +145,7 @@
                       厂商指导价:
                       <span>{{item.selling_price}}万</span>
                     </p>
-                  </div> -->
+            </div>-->
           </div>
           <div class="down">
             <div class="genre">
@@ -176,7 +178,7 @@
                       厂商指导价:
                       <span>{{item.selling_price}}万</span>
                     </p>
-                  </div> -->
+            </div>-->
           </div>
           <div class="down">
             <div class="genre">
@@ -186,11 +188,7 @@
               </p>
             </div>
             <div class="detail">
-              <a
-                @click="tochexing()"
-                style="font-size:11px;color:rgba(164,163,163,1)"
-                >共24款车型</a
-              >
+              <a @click="tochexing()" style="font-size:11px;color:rgba(164,163,163,1)">共24款车型</a>
               <div class="xiaojiantou">
                 <img src="../../assets/xiaojiantou.png" alt />
               </div>
@@ -322,9 +320,9 @@ export default {
     };
   },
   async created() {
-    const newres=await newCareMessage()
-    this.list=newres.data.data;
-   
+    const newres = await newCareMessage();
+    this.list = newres.data.data;
+
     //获取三级联动信息
     this.getThreeList();
     // this.getSearchRes(this.key1,this.key2,this.key3)
@@ -441,7 +439,6 @@ export default {
       that.slots[4].values = that.addressList[0].children[0].children;
     },
 
-
     // 获得搜索结果
     // getSearchRes(k1,k2,k3){
     //    var that = this;
@@ -450,8 +447,6 @@ export default {
     //    })
     // }
     //
-
-
 
     //搜索接口
     beginSearch(k1, k2, k3) {
@@ -529,11 +524,11 @@ nav .sell {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
   color: #333333;
 }
-.mint-navbar .mint-tab-item.is-selected span{
+.mint-navbar .mint-tab-item.is-selected span {
   font-size: 18px;
 }
-.mint-tab-item-label a span{
-  font-size: 16px
+.mint-tab-item-label a span {
+  font-size: 16px;
 }
 .pic {
   width: 100%;
@@ -862,6 +857,8 @@ nav .sell {
 .list p {
   width: 152px;
   height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -895,6 +892,7 @@ nav .sell {
 .list1 dl {
   margin-left: 15px;
   width: 45%;
+  height: 190px;
 }
 .list1 img {
   width: 165px;
