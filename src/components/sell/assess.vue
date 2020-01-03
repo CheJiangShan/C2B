@@ -173,7 +173,7 @@
       </div>
     </div>
     <footer>
-      <span>咨询车小二</span>
+      <a href="tel:400-111-3777">咨询车小二</a>
     </footer>
   </div>
 </template>
@@ -631,7 +631,6 @@ header span {
   background: rgba(240, 245, 255, 1);
   border-radius: 5px;
   margin: 0 auto;
-  /* text-align: center; */
 }
 .content h2 {
   font-size: 14px;
@@ -700,7 +699,8 @@ footer {
   background: #3f64fd;
   text-align: center;
 }
-footer span {
+footer a {
+  text-decoration: none;
   font-size: 16px;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;

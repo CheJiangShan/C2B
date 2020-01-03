@@ -114,9 +114,6 @@ header p {
   color: #333333;
   background: #f6f7fb;
   padding: 5px;
-  /* padding-right: 14px;
-  padding: 10px;
-    margin: 1px 0; */
 }
 /* A-Z */
 #wodetianne {
