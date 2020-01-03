@@ -11,7 +11,7 @@
       <div class="tab-item" @click="switchTo('/xunjiajilu')">
         <img
           :src="'/xunjiajilu' === $route.path ? tabBarImgArr[1].selected : tabBarImgArr[1].normal"
-          alt="订单"
+          alt="询价记录"
         />
         <span :class="{on: '/xunjiajilu' === $route.path}">询价记录</span>
       </div>

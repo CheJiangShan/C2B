@@ -185,7 +185,6 @@
 
 <script>
 import footered from "../footer/footer";
-// import myaddress from "../pay/city.json";
 import { Toast } from "mint-ui";
 export default {
   name: "pay",

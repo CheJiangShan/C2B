@@ -2,7 +2,7 @@
   <div class="sell">
     <!-- 导航 -->
     <div class="roof">
-       <nav>
+      <nav>
         <mt-navbar v-model="selected">
           <mt-tab-item id="1">
             <router-link :to="'pay'">
@@ -46,7 +46,7 @@
           <li @click="xiayiji()">
             <span class="car">车辆型号:</span>
             <div class="urban">
-              <span class="chi">{{name}}</span>
+              <span class="chi">请选择{{name}}</span>
               <img src="../../assets/xiaojiantou.png" alt />
             </div>
           </li>
@@ -111,11 +111,12 @@
           <span>车江山如何帮我卖车</span>
           <img src="../../assets/xiaojiantou.png" alt />
         </div>
-        <div class="help">
+        <div class="help" @click="collect()">
           <span>车江山如何帮我卖车</span>
-          <img src="../../assets/sanjiao.png" alt />
+          <img class="yi" src="../../assets/xiaojiantou.png" alt v-show="isShow" @click="toshow()" />
+          <img src="../../assets/sanjiao.png" alt v-show="!isShow" @click="tohid()" />
         </div>
-        <div
+        <div  v-show="hid"
           class="content"
         >车小二与您取得联系后，会安排二手车评估技师对您的车辆信息做最全面的评估收集，与您取得满意的卖出价格后，车辆可以选择上架车江山二手车频道，等待第三方用户购买，也可以由车江山平台直接收购，与您直接签署二手车收购协议。多种选择由您确认。</div>
         <div class="later">
@@ -134,12 +135,14 @@ import AreaList from "./area.js";
 export default {
   name: "sell1",
   components: {
-    footere,
+    footere
   },
   data() {
     return {
       selected: "2",
       chey: false,
+      isShow: true,
+      hid: false,
       areaList: AreaList,
       userregion: "河南省郑州市",
       time: false,
@@ -219,6 +222,15 @@ export default {
     },
     onCancel() {
       this.chey = !this.chey;
+    },
+    collect() {
+      this.isShow = !this.isShow;
+    },
+    tohid() {
+      this.hid = !this.hid;
+    },
+    toshow() {
+      this.hid = true;
     }
   }
 };
@@ -230,7 +242,7 @@ export default {
   overflow: auto;
 }
 .roof {
-   padding-top: 15px;
+  padding-top: 15px;
   width: 100%;
   height: 50px;
   position: fixed;
@@ -395,7 +407,7 @@ li img {
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
-  color: rgba(164, 163, 163, 1);
+  color:#333;
   line-height: 40px;
 }
 .timer {
@@ -462,6 +474,10 @@ li img {
 .help img {
   width: 14px;
   height: 8px;
+}
+.help .yi{
+  width:8px ;
+  height:14px ;
 }
 .content {
   width: 345px;
