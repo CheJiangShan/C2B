@@ -138,13 +138,11 @@ header p {
 .down {
   width: 345px;
   height: 34px;
-   overflow: hidden;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 .genre {
- max-width: 220px;
   height: 17px;
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;

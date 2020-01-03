@@ -18,7 +18,7 @@
     <div class="middle"></div>
     <div class="basic">
       <div class="set" @click="collect()">
-       <span :v-model="param">{{param}}</span>
+        <span :v-model="param">{{param}}</span>
         <img class="diyi" src="../../assets/xiaojiantou.png" alt v-show="isShow" @click="toshow()" />
         <img class="dier" src="../../assets/sanjiao.png" alt v-show="!isShow" @click="tohid()" />
       </div>
@@ -36,6 +36,7 @@
     <div class="set-select" style="height:440px;width:100%;">
       <div class="f-top" style="width:100%;background-color:#fff;">
         <div
+          v-show="hid"
           class="f-top-item"
           @click="seletedItem(item.name, item.id)"
           v-for="item in list_param"
@@ -47,13 +48,12 @@
           border-radius:2px;
           margin-left:15px;
           margin-bottom:10px"
-        >
-          {{ item.name }}
-        </div>
+        >{{ item.name }}</div>
       </div>
       <div class="f-bottom"></div>
     </div>
-    <div class="tb" v-show="true">
+
+    <div class="tb">
       <table border="1" cellspacing="0">
         <tr v-for="value in 8" :key="value">
           <td>参考价(元)</td>
@@ -226,7 +226,6 @@ header p {
   align-items: center;
 }
 
-
 /* 这个是基本参数的样式 */
 .set-select {
   display: flex;
@@ -273,9 +272,9 @@ header p {
   color: rgba(51, 51, 51, 1);
   /* line-height: 52px; */
 }
-.set img{
+.set img {
   padding-top: 2px;
-  padding-left: 5px
+  padding-left: 5px;
 }
 .diyi {
   width: 8px;
