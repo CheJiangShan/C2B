@@ -262,12 +262,8 @@
 <script>
 import { threeSearch, newCareMessage } from "../api/apisum";
 import footered from "../footer/footer";
-<<<<<<< HEAD
-import { Toast } from "mint-ui";
-=======
 // import myaddress from "../pay/city.json";
 import { Toast } from "mint-ui";
->>>>>>> 5756e85f305f29f3e4848c01596afb2eaf130100
 export default {
   name: "pay",
   components: {

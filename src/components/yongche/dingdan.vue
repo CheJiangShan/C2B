@@ -19,7 +19,17 @@
           </mt-tab-item>
            <mt-tab-item id="3">
             <div>
-              <span>违章记录</span>
+              <span>维保中</span>
+            </div>
+          </mt-tab-item>
+           <mt-tab-item id="4">
+            <div>
+              <span>已完工</span>
+            </div>
+          </mt-tab-item>
+           <mt-tab-item id="5">
+            <div>
+              <span>已交付</span>
             </div>
           </mt-tab-item>
         </mt-navbar>

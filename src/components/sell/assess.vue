@@ -90,7 +90,7 @@
       </div>
       <div class="content">
         <h2>当前价格车况参考标准</h2>
-        <div>
+        <div class="guan">
           <h1>外观：原厂漆，漆面轻微瑕疵；车窗玻璃光洁。</h1>
           <h1>内饰：方向盘及按键无磨损；座椅及内饰崭新；车内无异味。</h1>
           <h1>
@@ -523,7 +523,8 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
-  line-height: 25px;
+  /* line-height: 25px; */
+  padding: 15px 0 8px 0;
   text-align: center;
 }
 .content h1 {
@@ -531,7 +532,10 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(119, 119, 119, 1);
-  line-height: 22px;
+  line-height: 19px;
+}
+.guan{
+  margin-left: 10px
 }
 .scrap {
   width: 100%;
