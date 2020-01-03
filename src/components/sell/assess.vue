@@ -48,11 +48,19 @@
       </div>
       <div class="state">
         <p @click="showPopup()">
-          车况：
-          <span>{{ ddays }}</span>
+          车况:
+          <span style="font-size:12px">{{ ddays }}</span>
+          <img src="../../assets/xiaojiantou.png" alt />
+        </p>
+        <p>
+          车身颜色:
+          <span style="font-size:12px" @click="colorSelected()" :v-model="carcolorparam">{{
+            carcolorparam
+          }}</span>
           <img src="../../assets/xiaojiantou.png" alt />
         </p>
 
+        <!-- 车况弹出层 -->
         <van-popup
           v-model="show"
           closeable
@@ -75,11 +83,29 @@
           </div>
           <div class="sure" @click="toSure()">确定</div>
         </van-popup>
-        <p>
-          车身颜色：
-          <span>未选择</span>
-          <img src="../../assets/xiaojiantou.png" alt />
-        </p>
+
+        <!-- 车身颜色弹窗 -->
+        <van-popup
+          v-model="CarColorShow"
+          closeable
+          position="bottom"
+          :style="{ height: '38%' }"
+        >
+          <div class="select">
+            <span>选择颜色</span>
+          </div>
+          <div class="colorDiv">
+            <button
+              v-for="item in carcolor"
+              :key="item.id"
+              :class="activeClassColor == item.id ? 'active' : ''"
+              @click="colorsurebtn(item.id, item.name)"
+            >
+              {{ item.name }}
+            </button>
+          </div>
+          <div class="sure" @click="toSure()">确定</div>
+        </van-popup>
       </div>
     </div>
     <div class="recent">
@@ -172,10 +198,35 @@ export default {
           name: "一般"
         }
       ],
+      carcolor: [
+        {
+          id: 1,
+          name: "不选择"
+        },
+        {
+          id: 2,
+          name: "北极白"
+        },
+        {
+          id: 3,
+          name: "宝石蓝"
+        },
+        {
+          id: 4,
+          name: "宝石棕"
+        },
+        {
+          id: 5,
+          name: "宝石棕告示蓝"
+        }
+      ],
       ddays: "优秀",
       radio: "1",
       show: false,
+      CarColorShow: false, //车身颜色选择弹窗
+      carcolorparam: "未选择",
       activeClass: 1,
+      activeClassColor: 1,
       name: localStorage.getItem("name"),
       list: localStorage.getItem("list"),
       timer: localStorage.getItem("timer"),
@@ -194,7 +245,7 @@ export default {
     let miles = localStorage.getItem("miles");
 
     const assessres = await assess(token, suozaidi, id, timer, miles);
-    console.log(assessres)
+    console.log(assessres);
     // this.axios
     //   .post("https://api.chejiangshan.com/assess", {
     //     token: token,
@@ -219,6 +270,11 @@ export default {
     showPopup() {
       this.show = true;
     },
+    // 选择车身颜色
+    colorSelected() {
+      console.log(1111);
+      this.CarColorShow = !this.CarColorShow;
+    },
     toSure() {
       this.show = !this.show;
     },
@@ -233,6 +289,13 @@ export default {
       // console.log( this.$refs.change)
       this.activeClass = id;
       // console.log(id);
+    },
+    colorsurebtn(id, name) {
+      this.activeClassColor = id;
+      this.carcolorparam = name;
+      if (id == 1) {
+        this.carcolorparam="未选择"
+      }
     }
   }
 };
@@ -398,6 +461,8 @@ header span {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
+  padding:0px 15px 0 15px;
 }
 .state .select span {
   font-size: 16px;
@@ -423,6 +488,7 @@ header span {
   color: rgba(51, 51, 51, 1);
   line-height: 20px;
 }
+
 .anniu button {
   width: 107px;
   height: 30px;
@@ -440,6 +506,54 @@ header span {
   background: rgba(91, 151, 255, 1);
   color: #ffffff;
 }
+.colorDiv {
+  box-sizing: border-box;
+  padding: 0 3px;
+  margin-top: 15px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+.colorDiv button {
+  margin-left: 12px;
+  margin-bottom: 10px;
+  width: 107px;
+  height: 30px;
+  background: rgba(240, 245, 255, 1);
+  border-radius: 2px;
+  border: 0;
+}
+.colorDiv .select span {
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 30px;
+  margin: 10px 10px 10px 10px;
+}
+
+.colorDiv .active {
+  background: rgba(91, 151, 255, 1);
+  color: #ffffff;
+}
+.select {
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  margin: 13px 0 0 132px;
+}
+/* 车身颜色选中的按钮样式 */
+.activeClassColor {
+  background: rgba(91, 151, 255, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
 .sure {
   width: 100%;
   height: 40px;
@@ -468,12 +582,12 @@ header span {
   color: rgba(51, 51, 51, 1);
   line-height: 17px;
 }
-.state p:first-child {
+/* .state p:first-child {
   margin-left: 15px;
-}
-.state p:last-child {
+} */
+/* .state p:last-child {
   margin-right: 40px;
-}
+} */
 .state img {
   width: 8px;
   height: 14px;

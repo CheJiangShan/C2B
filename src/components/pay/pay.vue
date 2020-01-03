@@ -284,13 +284,16 @@ export default {
       msg: "创建地址",
       // 搜索关键字
       key1: "",
+      // key11:'',
       key2: "",
       key3: "",
+      keywords: [],
+      keywordLast: [],//要监听的数据
       slots: [
         {
           flex: 1,
           values: [],
-          defaultIndex: 3,
+          defaultIndex: 2,
           className: "slot1",
           textAlign: "center"
         },
@@ -322,13 +325,13 @@ export default {
     };
   },
   async created() {
-    const newres=await newCareMessage()
-    this.list=newres.data.data;
-   
+    const newres = await newCareMessage();
+    this.list = newres.data.data;
     //获取三级联动信息
     this.getThreeList();
     // this.getSearchRes(this.key1,this.key2,this.key3)
   },
+
   // mounted() {
   //   console.log(this.key1)
   // },
@@ -357,11 +360,38 @@ export default {
       this.$router.push({ path: "/second" });
     },
     onValuesChange(picker, values) {
-      // console.log(values);
+      console.log(values);
       // console.log(values[0].name);
-      // console.log(values[1].name);
-      // console.log(values[2].name);
-      // this.key1 = values[0].name;
+      // this.keywords.push(
+      //   {
+      //     fkey: values[0].name
+      //   },
+      //   {
+      //     skey: values[1].name
+      //   },
+      //   {
+      //     tkey: values[2].name
+      //   }
+      // );
+      // console.log(this.keywordsB);
+      // this.keywordsA = [...new Set(this.keywordsB)];
+      // console.log(this.keywordsA);
+      // this.keywordsLast.push(1)
+      // let arr=[]
+      // arr.push(1)
+      // console.log(arr)
+      // console.log(this.keywordLast)
+
+
+
+      // let arr = [];
+      // arr.push(this.keywords[0]);
+      // arr.push(this.keywords[1]);
+      // arr.push(this.keywords[2]);
+      // this.keywordLast = arr;
+
+      // console.log(this.keywordLast)
+
       if (values[0].name == "新车") {
         this.key1 = 1;
       } else if (values[0].name == "二手车") {
@@ -404,7 +434,6 @@ export default {
     },
 
     //获取三级联动信息
-
     async getThreeList() {
       var that = this;
       const tres = await threeSearch();
@@ -441,7 +470,6 @@ export default {
       that.slots[4].values = that.addressList[0].children[0].children;
     },
 
-
     // 获得搜索结果
     // getSearchRes(k1,k2,k3){
     //    var that = this;
@@ -451,37 +479,42 @@ export default {
     // }
     //
 
-
-
     //搜索接口
-    beginSearch(k1, k2, k3) {
-      console.log(2111);
-      console.log(k2);
-      var that = this;
-      this.axios
-        .post("https://api.chejiangshan.com/deal-result", {
-          status: k1,
-          parameter1: k2,
-          parameter2: k3
-        })
-        .then(res => {
-          //  console.log(res.data.code)
-          // console.log(res.data.data);
-          if (res.data.code == 1) {
-            //searchNewShow: false, //新车搜索结果
-            // NewShowList:[],
-            this.searchNewShow = true;
-            this.searchNewShow = false;
-            this.NewShowList = res.data.data;
-          }
-          if (res.data.code == 3) {
-            //  searchWangShow: false, //一网打尽搜索结果
-            //       WangShowList: [],
-            this.searchWangShow = true;
-            this.searchNewShow = false;
-            this.WangShowList = res.data.data;
-          }
-        });
+    // beginSearch(k1, k2, k3) {
+    //   console.log(2111);
+    //   console.log(k2);
+    //   var that = this;
+    //   this.axios
+    //     .post("https://api.chejiangshan.com/deal-result", {
+    //       status: k1,
+    //       parameter1: k2,
+    //       parameter2: k3
+    //     })
+    //     .then(res => {
+    //       //  console.log(res.data.code)
+    //       // console.log(res.data.data);
+    //       if (res.data.code == 1) {
+    //         //searchNewShow: false, //新车搜索结果
+    //         // NewShowList:[],
+    //         this.searchNewShow = true;
+    //         this.searchNewShow = false;
+    //         this.NewShowList = res.data.data;
+    //       }
+    //       if (res.data.code == 3) {
+    //         //  searchWangShow: false, //一网打尽搜索结果
+    //         //       WangShowList: [],
+    //         this.searchWangShow = true;
+    //         this.searchNewShow = false;
+    //         this.WangShowList = res.data.data;
+    //       }
+    //     });
+    // }
+  },
+  watch: {
+    keywordLast: function(newVal, oldVal) {
+      // console.log(oldVal);
+      //  console.log(newVal);
+      // console.log(this.key1)
     }
   }
 };
@@ -529,11 +562,11 @@ nav .sell {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
   color: #333333;
 }
-.mint-navbar .mint-tab-item.is-selected span{
+.mint-navbar .mint-tab-item.is-selected span {
   font-size: 18px;
 }
-.mint-tab-item-label a span{
-  font-size: 16px
+.mint-tab-item-label a span {
+  font-size: 16px;
 }
 .pic {
   width: 100%;

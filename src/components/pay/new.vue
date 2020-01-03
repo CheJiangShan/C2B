@@ -19,7 +19,10 @@
         </div>
         <div class="down">
           <div class="genre">
-            <p>{{item.fullname}}</p>
+            <p style="width:240px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap">{{item.fullname}}</p>
           </div>
           <div class="detail" >
             <a href="tel:400-111-3777">沟通顾问</a>

@@ -18,7 +18,7 @@
     <div class="middle"></div>
     <div class="basic">
       <div class="set" @click="collect()">
-       <span>基本参数</span>
+       <span :v-model="param">{{param}}</span>
         <img class="diyi" src="../../assets/xiaojiantou.png" alt v-show="isShow" @click="toshow()" />
         <img class="dier" src="../../assets/sanjiao.png" alt v-show="!isShow" @click="tohid()" />
       </div>
@@ -53,7 +53,6 @@
       </div>
       <div class="f-bottom"></div>
     </div>
-
     <div class="tb" v-show="true">
       <table border="1" cellspacing="0">
         <tr v-for="value in 8" :key="value">
