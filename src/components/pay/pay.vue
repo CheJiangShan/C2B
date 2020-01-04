@@ -859,6 +859,9 @@ nav .sell {
   height: 60px;
   overflow: hidden;
   text-overflow: ellipsis;
+  /* display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; */
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
