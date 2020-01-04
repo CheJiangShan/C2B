@@ -210,7 +210,11 @@
     </div>
     <div class="kind">
       <div class="list">
-        <dl v-for="(item, i) in list.新车" :key="i">
+        <dl
+          style="box-shadow:1px 1px 2px 2px rgba(0,0,0,0.04);"
+          v-for="(item, i) in list.新车"
+          :key="i"
+        >
           <dt>
             <img src="../../assets/banner.png" @click="toNew()" alt />
           </dt>
@@ -237,7 +241,11 @@
     </div>
     <div class="forth">
       <div class="list1">
-        <dl v-for="(item, i) in list.二手" :key="i">
+        <dl
+          style="box-shadow:1px 1px 2px 2px rgba(0,0,0,0.04);"
+          v-for="(item, i) in list.二手"
+          :key="i"
+        >
           <dt>
             <img src="../../assets/banner.png" @click="toSecond()" alt />
           </dt>
@@ -284,6 +292,8 @@ export default {
       key1: "",
       key2: "",
       key3: "",
+      keywords: [],
+      keywordLast: [], //要监听的数据
       slots: [
         {
           flex: 1,
@@ -357,9 +367,34 @@ export default {
     onValuesChange(picker, values) {
       // console.log(values);
       // console.log(values[0].name);
-      // console.log(values[1].name);
-      // console.log(values[2].name);
-      // this.key1 = values[0].name;
+      // this.keywords.push(
+      //   {
+      //     fkey: values[0].name
+      //   },
+      //   {
+      //     skey: values[1].name
+      //   },
+      //   {
+      //     tkey: values[2].name
+      //   }
+      // );
+      // console.log(this.keywordsB);
+      // this.keywordsA = [...new Set(this.keywordsB)];
+      // console.log(this.keywordsA);
+      // this.keywordsLast.push(1)
+      // let arr=[]
+      // arr.push(1)
+      // console.log(arr)
+      // console.log(this.keywordLast)
+
+      // let arr = [];
+      // arr.push(this.keywords[0]);
+      // arr.push(this.keywords[1]);
+      // arr.push(this.keywords[2]);
+      // this.keywordLast = arr;
+
+      // console.log(this.keywordLast)
+
       if (values[0].name == "新车") {
         this.key1 = 1;
       } else if (values[0].name == "二手车") {
@@ -482,6 +517,9 @@ export default {
 };
 </script>
 <style scoped>
+.list img ,.list1 img{
+  display: block;
+}
 .pay {
   width: 100%;
   height: 100%;
@@ -839,9 +877,11 @@ nav .sell {
 }
 .list {
   width: 100%;
-  border: 1px solid #f6f7fb;
+  /* border: 1px solid #f6f7fb; */
   display: flex;
   overflow: auto;
+  box-sizing: border-box;
+  padding-bottom: 15px;
 }
 .list::-webkit-scrollbar {
   display: none;
@@ -849,6 +889,7 @@ nav .sell {
 .list dl {
   margin-left: 15px;
   width: 45%;
+  /* margin-bottom: 15px; */
 }
 .list img {
   width: 165px;
@@ -856,12 +897,12 @@ nav .sell {
 }
 .list p {
   width: 152px;
-  height: 60px;
+  height: 40px;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* display: -webkit-box;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3; */
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -873,14 +914,14 @@ nav .sell {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 82, 79, 1);
-  line-height: 17px;
+  line-height: 32px;
 }
 .list dd span {
-  font-size: 13px;
+  font-size: 16px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 82, 79, 1);
-  line-height: 17px;
+  line-height: 32px;
 }
 .forth {
   width: 100%;
@@ -888,22 +929,31 @@ nav .sell {
 }
 .list1 {
   width: 100%;
-  border: 1px solid #f6f7fb;
+  /* border: 1px solid #f6f7fb; */
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 0 15px;
 }
 .list1 dl {
-  margin-left: 15px;
-  width: 45%;
-  height: 190px;
+  /* margin-left: 15px; */
+  margin-bottom: 11px;
+  width: 167px;
 }
 .list1 img {
-  width: 165px;
+  /* width: 165px; */
+  width: 100%;
   height: 103px;
 }
 .list1 p {
   width: 152px;
-  height: 60px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -915,14 +965,14 @@ nav .sell {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 82, 79, 1);
-  line-height: 17px;
+  line-height: 32px;
 }
 .list1 dd span {
-  font-size: 13px;
+  font-size: 16px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 82, 79, 1);
-  line-height: 17px;
+  line-height: 32px;
 }
 .good {
   width: 100%;

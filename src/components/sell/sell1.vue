@@ -46,24 +46,26 @@
           <li @click="xiayiji()">
             <span class="car">车辆型号:</span>
             <div class="urban">
-              <span class="chi">请选择{{name}}</span>
+              <span class="chi">{{ name }}</span>
+              <!-- <span class="chi" v-else>{{ name }}</span> -->
               <img src="../../assets/xiaojiantou.png" alt />
             </div>
           </li>
           <li @click="xuanze()">
             <span class="car">所在城市:</span>
             <div class="urban">
-              <span class="city">{{userregion}}</span>
+              <span class="city">{{ userregion }}</span>
               <img src="../../assets/xiaojiantou.png" alt />
             </div>
           </li>
           <li @click="first()">
             <span class="car">首次上牌:</span>
             <div class="urban">
-              <span class="time">{{timeValue}}</span>
+              <span class="time">{{ timeValue }}</span>
               <img src="../../assets/xiaojiantou.png" alt />
             </div>
           </li>
+          <!-- 年月日 -->
           <van-action-sheet v-model="time" title>
             <div class="timer" v-show="time">
               <van-datetime-picker
@@ -80,7 +82,13 @@
             <span class="car">行驶里程:</span>
             <div class="urban">
               <span class="meter"></span>
-              <input class="shuru" type="text" placeholder="请输入" v-model="value1" dir="rtl" />
+              <input
+                class="shuru"
+                type="number"
+                placeholder="请输入"
+                v-model="value1"
+                dir="rtl"
+              />
               <span class="in">万公里</span>
               <!-- <img src="../../assets/xiaojiantou.png" alt /> -->
             </div>
@@ -113,12 +121,23 @@
         </div>
         <div class="help" @click="collect()">
           <span>车江山如何帮我卖车</span>
-          <img class="yi" src="../../assets/xiaojiantou.png" alt v-show="isShow" @click="toshow()" />
-          <img src="../../assets/sanjiao.png" alt v-show="!isShow" @click="tohid()" />
+          <img
+            class="yi"
+            src="../../assets/xiaojiantou.png"
+            alt
+            v-show="isShow"
+            @click="toshow()"
+          />
+          <img
+            src="../../assets/sanjiao.png"
+            alt
+            v-show="!isShow"
+            @click="tohid()"
+          />
         </div>
-        <div  v-show="hid"
-          class="content"
-        >车小二与您取得联系后，会安排二手车评估技师对您的车辆信息做最全面的评估收集，与您取得满意的卖出价格后，车辆可以选择上架车江山二手车频道，等待第三方用户购买，也可以由车江山平台直接收购，与您直接签署二手车收购协议。多种选择由您确认。</div>
+        <div v-show="hid" class="content">
+          车小二与您取得联系后，会安排二手车评估技师对您的车辆信息做最全面的评估收集，与您取得满意的卖出价格后，车辆可以选择上架车江山二手车频道，等待第三方用户购买，也可以由车江山平台直接收购，与您直接签署二手车收购协议。多种选择由您确认。
+        </div>
         <div class="later">
           <span>卖车需要准备哪些材料</span>
           <img src="../../assets/xiaojiantou.png" alt />
@@ -132,6 +151,7 @@
 <script>
 import footere from "../sellfooter/sellfooter";
 import AreaList from "./area.js";
+import { Toast } from "mint-ui";
 export default {
   name: "sell1",
   components: {
@@ -144,25 +164,29 @@ export default {
       isShow: true,
       hid: false,
       areaList: AreaList,
-      userregion: "河南省郑州市",
+      userregion: "请选择",
+      name: "请选择",
       time: false,
       currentDate: new Date(),
       minDate: new Date(),
       maxDate: new Date(),
-      timeValue: "2019-1",
+      timeValue: "请选择",
       value1: "",
-      name: "",
       suozaidi: ""
       // id:''
     };
   },
   created() {
-    let id = this.$route.query.id;
-    this.name = this.$route.query.name;
-    // console.log(id)
-    // console.log(name)
+    console.log();
+    if (!this.$route.query.name) {
+      this.name = "请选择";
+    } else {
+      let id = this.$route.query.id;
+      this.name = this.$route.query.name;
+    }
   },
   methods: {
+    // 选择车辆型号
     xiayiji() {
       this.$router.push({ path: "/type" });
     },
@@ -176,17 +200,50 @@ export default {
       this.meters = true;
     },
     goto() {
-      this.$router.push(
-        { path: "/assess" },
-        localStorage.setItem("list", this.userregion),
-        localStorage.setItem("timer", this.timeValue),
-        localStorage.setItem("miles", this.value1),
-        localStorage.setItem("name", this.name),
-        localStorage.setItem("suozaidi", this.suozaidi),
-        // localStorage.setItem('id',this.id),
-        // console.log(id),
-        console.log(name)
-      );
+      console.log(this.name);
+      console.log(this.userregion);
+      console.log(this.timeValue);
+      console.log(this.value1);
+      console.log();
+      if (this.name == "请选择") {
+        let instance = Toast("请选择车型");
+        setTimeout(() => {
+          instance.close();
+        }, 2000);
+      } else {
+        if (this.userregion == "请选择") {
+          let instance = Toast("请选择城市");
+          setTimeout(() => {
+            instance.close();
+          }, 2000);
+        } else {
+          if (this.timeValue == "请选择") {
+            let instance = Toast("请选择上牌");
+            setTimeout(() => {
+              instance.close();
+            }, 2000);
+          } else {
+            if (this.value1 == "") {
+              let instance = Toast("请选择里程数");
+              setTimeout(() => {
+                instance.close();
+              }, 2000);
+            } else {
+              this.$router.push(
+                { path: "/assess" },
+                localStorage.setItem("list", this.userregion),
+                localStorage.setItem("timer", this.timeValue),
+                localStorage.setItem("miles", this.value1),
+                localStorage.setItem("name", this.name),
+                localStorage.setItem("suozaidi", this.suozaidi)
+                // localStorage.setItem('id',this.id),
+                // console.log(id),
+                // console.log(name)
+              );
+            }
+          }
+        }
+      }
     },
     formatter(type, value) {
       if (type === "year") {
@@ -277,11 +334,11 @@ nav .sell {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
   color: #333333;
 }
-.mint-navbar .mint-tab-item.is-selected span{
+.mint-navbar .mint-tab-item.is-selected span {
   font-size: 18px;
 }
-.mint-tab-item-label a span{
-  font-size: 16px
+.mint-tab-item-label a span {
+  font-size: 16px;
 }
 .pic {
   width: 100%;
@@ -407,7 +464,7 @@ li img {
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
-  color:#333;
+  color: #333;
   line-height: 40px;
 }
 .timer {
@@ -475,9 +532,9 @@ li img {
   width: 14px;
   height: 8px;
 }
-.help .yi{
-  width:8px ;
-  height:14px ;
+.help .yi {
+  width: 8px;
+  height: 14px;
 }
 .content {
   width: 345px;
