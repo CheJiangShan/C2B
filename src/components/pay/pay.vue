@@ -212,7 +212,11 @@
     </div>
     <div class="kind">
       <div class="list">
-        <dl v-for="(item, i) in list.新车" :key="i">
+        <dl
+          style="box-shadow:1px 1px 2px 2px rgba(0,0,0,0.04);"
+          v-for="(item, i) in list.新车"
+          :key="i"
+        >
           <dt>
             <img src="../../assets/banner.png" @click="toNew()" alt />
           </dt>
@@ -239,7 +243,11 @@
     </div>
     <div class="forth">
       <div class="list1">
-        <dl v-for="(item, i) in list.二手" :key="i">
+        <dl
+          style="box-shadow:1px 1px 2px 2px rgba(0,0,0,0.04);"
+          v-for="(item, i) in list.二手"
+          :key="i"
+        >
           <dt>
             <img src="../../assets/banner.png" @click="toSecond()" alt />
           </dt>
@@ -288,7 +296,7 @@ export default {
       key2: "",
       key3: "",
       keywords: [],
-      keywordLast: [],//要监听的数据
+      keywordLast: [], //要监听的数据
       slots: [
         {
           flex: 1,
@@ -382,8 +390,6 @@ export default {
       // console.log(arr)
       // console.log(this.keywordLast)
 
-
-
       // let arr = [];
       // arr.push(this.keywords[0]);
       // arr.push(this.keywords[1]);
@@ -468,7 +474,7 @@ export default {
       that.slots[0].values = that.addressList;
       that.slots[2].values = that.addressList[0].children;
       that.slots[4].values = that.addressList[0].children[0].children;
-    },
+    }
 
     // 获得搜索结果
     // getSearchRes(k1,k2,k3){
@@ -520,6 +526,9 @@ export default {
 };
 </script>
 <style scoped>
+.list img ,.list1 img{
+  display: block;
+}
 .pay {
   width: 100%;
   height: 100%;
@@ -877,9 +886,11 @@ nav .sell {
 }
 .list {
   width: 100%;
-  border: 1px solid #f6f7fb;
+  /* border: 1px solid #f6f7fb; */
   display: flex;
   overflow: auto;
+  box-sizing: border-box;
+  padding-bottom: 15px;
 }
 .list::-webkit-scrollbar {
   display: none;
@@ -887,6 +898,7 @@ nav .sell {
 .list dl {
   margin-left: 15px;
   width: 45%;
+  /* margin-bottom: 15px; */
 }
 .list img {
   width: 165px;
@@ -894,7 +906,12 @@ nav .sell {
 }
 .list p {
   width: 152px;
-  height: 60px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -906,14 +923,14 @@ nav .sell {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 82, 79, 1);
-  line-height: 17px;
+  line-height: 32px;
 }
 .list dd span {
-  font-size: 13px;
+  font-size: 16px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 82, 79, 1);
-  line-height: 17px;
+  line-height: 32px;
 }
 .forth {
   width: 100%;
@@ -921,21 +938,31 @@ nav .sell {
 }
 .list1 {
   width: 100%;
-  border: 1px solid #f6f7fb;
+  /* border: 1px solid #f6f7fb; */
   display: flex;
+  justify-content: space-between;
   flex-wrap: wrap;
+  box-sizing: border-box;
+  padding: 0 15px;
 }
 .list1 dl {
-  margin-left: 15px;
-  width: 45%;
+  /* margin-left: 15px; */
+  margin-bottom: 11px;
+  width: 167px;
 }
 .list1 img {
-  width: 165px;
+  /* width: 165px; */
+  width: 100%;
   height: 103px;
 }
 .list1 p {
   width: 152px;
-  height: 60px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -947,14 +974,14 @@ nav .sell {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 82, 79, 1);
-  line-height: 17px;
+  line-height: 32px;
 }
 .list1 dd span {
-  font-size: 13px;
+  font-size: 16px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 82, 79, 1);
-  line-height: 17px;
+  line-height: 32px;
 }
 .good {
   width: 100%;
