@@ -38,26 +38,33 @@
   </div>
 </template>
 <script>
+import {secondDetail} from "../api/apisum"
 export default {
   data() {
     return {
       list: []
     };
   },
-  created() {
-    let id = 0;
-    this.axios
-      .post("https://api.chejiangshan.com/deal-usedmore", { pid: id })
-      .then(res => {
-        console.log(res.data);
-        this.list = res.data.data;
-      });
+  // created() {
+  //   let id = 0;
+  //   this.axios
+  //     .post("https://api.chejiangshan.com/deal-usedmore", { pid: id })
+  //     .then(res => {
+  //       console.log(res.data);
+  //       this.list = res.data.data;
+  //     });
+  // },
+  async created(){
+    let id=0;
+    const res=await  secondDetail(id);
+    console.log(res)
+     this.list = res.data.data;
   },
   mounted() {},
   computed: {},
   methods: {
     fanhui() {
-      this.$router.push({ path: "/pay" });
+      this.$router.push({ path: "/" });
     }
   }
 };

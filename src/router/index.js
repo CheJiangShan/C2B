@@ -9,12 +9,7 @@ export default new Router({
       path: '/',
       name:"pay",
       component:resolve => require(['@/components/pay/pay'],resolve)
-    },//首页
-    {
-      path: '/pay',
-      name:"pay",
-      component:resolve => require(['@/components/pay/pay'],resolve)
-    },//买车
+    },//买车首页
     {
       path: '/new',
       name:"new",

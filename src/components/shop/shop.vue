@@ -3,7 +3,7 @@
     <div class="roof">
       <nav>
         <mt-navbar v-model="selected">
-          <mt-tab-item id="1"> <router-link :to="'pay'">
+          <mt-tab-item id="1"> <router-link :to="'/'">
               <span>买车</span>
             </router-link></mt-tab-item>
           <mt-tab-item id="2">
@@ -81,7 +81,10 @@ nav .sell {
 }
 .mint-navbar .mint-tab-item.is-selected {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
   color: #333333;
+  margin-bottom: -6px
 }
 .mint-navbar .mint-tab-item.is-selected span{
   font-size: 18px;

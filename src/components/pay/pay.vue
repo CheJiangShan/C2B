@@ -72,7 +72,7 @@
       <div class="contain">
         <div class="shuxian"></div>
         <!-- <div class="zhi">智能选车</div> -->
-        <span>智能选车</span>
+        <span>极速选车</span>
       </div>
       <div class="first" @click="xianshi()">
         <div class="you">
@@ -560,7 +560,10 @@ nav .sell {
 }
 .mint-navbar .mint-tab-item.is-selected {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
   color: #333333;
+  margin-bottom: -6px
 }
 .mint-navbar .mint-tab-item.is-selected span {
   font-size: 18px;
