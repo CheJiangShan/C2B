@@ -154,15 +154,12 @@
             <div class="kind">
               <p>{{ item.fullname }}</p>
             </div>
-<<<<<<< HEAD
-=======
             <!-- <div class="cost">
                     <p>
                       厂商指导价:
                       <span>{{item.selling_price}}万</span>
                     </p>
             </div>-->
->>>>>>> c45a5773412748d95be533406a98f5a6f4d10044
           </div>
           <div class="down">
             <div class="genre">
@@ -214,15 +211,12 @@
             <div class="kind">
               <p>{{ i }}</p>
             </div>
-<<<<<<< HEAD
-=======
             <!-- <div class="cost">
                     <p>
                       厂商指导价:
                       <span>{{item.selling_price}}万</span>
                     </p>
             </div>-->
->>>>>>> c45a5773412748d95be533406a98f5a6f4d10044
           </div>
           <div
             class="down"

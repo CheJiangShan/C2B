@@ -324,6 +324,7 @@ header span {
 }
 .dan {
   display: flex;
+  height: 80px;
 }
 .clear p:last-child {
   width: 50px;

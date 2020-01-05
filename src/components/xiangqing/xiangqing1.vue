@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     toReturn() {
-      this.$router.push({ path: "/pay" });
+      this.$router.push({ path: "/" });
     }
   }
 };
