@@ -1,8 +1,8 @@
 <template>
-    <div class="second">
-        <header>
-      <img @click="fanhui()" src="../../assets/xiangqing.png" alt/>
-      <p>二手优价</p>
+  <div class="new">
+    <header>
+      <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+      <p>搜索结果</p>
     </header>
     <div class="hot">
       <li class="first" v-for="(item,i) in list" :key="i">
@@ -13,7 +13,7 @@
           <div class="cost">
             <p>
               厂商指导价:
-              <span>{{item.price}}万</span>
+              <span>{{item.selling_price}}万</span>
             </p>
           </div>
         </div>
@@ -24,8 +24,8 @@
             text-overflow:ellipsis;
             white-space: nowrap">{{item.fullname}}</p>
           </div>
-          <div class="detail">
-             <a href="tel:400-111-3777">沟通顾问</a>
+          <div class="detail" >
+            <a href="tel:400-111-3777">沟通顾问</a>
             <div class="xiaojiantou">
               <img src="../../assets/xiaojiantou.png" alt />
             </div>
@@ -33,18 +33,18 @@
         </div>
       </li>
     </div>
-    </div>
+  </div>
 </template>
 <script>
 export default {
   data() {
     return {
-         list: [],
+        list:[]
     };
   },
   created() {
       let id=0
-      this.axios.post("https://api.chejiangshan.com/deal-usedmore",{pid:id}).then(res => {
+    this.axios.post("https://api.chejiangshan.com/deal-newmore",{pid:id}).then(res => {
       console.log(res.data);
       this.list = res.data.data;
     });
@@ -63,7 +63,7 @@ export default {
   margin: 0;
   padding: 0;
 }
-.second {
+.new {
   width: 100%;
   height: 100%;
   overflow: auto;
@@ -143,7 +143,6 @@ header p {
   align-items: center;
 }
 .genre {
-  width: 218px;
   height: 17px;
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;
@@ -159,6 +158,7 @@ header p {
   align-items: center;
 }
 .detail a {
+  text-decoration: none;
   font-size: 11px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;

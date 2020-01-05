@@ -104,6 +104,11 @@ export default new Router({
       path: '/canshu',
       name:"canshu",
       component:resolve => require(['@/components/xunjiajilu/canshu'],resolve)
-    }//询价记录 报价详情 参数配置
+    },//询价记录 报价详情 参数配置
+    {
+      path: '/many',
+      name:"many",
+      component:resolve => require(['@/components/pay/many'],resolve)
+    }//搜索新车或者二手车的结果
   ]
 })

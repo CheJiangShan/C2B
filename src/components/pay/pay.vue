@@ -99,15 +99,14 @@
           <span>品牌</span>
           <span>车型</span>
         </div>
-        <div @click="beginSearch(key1, key2, key3)">
-          <mt-picker
-            :slots="slots"
-            value-key="name"
-            ref="picker"
-            @change="onValuesChange"
-            :item-height="itemHeight"
-          ></mt-picker>
-        </div>
+
+        <mt-picker
+          :slots="slots"
+          value-key="name"
+          ref="picker"
+          @change="onValuesChange"
+          :item-height="itemHeight"
+        ></mt-picker>
       </div>
     </div>
     <div class="move">
@@ -131,25 +130,38 @@
     <div class="middle"></div>
 
     <!-- 搜索新车的 -->
-    <div v-show="searchNewShow" class="afterslot">
+    <div
+      style="margin-top:10px;"
+      v-show="searchNewShow"
+      class="afterslot"
+      v-cloak
+    >
+      <div class="hot">
+        <div class="new">
+          <div class="shuxian"></div>
+          <div class="sell">搜索结果</div>
+        </div>
+        <div class="find" @click="lookres()">
+          <span>查看更多</span>
+          <img src="../../assets/jantou.png" alt />
+        </div>
+      </div>
       <div class="slothot">
         <li class="slotfirst" v-for="item in NewShowList" :key="item.id">
           <div class="all">
             <div class="kind">
               <p>{{ item.fullname }}</p>
             </div>
-            <!-- <div class="cost">
-                    <p>
-                      厂商指导价:
-                      <span>{{item.selling_price}}万</span>
-                    </p>
-                  </div> -->
           </div>
           <div class="down">
             <div class="genre">
               <p style="font-size:12px;color:rgba(255,82,79,1);">
                 厂商指导价:
-                <span style="font-size:13px;">{{ item.selling_price }}</span>
+                <span style="font-size:13px;"
+                  >{{
+                    item.selling_price ? item.selling_price : item.price
+                  }}万</span
+                >
               </p>
             </div>
             <div class="detail">
@@ -164,32 +176,53 @@
     </div>
 
     <!-- 搜索一网打尽 -->
-    <div v-show="searchWangShow" class="afterslot">
+
+    <div style="margin-top:10px" v-show="searchWangShow" class="afterslot">
+      <div v-show="searchWangShow">
+        <div class="hot">
+          <div class="new">
+            <div class="shuxian"></div>
+            <div class="sell">搜索结果</div>
+          </div>
+          <div class="find" @click="toNew()">
+            <span>查看更多</span>
+            <img src="../../assets/jantou.png" alt />
+          </div>
+        </div>
+      </div>
       <div class="slothot">
-        <li class="slotfirst" v-for="item in WangShowList" :key="item.id">
+        <li
+          class="slotfirst"
+          v-for="(item, i) in WangShowList.data"
+          :key="i"
+          @click="
+            wSearchTo(WangShowList.parameter1, WangShowList.parameter2, i)
+          "
+        >
           <div class="all">
             <div class="kind">
-              <p>法拉利</p>
+              <p>{{ i }}</p>
             </div>
-            <!-- <div class="cost">
-                    <p>
-                      厂商指导价:
-                      <span>{{item.selling_price}}万</span>
-                    </p>
-                  </div> -->
           </div>
-          <div class="down">
+          <div
+            class="down"
+            style=" box-sizing: border-box;
+           padding-right: 10px"
+          >
             <div class="genre">
-              <p style="font-size:12px;color:rgba(119,119,119,1);">
-                新车16款，二手车8款
-                <!-- <span style="font-size:13px;"> </span> -->
-              </p>
+              <span
+                style="font-size:12px;color:rgba(119,119,119,1);"
+                v-for="(v, ii) in item"
+                :key="ii"
+              >
+                {{ ii }}{{ v }}款
+              </span>
             </div>
             <div class="detail">
               <a
                 @click="tochexing()"
                 style="font-size:11px;color:rgba(164,163,163,1)"
-                >共24款车型</a
+                >共{{ Number(item.新车) + Number(item.二手车) }}款车型</a
               >
               <div class="xiaojiantou">
                 <img src="../../assets/xiaojiantou.png" alt />
@@ -199,6 +232,7 @@
         </li>
       </div>
     </div>
+
     <!-- 热卖 -->
     <div class="hot">
       <div class="new">
@@ -297,6 +331,9 @@ export default {
       key3: "",
       keywords: [],
       keywordLast: [], //要监听的数据
+      toNext: "",
+      toNext2: "",
+      toNext3: "",
       slots: [
         {
           flex: 1,
@@ -347,6 +384,17 @@ export default {
     tochexing() {
       this.$router.push({ path: "/xiangqing1" });
     },
+    // 跳到搜索
+    lookres() {
+      this.$router.push({ path: "/many" });
+    },
+    // 一网打尽结果的跳转
+    wSearchTo(a, b, c) {
+      console.log(a);
+      console.log(b);
+      console.log(c);
+      this.$router.push({ path: "/xiangqing1", query: { a, b, c } });
+    },
     switchTo(path) {
       this.$router.replace(path);
     },
@@ -361,6 +409,7 @@ export default {
         instance.close();
       }, 2000);
     },
+
     toNew() {
       this.$router.push({ path: "/new" });
     },
@@ -369,35 +418,6 @@ export default {
     },
     onValuesChange(picker, values) {
       console.log(values);
-      // console.log(values[0].name);
-      // this.keywords.push(
-      //   {
-      //     fkey: values[0].name
-      //   },
-      //   {
-      //     skey: values[1].name
-      //   },
-      //   {
-      //     tkey: values[2].name
-      //   }
-      // );
-      // console.log(this.keywordsB);
-      // this.keywordsA = [...new Set(this.keywordsB)];
-      // console.log(this.keywordsA);
-      // this.keywordsLast.push(1)
-      // let arr=[]
-      // arr.push(1)
-      // console.log(arr)
-      // console.log(this.keywordLast)
-
-      // let arr = [];
-      // arr.push(this.keywords[0]);
-      // arr.push(this.keywords[1]);
-      // arr.push(this.keywords[2]);
-      // this.keywordLast = arr;
-
-      // console.log(this.keywordLast)
-
       if (values[0].name == "新车") {
         this.key1 = 1;
       } else if (values[0].name == "二手车") {
@@ -437,6 +457,13 @@ export default {
         picker.setSlotValues(2, town);
       }
       // this.key1=values[0]
+      //to do
+      this.key1 = values[0].name;
+      this.key2 = values[1].name;
+      this.key3 = values[2].name;
+      console.log(this.key3);
+      this.keywords = [this.key1, this.key2, this.key3];
+      console.log(this.keywords);
     },
 
     //获取三级联动信息
@@ -516,17 +543,94 @@ export default {
     //     });
     // }
   },
+  // 进行keywords的监听，一旦变化就会发送请求
   watch: {
-    keywordLast: function(newVal, oldVal) {
-      // console.log(oldVal);
-      //  console.log(newVal);
+    keywords: function(newVal, oldVal) {
+      console.log("旧" + oldVal);
+      console.log("新" + newVal);
+
       // console.log(this.key1)
+      // if (newVal[2] != oldVal[2]) {
+      let param1;
+      if (newVal[0] == "新车") {
+        param1 = 1;
+      } else if (newVal[0] == "二手车") {
+        param1 = 2;
+      } else {
+        param1 = 3;
+        this.toNext = newVal[1];
+        this.toNext2 = newVal[2];
+      }
+      console.log(this.toNext);
+      console.log(this.toNext2);
+      // console.log(param1+ newVal[1]+ newVal[2])
+      this.axios
+        .post("https://api.chejiangshan.com/deal-result", {
+          status: param1,
+          parameter1: newVal[1],
+          parameter2: newVal[2]
+        })
+        .then(res => {
+          console.log(res.data.code);
+          console.log(res.data.data);
+          if (res.data.code == 1) {
+            var newneeddata = [];
+            if (res.data.data.length >= 4) {
+              newneeddata = res.data.data.slice(0, 3);
+            } else {
+              newneeddata = res.data.data;
+            }
+            this.NewShowList = newneeddata;
+            console.log(this.NewShowList);
+            this.searchNewShow = true;
+            this.searchWangShow = false;
+          }
+          if (res.data.code == 3) {
+            console.log(res.data.data);
+            this.WangShowList = res.data.data;
+            this.searchWangShow = true;
+            this.searchNewShow = false;
+          }
+          // console.log(res);
+          // console.log(res.data.data);
+
+          // // console.log(res.data.data.splice(0,3))
+          // needdata = res.data.data.slice(0, 3);
+          // console.log(needdata);
+          // if (res.data.code == 1) {
+          //   var needdata = [];
+          //   if (res.data.data.length >= 4) {
+          //     needdata = res.data.data.splice(0, 3);
+          //     console.log(needdata);
+          //   } else {
+          //     needdata = res.data.data;
+          //   }
+          //   console.log(111);
+          //   //searchNewShow: false, //新车搜索结果
+          //   // NewShowList:[],
+          //   // let newneeddata=.splice(0, 3)
+          //   this.NewShowList = needdata;
+          //   this.searchNewShow = true;
+          //   this.searchWangShow = true;
+          // }
+          // if (res.data.code == 3) {
+          //   console.log(333);
+          //   //  searchWangShow: false, //一网打尽搜索结果
+          //   //       WangShowList: [],
+          //   // let needdata = .splice(0, 3);
+          //   this.WangShowList = needdata;
+          //   this.searchWangShow = true;
+          //   this.searchNewShow = false;
+          // }
+        });
     }
+    // }
   }
 };
 </script>
 <style scoped>
-.list img ,.list1 img{
+.list img,
+.list1 img {
   display: block;
 }
 .pay {
@@ -1066,6 +1170,9 @@ li {
   color: rgba(51, 51, 51, 1);
   line-height: 20px;
   margin-left: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .afterslot .cost {
   width: 131px;

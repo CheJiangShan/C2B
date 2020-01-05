@@ -4,88 +4,121 @@
       <div class="left" @click="toReturn()">
         <img src="../../assets/xiangqing.png" alt />
       </div>
-      <p>宝马</p>
+      <p>{{ params3 }}</p>
     </nav>
     <div class="tab">
       <mt-navbar v-model="selected">
-        <mt-tab-item id="1">新车(16)</mt-tab-item>
-        <mt-tab-item id="2">二手车(8)</mt-tab-item>
+        <mt-tab-item id="1"
+          ><span
+            style="font-size:16px;
+                  font-family:PingFangSC-Regular,PingFang SC;
+                  font-weight:400;
+                  color:rgba(51,51,51,1)"
+            >新车({{ selCar.length }})</span
+          ></mt-tab-item
+        >
+        <mt-tab-item id="2"
+          ><span
+            style="font-size:16px;
+                    font-family:PingFangSC-Regular,PingFang SC;
+                    font-weight:400;
+                    color:rgba(51,51,51,1)"
+            >二手车({{ selCar2.length }})</span
+          ></mt-tab-item
+        >
       </mt-navbar>
       <mt-tab-container v-model="selected">
         <mt-tab-container-item id="1">
           <div class="hot">
-      <li class="first" v-for="value in 16" :key="value">
-        <div class="all">
-          <div class="kind">
-            <p>宝马  1系</p>
+            <li class="first" v-for="item in selCar" :key="item.id">
+              <div class="all">
+                <div class="kind">
+                  <p>{{ item.brandtype }}</p>
+                </div>
+                <div class="cost">
+                  <p>
+                    厂商指导价:
+                    <span>{{ item.selling_price }}万</span>
+                  </p>
+                </div>
+              </div>
+              <div class="down">
+                <div class="genre">
+                  <p>{{ item.fullname }}</p>
+                </div>
+                <div class="detail">
+                  <a href="tel:400-111-3777">沟通顾问</a>
+                  <div class="xiaojiantou">
+                    <img src="../../assets/xiaojiantou.png" alt />
+                  </div>
+                </div>
+              </div>
+            </li>
           </div>
-          <div class="cost">
-            <p>
-              厂商指导价:
-              <span>22.49万</span>
-            </p>
-          </div>
-        </div>
-        <div class="down">
-          <div class="genre">
-            <p>2019款  1.5T  双离合互联精英型  国VI</p>
-          </div>
-          <div class="detail" >
-            <a href="tel:400-111-3777">沟通顾问</a>
-            <div class="xiaojiantou">
-              <img src="../../assets/xiaojiantou.png" alt />
-            </div>
-          </div>
-        </div>
-      </li>
-    </div>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
           <div class="hot">
-      <li class="first" v-for="value in 8" :key="value">
-        <div class="all">
-          <div class="kind">
-            <p>宝马</p>
+            <li class="first" v-for="item in selCar2" :key="item.id">
+              <div class="all">
+                <div class="kind">
+                  <p>{{ item.brandtype }}</p>
+                </div>
+                <div class="cost">
+                  <p>
+                    厂商指导价:
+                    <span>{{ item.price }}万</span>
+                  </p>
+                </div>
+              </div>
+              <div class="down">
+                <div class="genre">
+                  <p>{{ item.fullname }}</p>
+                </div>
+                <div class="detail">
+                  <a href="tel:400-111-3777">沟通顾问</a>
+                  <div class="xiaojiantou">
+                    <img src="../../assets/xiaojiantou.png" alt />
+                  </div>
+                </div>
+              </div>
+            </li>
           </div>
-          <div class="cost">
-            <p>
-              厂商指导价:
-              <span>22.49万</span>
-            </p>
-          </div>
-        </div>
-        <div class="down">
-          <div class="genre">
-            <p>2019款  1.5T  双离合互联精英型  国VI</p>
-          </div>
-          <div class="detail" >
-            <a href="tel:400-111-3777">沟通顾问</a>
-            <div class="xiaojiantou">
-              <img src="../../assets/xiaojiantou.png" alt />
-            </div>
-          </div>
-        </div>
-      </li>
-    </div>
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
   </div>
 </template>
 <script>
+import { carCategory } from "../api/apisum";
 export default {
-  name: "xiangqing",
+  name: "xiangqing1",
   components: {},
   data() {
     return {
-      selected: "1"
+      selected: "1",
+      params1: "",
+      params2: "",
+      params3: "",
+      // sumdata: [],
+      selCar: [],
+      selCar2: []
     };
   },
+  async created() {
+    this.params1 = this.$route.query.a;
+    this.params2 = this.$route.query.b;
+    this.params3 = this.$route.query.c;
+    let res = await carCategory(this.params1, this.params2, this.params3);
+    console.log(res.data.data.二手);
+    this.selCar = res.data.data.新车;
+    this.selCar2 = res.data.data.二手;
+    console.log(this.selCar2);
+  },
   methods: {
-    toReturn(){
-       this.$router.push({ path: "/pay" });
+    toReturn() {
+      this.$router.push({ path: "/pay" });
     }
-    }
+  }
 };
 </script>
 <style scoped>
@@ -129,10 +162,10 @@ nav p {
 .mint-navbar {
   background: #fff;
   width: 100%;
-  position:fixed;
+  position: fixed;
   top: 80px;
   left: 0px;
-  z-index: 999
+  z-index: 999;
 }
 .tab .mint-navbar .mint-tab-item.is-selected {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
@@ -161,7 +194,6 @@ nav p {
   align-items: center;
 }
 .kind {
-  width: 70px;
   height: 20px;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;

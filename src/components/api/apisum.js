@@ -6,14 +6,22 @@ export function newCareMessage() {
 }
 
 // 评估报告接口
-export function assess(a,b,c,d,e){
-  return post("/assess",{
+export function assess(a, b, c, d, e) {
+  return post("/assess", {
     token: a,
     city: b,
     veh_id: c,
     car_license: d,
     mileage: e
-  })
+  });
+}
+// 一网打进 搜索详情 点击查看
+export function carCategory(a, b, c) {
+  return post("/deal-yiwangxj", {
+    parameter1: a,
+    parameter2: b,
+    brand: c
+  });
 }
 
 // 三级联动获得数据
