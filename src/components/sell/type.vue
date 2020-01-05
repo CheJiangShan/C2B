@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+import {getType} from "../api/apisum"
 export default {
   data() {
     return {
@@ -33,12 +34,19 @@ export default {
       id:''
     };
   },
-  created() {
-    this.axios.post("https://api.chejiangshan.com/veh-index").then(res => {
-      //   console.log(res.data.data.wantto);
-      this.changyonglist = res.data.data.wantto;
-      this.zimulist = res.data.data.data;
-    });
+  // created() {
+  //   this.axios.post("https://api.chejiangshan.com/veh-index").then(res => {
+  //     //   console.log(res.data.data.wantto);
+  //     this.changyonglist = res.data.data.wantto;
+  //     this.zimulist = res.data.data.data;
+  //   });
+  // },
+  async created(){
+    const res=await  getType()
+    console.log(res)
+    console.log(res.data.data.wantto)
+     this.changyonglist = res.data.data.wantto;
+     this.zimulist = res.data.data.data;
   },
   mounted() {},
   computed: {

@@ -28,3 +28,18 @@ export function carCategory(a, b, c) {
 export function threeSearch() {
   return post("/deal-sear");
 }
+
+//新车详情
+export function newDetail(id) {           
+  return post("/deal-newmore",{ pid: id });
+}
+
+//二手车详情
+export function secondDetail(id) {           
+  return post("/deal-usedmore",{ pid: id });
+}
+
+//车型列表
+export function getType() {           
+  return post("/veh-index");
+}

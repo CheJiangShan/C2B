@@ -19,12 +19,14 @@
         </div>
         <div class="down">
           <div class="genre">
-            <p style="width:240px;
-            overflow:hidden;
-            text-overflow:ellipsis;
-            white-space: nowrap">{{item.fullname}}</p>
+            <p
+              style="word-break:keep-all;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis; width:240px"
+            >{{item.fullname}}</p>
           </div>
-          <div class="detail" >
+          <div class="detail">
             <a href="tel:400-111-3777">沟通顾问</a>
             <div class="xiaojiantou">
               <img src="../../assets/xiaojiantou.png" alt />
@@ -36,24 +38,33 @@
   </div>
 </template>
 <script>
+import {newDetail} from "../api/apisum"
 export default {
   data() {
     return {
-        list:[]
+      list: []
     };
   },
-  created() {
-      let id=0
-    this.axios.post("https://api.chejiangshan.com/deal-newmore",{pid:id}).then(res => {
-      console.log(res.data);
-      this.list = res.data.data;
-    });
+  // created() {
+  //   let id = 0;
+  //   this.axios
+  //     .post("https://api.chejiangshan.com/deal-newmore", { pid: id })
+  //     .then(res => {
+  //       console.log(res.data);
+  //       this.list = res.data.data;
+  //     });
+  // },
+  async created(){
+    let id=0;
+    const res=await  newDetail(id);
+    console.log(res)
+     this.list = res.data.data;
   },
   mounted() {},
   computed: {},
   methods: {
     fanhui() {
-      this.$router.push({ path: "/pay" });
+      this.$router.push({ path: "/" });
     }
   }
 };

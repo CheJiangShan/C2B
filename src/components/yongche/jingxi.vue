@@ -36,8 +36,29 @@
                   <p>标准洗车-五座轿车</p>
                   <div class="yuyue">
                     <p>¥25.00</p>
-                    <p>预约</p>
+                    <p @click="showPopup()">预约</p>
                   </div>
+                  <!-- 更换服务车辆弹窗 -->
+                  <van-popup v-model="show" closeable position="bottom" :style="{ height: '56%' }">
+                    <div class="select">
+                      <span>更换服务车辆</span>
+                    </div>
+                    <van-radio-group v-model="radio">
+                      <div class="dan">
+                        <span>单选框 1</span>
+                        <van-radio name="1"></van-radio>
+                      </div>
+
+                      <div class="dan">
+                        <span>单选框 2</span>
+                        <van-radio name="2"></van-radio>
+                      </div>
+                      <div class="dan">
+                        <span>单选框 2</span>
+                        <van-radio name="3"></van-radio>
+                      </div>
+                    </van-radio-group>
+                  </van-popup>
                 </div>
               </li>
             </div>
@@ -104,7 +125,9 @@ export default {
   components: {},
   data() {
     return {
+      show: false,
       activeKey: 0,
+      radio: "1",
       activeIndex: this.$route.query.num ? this.$route.query.num : 0,
       index: this.$route.query.num ? this.$route.query.num : 0,
       items: [
@@ -124,6 +147,9 @@ export default {
   methods: {
     fanhui() {
       this.$router.push({ path: "/shouye" });
+    },
+    showPopup() {
+      this.show = true;
     }
   }
 };
@@ -237,9 +263,9 @@ header span {
   background: #f9f9f9;
   display: block;
 }
-.van-sidebar-item{
-  background: #F6F7FB;
-   color: #777777;
+.van-sidebar-item {
+  background: #f6f7fb;
+  color: #777777;
 }
 .sort .van-tree-select__content {
   height: 1930px;
@@ -248,9 +274,9 @@ header span {
   display: flex;
   justify-content: center;
 }
-.van-sidebar-item--select{
+.van-sidebar-item--select {
   background: #fff;
-  color: #333333
+  color: #333333;
 }
 .van-tree-select__nav {
   width: 90px;
@@ -285,6 +311,20 @@ header span {
   display: flex;
   align-items: center;
 }
+.select {
+  width: 100px;
+  height: 30px;
+  text-align: center;
+  margin: 13px 0 0 132px;
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 30px;
+}
+.dan {
+  display: flex;
+}
 .clear p:last-child {
   width: 50px;
   height: 17px;
@@ -304,7 +344,7 @@ header span {
   background: rgba(240, 245, 255, 1);
   border-radius: 5px;
   margin: 0 auto;
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 .dabaoyang {
   display: flex;
@@ -359,18 +399,18 @@ header span {
   color: rgba(164, 163, 163, 1);
   line-height: 16px;
 }
-.xiao{
+.xiao {
   display: flex;
   align-items: center;
   width: 265px;
-  border-radius:5px;
+  border-radius: 5px;
   height: 75px;
-  background: #F0F5FF;
-  margin: 0 auto
+  background: #f0f5ff;
+  margin: 0 auto;
 }
-.xiao img{
+.xiao img {
   width: 45px;
-  height: 45px
+  height: 45px;
 }
 .small {
   display: flex;

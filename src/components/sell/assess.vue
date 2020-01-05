@@ -3,12 +3,24 @@
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
       <span>评估报告</span>
-      <img src="../../assets/fenxiang.png" alt />
+      <van-popup v-model="show1" closeable position="bottom" :style="{ height: '18%' }">
+        <div class="lu">
+          <van-icon name="chat-o" size="30" color="#1989fa" />
+          <van-icon name="star-o"  size="30" color="gold"/>
+          <van-icon name="friends-o" size="30" color="#07c160" />
+        </div>
+        <div class="titl">
+          <p>微信</p>
+          <p>空间</p>
+          <p>朋友圈</p>
+        </div>
+      </van-popup>
+      <img @click="toShare()" src="../../assets/fenxiang.png" alt />
     </header>
     <div class="total">
-      <img src="../../assets/banner.png" alt />
+      <img src="../../assets/pinggu.png" alt />
       <div class="contain">
-        <span>{{ name }}</span>
+        <p class="Ctype">{{ name }}</p>
         <div class="check">
           <span>查看该车型出厂配置</span>
           <img class="pic" src="../../assets/xiaojiantou.png" alt />
@@ -54,19 +66,16 @@
         </p>
         <p>
           车身颜色:
-          <span style="font-size:12px" @click="colorSelected()" :v-model="carcolorparam">{{
+          <span style="font-size:12px" @click="showPopup1()" :v-model="carcolorparam">
+            {{
             carcolorparam
-          }}</span>
+            }}
+          </span>
           <img src="../../assets/xiaojiantou.png" alt />
         </p>
 
         <!-- 车况弹出层 -->
-        <van-popup
-          v-model="show"
-          closeable
-          position="bottom"
-          :style="{ height: '38%' }"
-        >
+        <van-popup v-model="show" closeable position="bottom" :style="{ height: '38%' }">
           <div class="select">
             <span>选择车况</span>
           </div>
@@ -77,20 +86,13 @@
               :pay-money="item.name"
               :class="activeClass == item.id ? 'active' : ''"
               @click="ddd($event, item.id)"
-            >
-              {{ item.name }}
-            </button>
+            >{{ item.name }}</button>
           </div>
           <div class="sure" @click="toSure()">确定</div>
         </van-popup>
 
         <!-- 车身颜色弹窗 -->
-        <van-popup
-          v-model="CarColorShow"
-          closeable
-          position="bottom"
-          :style="{ height: '38%' }"
-        >
+        <van-popup v-model="CarColorShow" closeable position="bottom" :style="{ height: '38%' }">
           <div class="select">
             <span>选择颜色</span>
           </div>
@@ -100,11 +102,9 @@
               :key="item.id"
               :class="activeClassColor == item.id ? 'active' : ''"
               @click="colorsurebtn(item.id, item.name)"
-            >
-              {{ item.name }}
-            </button>
+            >{{ item.name }}</button>
           </div>
-          <div class="sure" @click="toSure()">确定</div>
+          <div class="sure" @click="toSure1()">确定</div>
         </van-popup>
       </div>
     </div>
@@ -119,9 +119,7 @@
         <div class="guan">
           <h1>外观：原厂漆，漆面轻微瑕疵；车窗玻璃光洁。</h1>
           <h1>内饰：方向盘及按键无磨损；座椅及内饰崭新；车内无异味。</h1>
-          <h1>
-            工况：发动机及变速箱运行良好且无维修；底盘及电气系统运营良好；暗示保养且记录完整。
-          </h1>
+          <h1>工况：发动机及变速箱运行良好且无维修；底盘及电气系统运营良好；暗示保养且记录完整。</h1>
         </div>
       </div>
     </div>
@@ -223,6 +221,7 @@ export default {
       ddays: "优秀",
       radio: "1",
       show: false,
+      show1: false,
       CarColorShow: false, //车身颜色选择弹窗
       carcolorparam: "未选择",
       activeClass: 1,
@@ -271,12 +270,17 @@ export default {
       this.show = true;
     },
     // 选择车身颜色
-    colorSelected() {
-      console.log(1111);
-      this.CarColorShow = !this.CarColorShow;
+    showPopup1() {
+      this.CarColorShow = true;
+    },
+    toShare() {
+      this.show1 = !this.show1;
     },
     toSure() {
       this.show = !this.show;
+    },
+    toSure1() {
+      this.CarColorShow = !this.CarColorShow;
     },
     ddd: function(event, id, i) {
       this.days = "";
@@ -294,7 +298,7 @@ export default {
       this.activeClassColor = id;
       this.carcolorparam = name;
       if (id == 1) {
-        this.carcolorparam="未选择"
+        this.carcolorparam = "未选择";
       }
     }
   }
@@ -337,6 +341,21 @@ header span {
   font-size: 18px;
   color: #333333;
 }
+.lu {
+  margin-top: 47px;
+  display: flex;
+  justify-content: space-around;
+}
+.titl {
+  display: flex;
+  height: 25px;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 14px;
+}
+.titl p:nth-child(2) {
+  margin-left: 12px;
+}
 .total {
   margin-top: 80px;
   width: 100%;
@@ -347,11 +366,12 @@ header span {
 .total img {
   width: 80px;
   height: 71px;
+  margin-left: 20px
 }
 .total img:last-child {
   width: 7px;
   height: 12px;
-  margin-left: 3px;
+  margin: -1px 3px
 }
 .total span {
   font-size: 16px;
@@ -364,8 +384,20 @@ header span {
   margin-left: 8px;
   height: 88px;
 }
+.Ctype {
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 22px;
+  margin-left: 100px;
+  word-break:keep-all;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis; 
+}
 .check {
-  margin-left: 128px;
+  margin-left: 100px;
 }
 .check span {
   font-size: 11px;
@@ -384,6 +416,7 @@ header span {
   height: 97px;
   display: flex;
   justify-content: space-around;
+  border-bottom: 1px solid #f6f7fb;
 }
 .first {
   width: 64px;
@@ -408,6 +441,7 @@ header span {
   text-align: center;
 }
 .complex {
+  margin-top: 15px;
   width: 100%;
   height: 214px;
   background: url(../../assets/zonghe.png) no-repeat;
@@ -419,7 +453,7 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  line-height: 22px;
+  line-height: 23px;
   margin-left: 13px;
 }
 .complex p {
@@ -462,7 +496,7 @@ header span {
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  padding:0px 15px 0 15px;
+  padding: 0px 15px 0 15px;
 }
 .state .select span {
   font-size: 16px;
@@ -594,6 +628,7 @@ header span {
   margin: -3px auto;
 }
 .recent {
+  margin-top: 20px;
   width: 100%;
   height: 248px;
   background: url(../../assets/tupian.png) no-repeat;
@@ -605,7 +640,7 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  line-height: 22px;
+  line-height: 23px;
   margin-left: 13px;
 }
 .new {
@@ -637,7 +672,6 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
-  /* line-height: 25px; */
   padding: 15px 0 8px 0;
   text-align: center;
 }
@@ -648,10 +682,11 @@ header span {
   color: rgba(119, 119, 119, 1);
   line-height: 19px;
 }
-.guan{
-  margin-left: 10px
+.guan {
+  margin-left: 10px;
 }
 .scrap {
+  margin-top: 20px;
   width: 100%;
   height: 242px;
   background: url(../../assets/canzhi.png) no-repeat;
@@ -662,10 +697,11 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  line-height: 22px;
+  line-height: 23px;
   margin-left: 13px;
 }
 .need {
+  margin-top: 20px;
   width: 100%;
   height: 282px;
   background: url(../../assets/maiche.png) no-repeat;
@@ -676,7 +712,7 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
-  line-height: 22px;
+  line-height: 23px;
   margin-left: 13px;
   margin-bottom: 20px;
 }

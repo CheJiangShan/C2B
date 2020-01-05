@@ -4,7 +4,9 @@
     <div class="roof">
       <nav>
         <mt-navbar v-model="selected">
-          <mt-tab-item id="1"><span>买车</span></mt-tab-item>
+          <mt-tab-item id="1">
+            <span>买车</span>
+          </mt-tab-item>
           <mt-tab-item id="2">
             <router-link :to="'sell1'">
               <span class="sell">卖车</span>
@@ -70,7 +72,7 @@
       <div class="contain">
         <div class="shuxian"></div>
         <!-- <div class="zhi">智能选车</div> -->
-        <span>智能选车</span>
+        <span>极速选车</span>
       </div>
       <div class="first" @click="xianshi()">
         <div class="you">
@@ -152,6 +154,15 @@
             <div class="kind">
               <p>{{ item.fullname }}</p>
             </div>
+<<<<<<< HEAD
+=======
+            <!-- <div class="cost">
+                    <p>
+                      厂商指导价:
+                      <span>{{item.selling_price}}万</span>
+                    </p>
+            </div>-->
+>>>>>>> c45a5773412748d95be533406a98f5a6f4d10044
           </div>
           <div class="down">
             <div class="genre">
@@ -203,6 +214,15 @@
             <div class="kind">
               <p>{{ i }}</p>
             </div>
+<<<<<<< HEAD
+=======
+            <!-- <div class="cost">
+                    <p>
+                      厂商指导价:
+                      <span>{{item.selling_price}}万</span>
+                    </p>
+            </div>-->
+>>>>>>> c45a5773412748d95be533406a98f5a6f4d10044
           </div>
           <div
             class="down"
@@ -326,7 +346,6 @@ export default {
       msg: "创建地址",
       // 搜索关键字
       key1: "",
-      // key11:'',
       key2: "",
       key3: "",
       keywords: [],
@@ -338,7 +357,7 @@ export default {
         {
           flex: 1,
           values: [],
-          defaultIndex: 2,
+          defaultIndex: 3,
           className: "slot1",
           textAlign: "center"
         },
@@ -372,11 +391,11 @@ export default {
   async created() {
     const newres = await newCareMessage();
     this.list = newres.data.data;
+
     //获取三级联动信息
     this.getThreeList();
     // this.getSearchRes(this.key1,this.key2,this.key3)
   },
-
   // mounted() {
   //   console.log(this.key1)
   // },
@@ -467,6 +486,7 @@ export default {
     },
 
     //获取三级联动信息
+
     async getThreeList() {
       var that = this;
       const tres = await threeSearch();
@@ -501,7 +521,7 @@ export default {
       that.slots[0].values = that.addressList;
       that.slots[2].values = that.addressList[0].children;
       that.slots[4].values = that.addressList[0].children[0].children;
-    }
+    },
 
     // 获得搜索结果
     // getSearchRes(k1,k2,k3){
@@ -673,7 +693,10 @@ nav .sell {
 }
 .mint-navbar .mint-tab-item.is-selected {
   border-bottom: 4px solid rgba(63, 100, 253, 1);
+  border-bottom-left-radius: 5%;
+  border-bottom-right-radius: 5%;
   color: #333333;
+  margin-bottom: -6px
 }
 .mint-navbar .mint-tab-item.is-selected span {
   font-size: 18px;

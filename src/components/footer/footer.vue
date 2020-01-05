@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="bottom-tab">
-      <div class="tab-item" @click="switchTo('/pay')">
+      <div class="tab-item" @click="switchTo('/')">
         <img
-          :src="'/pay' === $route.path ? tabBarImgArr[0].selected : tabBarImgArr[0].normal"
+          :src="'/' === $route.path ? tabBarImgArr[0].selected : tabBarImgArr[0].normal"
           alt="首页"
         />
-        <span :class="{on: '/pay' === $route.path}">首页</span>
+        <span :class="{on: '/' === $route.path}">首页</span>
       </div>
       <div class="tab-item" @click="switchTo('/xunjiajilu')">
         <img

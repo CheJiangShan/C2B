@@ -36,6 +36,7 @@
     <div class="set-select" style="height:440px;width:100%;">
       <div class="f-top" style="width:100%;background-color:#fff;">
         <div
+          v-cloak 
           v-show="hid"
           class="f-top-item"
           @click="seletedItem(item.name, item.id)"
