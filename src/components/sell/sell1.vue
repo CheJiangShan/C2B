@@ -84,7 +84,13 @@
             <span class="car">行驶里程:</span>
             <div class="urban">
               <span class="meter"></span>
-              <input class="shuru" type="number" placeholder="请输入" v-model="value1" dir="rtl" />
+              <input
+                class="shuru"
+                type="number"
+                placeholder="请输入"
+                v-model="value1"
+                dir="rtl"
+              />
               <span class="in">万公里</span>
               <!-- <img src="../../assets/xiaojiantou.png" alt /> -->
             </div>
@@ -117,13 +123,23 @@
         </div>
         <div class="help" @click="collect()">
           <span>车江山如何帮我卖车</span>
-          <img class="yi" src="../../assets/xiaojiantou.png" alt v-show="isShow" @click="toshow()" />
-          <img src="../../assets/sanjiao.png" alt v-show="!isShow" @click="tohid()" />
+          <img
+            class="yi"
+            src="../../assets/xiaojiantou.png"
+            alt
+            v-show="isShow"
+            @click="toshow()"
+          />
+          <img
+            src="../../assets/sanjiao.png"
+            alt
+            v-show="!isShow"
+            @click="tohid()"
+          />
         </div>
-        <div
-          v-show="hid"
-          class="content"
-        >车小二与您取得联系后，会安排二手车评估技师对您的车辆信息做最全面的评估收集，与您取得满意的卖出价格后，车辆可以选择上架车江山二手车频道，等待第三方用户购买，也可以由车江山平台直接收购，与您直接签署二手车收购协议。多种选择由您确认。</div>
+        <div v-show="hid" class="content">
+          车小二与您取得联系后，会安排二手车评估技师对您的车辆信息做最全面的评估收集，与您取得满意的卖出价格后，车辆可以选择上架车江山二手车频道，等待第三方用户购买，也可以由车江山平台直接收购，与您直接签署二手车收购协议。多种选择由您确认。
+        </div>
         <div class="later">
           <span>卖车需要准备哪些材料</span>
           <img src="../../assets/xiaojiantou.png" alt />
@@ -163,7 +179,6 @@ export default {
     };
   },
   created() {
-    console.log();
     if (!this.$route.query.name) {
       this.name = "请选择";
     } else {
@@ -190,7 +205,6 @@ export default {
       console.log(this.userregion);
       console.log(this.timeValue);
       console.log(this.value1);
-      console.log();
       if (this.name == "请选择") {
         let instance = Toast("请选择车型");
         setTimeout(() => {

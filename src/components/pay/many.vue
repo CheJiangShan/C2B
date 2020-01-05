@@ -53,7 +53,7 @@ export default {
   computed: {},
   methods: {
     fanhui() {
-      this.$router.push({ path: "/pay" });
+      this.$router.push({ path: "/" });
     }
   }
 };

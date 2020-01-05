@@ -86,6 +86,11 @@ export default new Router({
       component:resolve => require(['@/components/yongche/jingxi'],resolve)
     },//用车精洗
     {
+      path:'/nopayment',
+      name:'nopayment',
+      component:resolve => require(['@/components/yongche/nopayment'],resolve)
+    },//用车保养的未交付
+    {
       path:'/dingdan',
       name:'dingdan',
       component:resolve => require(['@/components/yongche/dingdan'],resolve)
