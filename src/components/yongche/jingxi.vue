@@ -43,21 +43,22 @@
                     <div class="select">
                       <span>更换服务车辆</span>
                     </div>
-                    <van-radio-group v-model="radio">
+                    <!-- <van-radio-group v-model="radio">
                       <div class="dan">
-                        <span>单选框 1</span>
+                        <span>广州本田-新飞度   1.5L  2019年产  CVT舒适天窗版   冰晶白  豫A  88888</span>
                         <van-radio name="1"></van-radio>
                       </div>
 
                       <div class="dan">
-                        <span>单选框 2</span>
+                        <span>广州本田-新飞度   1.5L  2019年产  CVT舒适天窗版   冰晶白  豫A  88888</span>
                         <van-radio name="2"></van-radio>
                       </div>
                       <div class="dan">
-                        <span>单选框 2</span>
+                        <span>广州本田-新飞度   1.5L  2019年产  CVT舒适天窗版   冰晶白  豫A  88888</span>
                         <van-radio name="3"></van-radio>
                       </div>
-                    </van-radio-group>
+                    </van-radio-group>-->
+                    <mt-radio align="right"  ：v-model="value" :options="options"></mt-radio>
                   </van-popup>
                 </div>
               </li>
@@ -127,7 +128,7 @@ export default {
     return {
       show: false,
       activeKey: 0,
-      radio: "1",
+      value: "",
       activeIndex: this.$route.query.num ? this.$route.query.num : 0,
       index: this.$route.query.num ? this.$route.query.num : 0,
       items: [
@@ -139,6 +140,20 @@ export default {
         { text: "维修" },
         { text: "喷漆" },
         { text: "翻新" }
+      ],
+      options: [
+        {
+          label: "选项A",
+          value: "A"
+        },
+        {
+          label: "选项B",
+          value: "B"
+        },
+        {
+          label: "选项C",
+          value: "C"
+        }
       ]
     };
   },
@@ -324,6 +339,7 @@ header span {
 }
 .dan {
   display: flex;
+  height: 80px;
 }
 .clear p:last-child {
   width: 50px;

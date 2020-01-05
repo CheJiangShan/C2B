@@ -133,7 +133,7 @@
       <p>卖车所需材料</p>
       <div class="xiao">
         <figure>
-          <img src="../../assets/shenfenzheng.png" alt />
+          <img src="../../assets/shenfenzheng11.png" alt />
           <figcaption>车主身份证</figcaption>
         </figure>
         <figure>

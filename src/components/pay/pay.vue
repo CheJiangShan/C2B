@@ -12,7 +12,7 @@
               <span class="sell">卖车</span>
             </router-link>
           </mt-tab-item>
-          <mt-tab-item id="3">
+          <mt-tab-item id="3">  
             <router-link :to="'shouye'">
               <span>用车</span>
             </router-link>
@@ -154,6 +154,12 @@
             <div class="kind">
               <p>{{ item.fullname }}</p>
             </div>
+            <!-- <div class="cost">
+                    <p>
+                      厂商指导价:
+                      <span>{{item.selling_price}}万</span>
+                    </p>
+            </div>-->
           </div>
           <div class="down">
             <div class="genre">

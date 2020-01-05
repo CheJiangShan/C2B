@@ -174,8 +174,7 @@ export default {
       maxDate: new Date(),
       timeValue: "请选择",
       value1: "",
-      suozaidi: ""
-      // id:''
+      suozaidi: "",
     };
   },
   created() {
