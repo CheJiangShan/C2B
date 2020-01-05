@@ -25,11 +25,6 @@ export default new Router({
       name:"xunjiajilu",
       component:resolve => require(['@/components/xunjiajilu/xunjiajilu'],resolve)
     },//买车-询价记录
-    // {
-    //   path: '/xunjiajilu1',
-    //   name:"xunjiajilu",
-    //   component:resolve => require(['@/components/xunjiajilu/xunjiajilu1'],resolve)
-    // },//买车-询价记录
     {
       path: '/wode',
       name:"wode",
@@ -48,7 +43,7 @@ export default new Router({
     {
       path: '/sell1',
       name:"sell1",
-      component:resolve => require(['@/components/sell/sell1'],resolve)
+      component:resolve => require(['@/components/sell/sell1'],resolve),
     },//卖车
     {
       path: '/type',

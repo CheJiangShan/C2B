@@ -10,10 +10,10 @@
       </div>
       <div class="tab-item" @click="switchTo('/pinggujilu')">
         <img
-          :src="'/xunjiajilu' === $route.path ? tabBarImgArr[1].selected : tabBarImgArr[1].normal"
+          :src="'/pinggujilu' === $route.path ? tabBarImgArr[1].selected : tabBarImgArr[1].normal"
           alt="评估记录"
         />
-        <span :class="{on: '/xunjiajilu' === $route.path}">评估记录</span>
+        <span :class="{on: '/pinggujilu' === $route.path}">评估记录</span>
       </div>
       <div class="tab-item" @click="switchTo('/wode')">
         <img

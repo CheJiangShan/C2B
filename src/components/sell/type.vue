@@ -68,6 +68,7 @@ export default {
     che(id,name){
       // console.log(name),
       localStorage.setItem("id",id)
+       localStorage.setItem("name",name)
       console.log(id),
     this.$router.push({path:'/sell1',query:{id,name}})
   }
