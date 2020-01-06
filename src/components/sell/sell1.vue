@@ -174,10 +174,13 @@ export default {
       maxDate: new Date(),
       timeValue: "请选择",
       value1: "",
-      suozaidi: "",
+      suozaidi: ""
     };
   },
   created() {
+    if (localStorage.getItem("name") != this.name) {
+      this.name = localStorage.getItem("name");
+    }
     if (!this.$route.query.name) {
       this.name = "请选择";
     } else {

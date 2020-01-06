@@ -6,12 +6,10 @@
     </header>
     <div style=" height: 64px;"></div>
     <div class="pay-title">
-      <span>待交付</span>
+      <span>已完工</span>
     </div>
     <div class="time-detail">
-      <span
-        >车小二预计最快可在2019-10-15 10:00由技师王小五班组为您进行服务</span
-      >
+      <span>车小二的小伙伴们已于2019-10-15 11:00为您完成服务！</span>
     </div>
     <div class="technician-pic"></div>
     <div class="technician-name"><span>技师 王小五</span></div>
@@ -21,21 +19,18 @@
       <div class="line-right"></div>
     </div>
     <div class="tips-detailA">
-      <div class="tips-detailA-txt">
-        <img src="../../assets/ellipse.png" alt="" />
-        <span
-          >若您当天到达店面，前车服务未结束，您将是之后的第一顺位，因此造成的等待，我们也将为您提供小礼品表达歉意！</span
-        >
-      </div>
+      <p class="tips-detailA-txt">
+        若您未享受到我们的服务或服务没有达到您的满意，请点击下方“投诉”按钮与我们取得联系，我们将为您提供1V1售后跟踪服务。祝您用车生活愉快！
+      </p>
     </div>
-    <div class="tips-detailB">
+    <!-- <div class="tips-detailB">
       <div class="tips-detailB-txt">
         <img src="../../assets/ellipse.png" alt="" />
         <span
           >若您当天到达店面，前车服务未结束，您将是之后的第一顺位，因此造成的等待，我们也将为您提供小礼品表达歉意！</span
         >
       </div>
-    </div>
+    </div> -->
     <div class="bar"></div>
     <div class="car-owner">
       <div class="owner">
@@ -83,9 +78,14 @@
         <p class="payway"><span>支付方式:</span><span>线下支付</span></p>
         <p><span>预约确认时间:</span><span>2019-10-07 12:42</span></p>
         <p><span>接待顾问：张小浩</span></p>
+        <p class="technicist"><span>服务技师：</span><span>王小五班组</span></p>
+        <p class="servicetime">
+          <span>服务完成时间：<span>2019-10-08 12:42</span></span>
+        </p>
+        <p class="paymoney"><span>支付金额：</span><span>¥1280.00</span></p>
       </div>
-      <div class="receiver">
-        <p>接待顾问：张小浩</p>
+      <div class="complain">
+        <p>投诉</p>
       </div>
     </div>
   </div>
@@ -138,16 +138,19 @@ header p {
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
   line-height: 25px;
+  margin-bottom: 10px;
 }
 .time-detail {
   width: 345px;
-  height: 34px;
-  margin: 0 0 10px 15px;
+  height: 17px;
+  margin: 0 0 20px 15px;
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(119, 119, 119, 1);
   line-height: 17px;
+  display: flex;
+  justify-content: center;
 }
 .technician-pic {
   width: 60px;
@@ -172,7 +175,7 @@ header p {
   align-items: center;
   justify-content: space-around;
   box-sizing: border-box;
-  padding-left: 15px;
+  padding-left: 14px;
   margin-bottom: 10px;
 }
 .tips .line-left,
@@ -191,53 +194,19 @@ header p {
 }
 .tips-detailA {
   width: 345px;
-  height: 32px;
-  margin-left: 14px;
+  height: 82px;
+  margin-left: 15px;
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 5px;
-  position: relative;
+  justify-content: flex-start;
 }
 .tips-detailA .tips-detailA-txt {
   width: 336px;
-  height: 32px;
+  -webkit-text-size-adjust: none;
   font-size: 11px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(164, 163, 163, 1);
   line-height: 16px;
-}
-.tips-detailA img {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  top: 4px;
-  left: 0;
-}
-.tips-detailB {
-  width: 345px;
-  height: 32px;
-  margin-left: 14px;
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-  position: relative;
-}
-.tips-detailB .tips-detailB-txt {
-  width: 336px;
-  height: 32px;
-  font-size: 11px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: rgba(164, 163, 163, 1);
-  line-height: 16px;
-}
-.tips-detailB img {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  top: 4px;
-  left: 0;
 }
 .bar {
   width: 375px;
@@ -364,7 +333,7 @@ header p {
   height: 200px;
 }
 .order .order-detail {
-  height: 160px;
+  /* height: 160px; */
   width: 375px;
   box-sizing: border-box;
   padding: 20px 0 0 15px;
@@ -386,16 +355,26 @@ header p {
   display: flex;
   align-items: center;
 }
-.order .receiver {
-  height: 40px;
-  background: rgba(207, 207, 207, 1);
+.order-detail .technicist {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+.order-detail .servicetime {
+  margin-bottom: 10px;
+}
+.order-detail .paymoney {
+  margin-bottom: 20px;
+}
+.order .complain {
   width: 375px;
+  height: 40px;
+  background: rgba(63, 100, 253, 1);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center
 }
 
-.order .receiver p {
+.order .complain p {
   font-size: 16px;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
