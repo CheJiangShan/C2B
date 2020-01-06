@@ -132,6 +132,11 @@ export default new Router({
       component:resolve => require(['@/components/yongche/dingdan'],resolve)
     },//用车订单
     {
+      path:'/set',
+      name:'set',
+      component:resolve => require(['@/components/wode/set'],resolve)
+    },//快速预约
+    {
       path: '/shop',
       name:"shop",
       component:resolve => require(['@/components/shop/shop'],resolve)

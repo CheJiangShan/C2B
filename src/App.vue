@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <!-- <transition appear name="move"> -->
-    <!-- <keep-alive>  -->
-        <router-view/>
+    <!-- <keep-alive> -->
+        <div v-if="isRouterAlive">
+      <router-view />
+    </div>
     <!-- </keep-alive> -->
     <!-- </transition> -->
   </div>
@@ -10,7 +12,30 @@
 
 <script>
 export default {
-  name: "App"
+    name: "App",
+  provide() {
+    return {
+      reload: this.reload
+    };
+  },
+  data() {
+    return {
+      isRouterAlive: true
+    };
+  },
+
+  created() {
+    // let key='pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT'
+    // let token=localStorage.setItem('token',key)
+  },
+  methods: {
+    reload() {
+      this.isRouterAlive = false;
+      this.$nextTick(function() {
+        this.isRouterAlive = true;
+      });
+    }
+  }
 };
 // 手机端自适应：
 

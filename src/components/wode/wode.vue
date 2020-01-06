@@ -1,8 +1,83 @@
 <template>
   <div class="mine">
     <nav>
-      <p>我的</p>
+      <img class="shezhi" src="../../assets/shezhi.png" alt />
+      <div class="set">
+        <img  @click="toSet()" class="head" src="../../assets/head.png" alt />
+        <div class="type">
+          <p class="xiao">马小号</p>
+          <p class="bie">别克 英朗</p>
+          <p class="kuan">2019款 1.5T 双离合互联精英型 国VI</p>
+        </div>
+        <div class="car" @click="cheku()">
+          <img src="../../assets/8.png" alt />
+          <span>2</span>
+          <p></p>
+        </div>
+      </div>
     </nav>
+    <div class="purse">
+      <img src="../../assets/purse.png" alt />
+      <span class="qian">我的钱包</span>
+      <span>¥1280.00</span>
+      <p>提现</p>
+    </div>
+    <!-- 预约记录 -->
+    <div class="order">
+      <div class="content">
+        <div class="contain">
+          <div class="record">
+            <img src="../../assets/record.png" alt />
+            <span>预约记录</span>
+          </div>
+          <div class="see">
+            <span>查看更多</span>
+            <img src="../../assets/xiaojiantou.png" alt />
+          </div>
+        </div>
+        <div class="list" v-for="value in 3" :key="value">
+          <div class="date">
+            <span>2019.10.19</span>
+            <span>14:30</span>
+          </div>
+          <span>陇海路店</span>
+          <span class="small">小保养</span>
+        </div>
+      </div>
+    </div>
+    <div class="yaoqing">
+      <img src="../../assets/26.png" alt />
+    </div>
+    <div class="last">
+      <div class="all">
+        <div class="edition">
+          <img class="pic" src="../../assets/edition.png" alt />
+          <span class="top">版本升级</span>
+        </div>
+        <div class="right">
+          <span class="next">最新版本</span>
+          <img class="jian" src="../../assets/xiaojiantou.png" alt />
+        </div>
+      </div>
+      <div class="all">
+        <div class="edition">
+          <img class="pic" src="../../assets/about.png" alt />
+          <span class="top">关于我们</span>
+        </div>
+        <div class="right">
+          <img class="jian" src="../../assets/xiaojiantou.png" alt />
+        </div>
+      </div>
+      <div class="all">
+        <div class="edition">
+          <img class="pic" src="../../assets/tel.png" alt />
+          <span class="top">联系我们</span>
+        </div>
+        <div class="right">
+          <span class="next">400-111-3777</span>
+        </div>
+      </div>
+    </div>
     <footeree></footeree>
   </div>
 </template>
@@ -14,19 +89,222 @@ export default {
     footeree
   },
   data() {
-    return {
-      
-    };
+    return {};
+  },
+  methods: {
+    toSet() {
+      this.$router.push({ path: "/set" });
+    },
   }
 };
 </script>
 <style scoped>
-.price {
+.mine {
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  overflow: auto;
 }
-.nav{
-    width: 100%;
-    height: 95px;
+nav {
+  width: 100%;
+  height: 205px;
+  background: #3f64fd;
+  position: relative;
+}
+.shezhi {
+  width: 21px;
+  height: 21px;
+  float: right;
+  padding-top: 33px;
+  padding-right: 15px;
+}
+.set {
+  width: 100%;
+  height: 70px;
+  padding-left: 15px;
+  display: flex;
+}
+.head {
+  width: 70px;
+  height: 70px;
+}
+.type {
+  margin-left: 10px;
+  /* display: flex */
+}
+.xiao {
+  font-size: 16px;
+  color: #ffffff;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  line-height: 30px;
+}
+.bie {
+  font-size: 14px;
+  color: #ffffff;
+}
+.kuan {
+  font-size: 12px;
+  color: #ffffff;
+  line-height: 20px;
+}
+.car span {
+  font-size: 11px;
+  color: #fff;
+}
+.car img {
+  width: 20px;
+  height: 20px;
+  margin: 38px 0 0 40px;
+}
+.purse {
+  width: 345px;
+  height: 60px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 2px 7px 0px rgba(38, 95, 254, 0.21);
+  border-radius: 5px;
+  margin: 0 auto;
+  position: absolute;
+  left: 15px;
+  top: 175px;
+  display: flex;
+  align-items: center;
+}
+.purse img {
+  width: 20px;
+  height: 20px;
+  padding-left: 20px;
+  padding-right: 5px;
+}
+.purse span {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 20px;
+}
+.qian {
+  margin-right: 30px;
+}
+.purse p {
+  width: 50px;
+  height: 16px;
+  background: rgba(63, 100, 253, 1);
+  border-radius: 8px;
+  font-size: 11px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 16px;
+  text-align: center;
+  margin-left: 84px;
+}
+.order {
+  width: 345px;
+  height: 135px;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 2px 7px 0px rgba(38, 95, 254, 0.21);
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 50px;
+  overflow: hidden;
+}
+.content {
+  height: 135px;
+  margin: 0 20px;
+}
+.contain {
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.record img {
+  width: 20px;
+  height: 20px;
+  margin: -3px auto;
+}
+.record span {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 20px;
+}
+.see {
+  font-size: 11px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(164, 163, 163, 1);
+  line-height: 16px;
+}
+.see img {
+  width: 7px;
+  height: 10px;
+}
+.list {
+  height: 25px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.list span {
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(119, 119, 119, 1);
+}
+.date span:first-child {
+  margin-left: -25px;
+  margin-right: 10px;
+}
+.small {
+  margin-right: -20px;
+}
+.yaoqing {
+  margin: 0 auto;
+  margin-top: 20px;
+  /* width:345px ; */
+  width: 345px;
+  height: 66px;
+}
+.yaoqing img {
+  width: 345px;
+  height: 66px;
+}
+.last {
+  margin-top: 13px;
+  width: 345px;
+  margin: 0 auto;
+  height: 220px
+}
+.all {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 53px
+}
+.pic {
+  width: 20px;
+  height: 20px;
+  margin: -3px auto
+}
+.top {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 20px;
+}
+.next {
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(164, 163, 163, 1);
+  line-height: 17px;
+}
+.jian {
+  width: 7px;
+  height: 10px;
 }
 </style>

@@ -60,12 +60,17 @@ li {
 }
 header {
   padding-top: 15px;
-  padding-left: 16px;
+  padding-left: 15px;
+  width: 100%;
   height: 64px;
   display: flex;
   align-items: center;
   background: #ffffff;
   border-bottom: 1px solid #f6f7fb;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 header img {
   width: 9px;
@@ -77,6 +82,7 @@ header p {
   padding-left: 32%;
 }
 .second {
+  margin-top: 80px;
   padding-left: 16px;
   width: 100%;
   height: 52px;

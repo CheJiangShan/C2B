@@ -1,6 +1,6 @@
 <template>
   <div class="details">
-     <header>
+    <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
       <span>报价详情</span>
       <img src="../../assets/fenxiang.png" alt />
@@ -10,10 +10,10 @@
         <div class="small">
           <img src="../../assets/xiaoche.png" alt />
         </div>
-        <p>别克  英朗</p>
+        <p>别克 英朗</p>
       </div>
       <div class="second">
-        <p>2019款  1.5T  双离合互联精英型  国VI</p>
+        <p>2019款 1.5T 双离合互联精英型 国VI</p>
       </div>
       <div class="third">
         <div>
@@ -47,7 +47,9 @@
         <div>16：30</div>
       </div>
     </div>
-    <div class="talk"><a href="tel:400-111-3777">沟通顾问</a></div>
+    <div class="talk">
+      <a href="tel:400-111-3777">沟通顾问</a>
+    </div>
   </div>
 </template>
 <script>
@@ -57,12 +59,25 @@ export default {
   data() {
     return {};
   },
+  // created() {
+  //   // let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+  //   let id1 = localStorage.getItem("id1");
+  //   console.log(id1)
+  //   this.axios
+  //     .post("https://api.chejiangshan.com/deal-xunjia", {
+  //       token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+  //       pub_id: id1
+  //     })
+  //     .then(res => {
+  //       console.log(res.data);
+  //     });
+  // },
   methods: {
     fanhui() {
       this.$router.push({ path: "/xunjiajilu" });
     },
-    toCanshu(){
-      this.$router.push({path:'/canshu'})
+    toCanshu() {
+      this.$router.push({ path: "/canshu" });
     }
   }
 };
@@ -71,7 +86,7 @@ export default {
 .details {
   width: 100%;
   height: 100%;
-   overflow: auto;
+  overflow: auto;
   overflow: hidden;
 }
 li {
@@ -230,7 +245,7 @@ header span {
   height: 40px;
 }
 .talk {
-  width:100%;
+  width: 100%;
   height: 40px;
   background: rgba(63, 100, 253, 1);
   font-size: 16px;
@@ -238,9 +253,9 @@ header span {
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
   line-height: 40px;
-  text-align: center
+  text-align: center;
 }
-.talk a{
-  text-decoration: none
+.talk a {
+  text-decoration: none;
 }
 </style>

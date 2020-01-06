@@ -2,8 +2,33 @@
   <div class="sort">
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
-      <span>广州本田-新</span>
-      <img class="first" src="../../assets/sanjiao.png" alt />
+      <p class="ty">广州本田-新</p>
+      <img class="first" @click="showPopup()" src="../../assets/sanjiao.png" alt />
+      <!-- 更换服务车辆弹窗 -->
+      <van-popup v-model="show" closeable position="bottom" :style="{ height: '57%' }">
+        <div class="select">
+          <span>更换服务车辆</span>
+        </div>
+        <van-radio-group v-model="radio" checked-color="#5B97FF">
+          <div class="dan">
+            <span>广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888</span>
+            <van-radio name="1"></van-radio>
+          </div>
+
+          <div class="dan">
+            <span>广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888</span>
+            <van-radio name="2"></van-radio>
+          </div>
+          <div class="dan">
+            <span>广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888</span>
+            <van-radio name="3"></van-radio>
+          </div>
+        </van-radio-group>
+        <router-link :to="'cheku'">去车库添加车辆</router-link>
+        <div id="bott">
+          <span class="las">选好了</span>
+        </div>
+      </van-popup>
       <div class="right">
         <div>
           <img src="../../assets/city.png" alt />
@@ -36,30 +61,8 @@
                   <p>标准洗车-五座轿车</p>
                   <div class="yuyue">
                     <p>¥25.00</p>
-                    <p @click="showPopup()">预约</p>
+                    <p >预约</p>
                   </div>
-                  <!-- 更换服务车辆弹窗 -->
-                  <van-popup v-model="show" closeable position="bottom" :style="{ height: '56%' }">
-                    <div class="select">
-                      <span>更换服务车辆</span>
-                    </div>
-                    <!-- <van-radio-group v-model="radio">
-                      <div class="dan">
-                        <span>广州本田-新飞度   1.5L  2019年产  CVT舒适天窗版   冰晶白  豫A  88888</span>
-                        <van-radio name="1"></van-radio>
-                      </div>
-
-                      <div class="dan">
-                        <span>广州本田-新飞度   1.5L  2019年产  CVT舒适天窗版   冰晶白  豫A  88888</span>
-                        <van-radio name="2"></van-radio>
-                      </div>
-                      <div class="dan">
-                        <span>广州本田-新飞度   1.5L  2019年产  CVT舒适天窗版   冰晶白  豫A  88888</span>
-                        <van-radio name="3"></van-radio>
-                      </div>
-                    </van-radio-group>-->
-                    <mt-radio align="right"  ：v-model="value" :options="options"></mt-radio>
-                  </van-popup>
                 </div>
               </li>
             </div>
@@ -74,7 +77,7 @@
                   <p>小保养</p>
                   <div class="dabaoyang">
                     <p>¥160.00-325.00</p>
-                    <p>预约</p>
+                    <p @click="toOrder()">预约</p>
                   </div>
                 </div>
               </div>
@@ -128,7 +131,7 @@ export default {
     return {
       show: false,
       activeKey: 0,
-      value: "",
+      radio: "1",
       activeIndex: this.$route.query.num ? this.$route.query.num : 0,
       index: this.$route.query.num ? this.$route.query.num : 0,
       items: [
@@ -140,20 +143,6 @@ export default {
         { text: "维修" },
         { text: "喷漆" },
         { text: "翻新" }
-      ],
-      options: [
-        {
-          label: "选项A",
-          value: "A"
-        },
-        {
-          label: "选项B",
-          value: "B"
-        },
-        {
-          label: "选项C",
-          value: "C"
-        }
       ]
     };
   },
@@ -168,8 +157,12 @@ export default {
       this.$router.push({ path: "/quickorder" });
     },
     showPopup() {
+      console.log(1);
       this.show = true;
-    }
+    },
+    // toOrder(){
+    //   this.$router.push({ path: "/order" });
+    // }
   }
 };
 </script>
@@ -199,7 +192,7 @@ header .first {
   width: 13px;
   height: 7px;
 }
-header span {
+.ty {
   width: 68px;
   height: 17px;
   font-size: 12px;
@@ -208,6 +201,19 @@ header span {
   color: rgba(51, 51, 51, 1);
   line-height: 17px;
   padding-left: 32%;
+}
+#bott {
+  width: 100%;
+  height: 40px;
+  background: #5b97ff;
+}
+.las {
+  display: block;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 40px;
+  text-align: center;
 }
 .right {
   display: flex;
@@ -343,7 +349,30 @@ header span {
 }
 .dan {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 345px;
   height: 80px;
+  border-bottom: 1px solid #eeeeee;
+}
+.dan span {
+  padding-left: 15px;
+  width: 282px;
+  height: 40px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 20px;
+}
+header a {
+  display: block;
+  color: #3f64fd;
+  font-size: 11px;
+  text-decoration: underline;
+  height: 56px;
+  line-height: 56px;
+  text-align: center;
 }
 .clear p:last-child {
   width: 50px;
