@@ -56,6 +56,17 @@ export default {
       have:true
     };
   },
+  // created () {
+  //    this.axios
+  //     .post("https://api.chejiangshan.com/deal-jilu", {
+  //       token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+  //       // pub_id: id1
+  //     })
+  //     .then(res => {
+  //       console.log(res.data);
+  //     });
+
+  // },
   methods: {
     switchTo(path) {
       this.$router.replace(path);
