@@ -12,7 +12,7 @@
               <span class="sell">卖车</span>
             </router-link>
           </mt-tab-item>
-          <mt-tab-item id="3">
+          <mt-tab-item id="3">  
             <router-link :to="'shouye'">
               <span>用车</span>
             </router-link>
@@ -113,7 +113,7 @@
     </div>
     <div class="move">
       <div class="car">
-        <img src="../../assets/che.gif" alt />
+        <img :style="left1" src="../../assets/che.gif" alt />
         拨动转轮,加速报价
       </div>
     </div>
@@ -184,7 +184,6 @@
     </div>
 
     <!-- 搜索一网打尽 -->
-
     <div style="margin-top:10px" v-show="searchWangShow" class="afterslot">
       <div v-show="searchWangShow">
         <div class="hot">
@@ -211,12 +210,6 @@
             <div class="kind">
               <p>{{ i }}</p>
             </div>
-            <!-- <div class="cost">
-                    <p>
-                      厂商指导价:
-                      <span>{{item.selling_price}}万</span>
-                    </p>
-            </div>-->
           </div>
           <div
             class="down"
@@ -330,7 +323,7 @@ export default {
       selected: "1",
       hid: false,
       list: [],
-      addressList: [],
+      addressList: [], //滚轮转动的结果
       carClass: "",
       itemHeight: 28,
       searchNewShow: false, //新车搜索结果
@@ -347,11 +340,13 @@ export default {
       toNext: "",
       toNext2: "",
       toNext3: "",
+      height1: "",
+      left1: {},
       slots: [
         {
           flex: 1,
           values: [],
-          defaultIndex: 3,
+          defaultIndex: 2,
           className: "slot1",
           textAlign: "center"
         },
@@ -385,7 +380,6 @@ export default {
   async created() {
     const newres = await newCareMessage();
     this.list = newres.data.data;
-
     //获取三级联动信息
     this.getThreeList();
     // this.getSearchRes(this.key1,this.key2,this.key3)
@@ -469,8 +463,6 @@ export default {
         }
         picker.setSlotValues(2, town);
       }
-      // this.key1=values[0]
-      //to do
       this.key1 = values[0].name;
       this.key2 = values[1].name;
       this.key3 = values[2].name;
@@ -480,7 +472,6 @@ export default {
     },
 
     //获取三级联动信息
-
     async getThreeList() {
       var that = this;
       const tres = await threeSearch();
@@ -512,133 +503,86 @@ export default {
         addressList.push(obj);
       });
       that.addressList = addressList;
+      console.log(that.addressList);
       that.slots[0].values = that.addressList;
       that.slots[2].values = that.addressList[0].children;
       that.slots[4].values = that.addressList[0].children[0].children;
-    },
-
-    // 获得搜索结果
-    // getSearchRes(k1,k2,k3){
-    //    var that = this;
-    //    this.axios.post("https://api.chejiangshan.com/deal-result",{status:k1,parameter1:k2,parameter2:k3}).then(res=>{
-    //      console.log(res)
-    //    })
-    // }
-    //
-
-    //搜索接口
-    // beginSearch(k1, k2, k3) {
-    //   console.log(2111);
-    //   console.log(k2);
-    //   var that = this;
-    //   this.axios
-    //     .post("https://api.chejiangshan.com/deal-result", {
-    //       status: k1,
-    //       parameter1: k2,
-    //       parameter2: k3
-    //     })
-    //     .then(res => {
-    //       //  console.log(res.data.code)
-    //       // console.log(res.data.data);
-    //       if (res.data.code == 1) {
-    //         //searchNewShow: false, //新车搜索结果
-    //         // NewShowList:[],
-    //         this.searchNewShow = true;
-    //         this.searchNewShow = false;
-    //         this.NewShowList = res.data.data;
-    //       }
-    //       if (res.data.code == 3) {
-    //         //  searchWangShow: false, //一网打尽搜索结果
-    //         //       WangShowList: [],
-    //         this.searchWangShow = true;
-    //         this.searchNewShow = false;
-    //         this.WangShowList = res.data.data;
-    //       }
-    //     });
-    // }
+    }
   },
+
   // 进行keywords的监听，一旦变化就会发送请求
   watch: {
     keywords: function(newVal, oldVal) {
       console.log("旧" + oldVal);
       console.log("新" + newVal);
-
+      if (oldVal[2] != newVal[2]) {
+        let param1;
+        if (newVal[0] == "新车") {
+          param1 = 1;
+        } else if (newVal[0] == "二手车") {
+          param1 = 2;
+        } else {
+          param1 = 3;
+          this.toNext = newVal[1];
+          this.toNext2 = newVal[2];
+        }
+        console.log(this.toNext);
+        console.log(this.toNext2);
+        // console.log(param1+ newVal[1]+ newVal[2])
+        this.axios
+          .post("https://api.chejiangshan.com/deal-result", {
+            status: param1,
+            parameter1: newVal[1],
+            parameter2: newVal[2]
+          })
+          .then(res => {
+            console.log(res.data.code);
+            console.log(res.data.data);
+            if (res.data.code == 1) {
+              var newneeddata = [];
+              if (res.data.data.length >= 4) {
+                newneeddata = res.data.data.slice(0, 3);
+              } else {
+                newneeddata = res.data.data;
+              }
+              this.NewShowList = newneeddata;
+              console.log(this.NewShowList);
+              this.searchNewShow = true;
+              this.searchWangShow = false;
+            }
+            if (res.data.code == 3) {
+              console.log(res.data.data.data);
+              this.WangShowList = res.data.data;
+              this.searchWangShow = true;
+              this.searchNewShow = false;
+            }
+          });
+      }
       // console.log(this.key1)
       // if (newVal[2] != oldVal[2]) {
-      let param1;
-      if (newVal[0] == "新车") {
-        param1 = 1;
-      } else if (newVal[0] == "二手车") {
-        param1 = 2;
-      } else {
-        param1 = 3;
-        this.toNext = newVal[1];
-        this.toNext2 = newVal[2];
+    },
+    height1: function(newVal, oldVal) {
+      console.log(newVal);
+      console.log(oldVal);
+      if (newVal != oldVal) {
+        this.left1 = {
+          left: "290px",
+          transition: "2s ease"
+        };
       }
-      console.log(this.toNext);
-      console.log(this.toNext2);
-      // console.log(param1+ newVal[1]+ newVal[2])
-      this.axios
-        .post("https://api.chejiangshan.com/deal-result", {
-          status: param1,
-          parameter1: newVal[1],
-          parameter2: newVal[2]
-        })
-        .then(res => {
-          console.log(res.data.code);
-          console.log(res.data.data);
-          if (res.data.code == 1) {
-            var newneeddata = [];
-            if (res.data.data.length >= 4) {
-              newneeddata = res.data.data.slice(0, 3);
-            } else {
-              newneeddata = res.data.data;
-            }
-            this.NewShowList = newneeddata;
-            console.log(this.NewShowList);
-            this.searchNewShow = true;
-            this.searchWangShow = false;
-          }
-          if (res.data.code == 3) {
-            console.log(res.data.data);
-            this.WangShowList = res.data.data;
-            this.searchWangShow = true;
-            this.searchNewShow = false;
-          }
-          // console.log(res);
-          // console.log(res.data.data);
-
-          // // console.log(res.data.data.splice(0,3))
-          // needdata = res.data.data.slice(0, 3);
-          // console.log(needdata);
-          // if (res.data.code == 1) {
-          //   var needdata = [];
-          //   if (res.data.data.length >= 4) {
-          //     needdata = res.data.data.splice(0, 3);
-          //     console.log(needdata);
-          //   } else {
-          //     needdata = res.data.data;
-          //   }
-          //   console.log(111);
-          //   //searchNewShow: false, //新车搜索结果
-          //   // NewShowList:[],
-          //   // let newneeddata=.splice(0, 3)
-          //   this.NewShowList = needdata;
-          //   this.searchNewShow = true;
-          //   this.searchWangShow = true;
-          // }
-          // if (res.data.code == 3) {
-          //   console.log(333);
-          //   //  searchWangShow: false, //一网打尽搜索结果
-          //   //       WangShowList: [],
-          //   // let needdata = .splice(0, 3);
-          //   this.WangShowList = needdata;
-          //   this.searchWangShow = true;
-          //   this.searchNewShow = false;
-          // }
-        });
     }
     // }
+  },
+  mounted() {
+    setTimeout(() => {
+      let el = document.querySelectorAll(".picker-slot-wrapper");
+      console.log(el);
+      console.log(el[0].style);
+
+      console.log(el[0].style.cssText);
+
+      this.height1 = el[1].style.cssText;
+    });
   }
 };
 </script>
@@ -690,7 +634,7 @@ nav .sell {
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
   color: #333333;
-  margin-bottom: -6px
+  margin-bottom: -6px;
 }
 .mint-navbar .mint-tab-item.is-selected span {
   font-size: 18px;

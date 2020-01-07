@@ -152,6 +152,10 @@ export default {
     fanhui() {
       this.$router.push({ path: "/shouye" });
     },
+    // 跳转到快速预约
+    toOrder(){
+      this.$router.push({ path: "/quickorder" });
+    },
     showPopup() {
       console.log(1);
       this.show = true;

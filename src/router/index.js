@@ -31,6 +31,26 @@ export default new Router({
       component:resolve => require(['@/components/wode/wode'],resolve)
     },//我的
     {
+      path:'/aboutus',
+      name:'aboutus',
+      component:resolve => require(['@/components/wode/aboutus'],resolve)
+    },//关于我们
+    {
+      path:'/registerphone',
+      name:'registerphone',
+      component:resolve => require(['@/components/wode/registerphone'],resolve)
+    },//修改注册手机号
+    {
+      path:'/changephone',
+      name:'changephone',
+      component:resolve => require(['@/components/wode/changephone'],resolve)
+    },//更换新手机号
+    {
+      path:'/upgrade',
+      name:'upgrade',
+      component:resolve => require(['@/components/wode/upgrade'],resolve)
+    },//版本
+    {
       path: '/xiangqing',
       name:"xiangqing",
       component:resolve => require(['@/components/xunjiajilu/xiangqing'],resolve)
@@ -81,6 +101,32 @@ export default new Router({
       component:resolve => require(['@/components/yongche/jingxi'],resolve)
     },//用车精洗
     {
+      path:'/quickorder',
+      name:'quickorder',
+      component:resolve => require(['@/components/yongche/quickorder'],resolve)
+    },//快速预约
+    {
+      path:'/noorder',
+      name:'noorder',
+      component:resolve => require(['@/components/yongche/noorder'],resolve)
+    },//快速预约
+    {
+      path:'/nopayment',
+      name:'nopayment',
+      component:resolve => require(['@/components/yongche/nopayment'],resolve)
+    },//用车保养的未交付
+
+    {
+      path:'/completed',
+      name:'completed',
+      component:resolve => require(['@/components/yongche/completed'],resolve)
+    },//用车保养的已完成
+    {
+      path:'/closed',
+      name:'closed',
+      component:resolve => require(['@/components/yongche/closed'],resolve)
+    },//用车保养的已关闭
+    {
       path:'/dingdan',
       name:'dingdan',
       component:resolve => require(['@/components/yongche/dingdan'],resolve)
@@ -110,5 +156,6 @@ export default new Router({
       name:"many",
       component:resolve => require(['@/components/pay/many'],resolve)
     }//搜索新车或者二手车的结果
+    
   ]
 })

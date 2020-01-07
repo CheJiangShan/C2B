@@ -4,7 +4,7 @@
       <p>询价记录</p>
     </nav>
     <div class="record">
-      <li class="first" v-for="value in 10" :key="value">
+      <li class="first" v-for="value in 5" :key="value">
         <div class="all">
           <div class="kind">
             <p>别克 英朗</p>
