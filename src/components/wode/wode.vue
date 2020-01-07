@@ -103,7 +103,6 @@ export default {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  overflow: auto;
 }
 nav {
   width: 100%;

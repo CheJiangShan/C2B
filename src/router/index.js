@@ -89,7 +89,12 @@ export default new Router({
       path:'/set',
       name:'set',
       component:resolve => require(['@/components/wode/set'],resolve)
-    },//快速预约
+    },//设置
+    {
+      path:'/call',
+      name:'call',
+      component:resolve => require(['@/components/wode/call'],resolve)
+    },//称呼
     {
       path: '/shop',
       name:"shop",
