@@ -12,7 +12,7 @@
               <span class="sell">卖车</span>
             </router-link>
           </mt-tab-item>
-          <mt-tab-item id="3">  
+          <mt-tab-item id="3">
             <router-link :to="'shouye'">
               <span>用车</span>
             </router-link>

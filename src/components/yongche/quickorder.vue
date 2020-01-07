@@ -61,16 +61,78 @@
       <div class="uploadpic">
         <p>车况图片：</p>
         <div class="pic">
-          <img src="../../assets/upload.png" alt="" v-for="item in 0" :key="item.id"/>
-          <img src="../../assets/upload.png" alt="" />
+          <img
+            src="../../assets/upload.png"
+            alt=""
+            v-for="item in 0"
+            :key="item.id"
+          />
+          <img src="../../assets/upload.png" alt="" @click="addpic()" />
         </div>
         <div class="submit">
           <span>提交</span>
         </div>
       </div>
     </div>
+
+    <van-action-sheet v-model="show1">
+      <ul>
+        <li class="paizhao" @click="captureImage()">拍照</li>
+        <li class="paizhao" @click="galleryImg()">从相册选择</li>
+        <li class="paizhao" @click="quxiao()">取消</li>
+      </ul>
+    </van-action-sheet>
   </div>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      show1: false
+    };
+  },
+  methods: {
+    addpic() {
+      this.show1 = true;
+    },
+    quxiao(){
+       this.show1 = false;
+    },
+    galleryImg() {
+      let This = this;
+      console.log("从相册中选择图片:");
+      plus.gallery.pick(function(path) {
+        This.imgSrc = path; //path 是本地路径
+        let img = new Image();
+        img.src = path;
+        img.onload = function(path) {
+          var that = img;
+          var w = that.width, //320
+            h = that.height, //426
+            scale = w / h;
+          w = 320 || w;
+          h = w / scale;
+          var canvas = document.createElement("canvas");
+          canvas.width = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+          canvas.height = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(that, 0, 0, 300, 300);
+          var base64 = canvas.toDataURL(
+            "image/png",
+            "image/jpeg",
+            "image/jpg",
+            1 || 0.8
+          );
+          This.tupianlist = base64;
+          console.log(This.tupianlist + "我是转码后的base");
+          
+          //这里可以请求接口
+        };
+      });
+    }
+  }
+};
+</script>
 <style scoped>
 * {
   margin: 0;
@@ -268,8 +330,7 @@ textarea::-webkit-input-placeholder {
   display: flex;
   justify-content: flex-start;
   align-content: flex-start;
-  flex-wrap: wrap
-
+  flex-wrap: wrap;
 }
 .uploadpic .pic img {
   width: 80px;
