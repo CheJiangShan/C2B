@@ -2,7 +2,7 @@
   <div class="sort">
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
-      <p class="ty">广州本田-新</p>
+      <p class="ty">{{ gender }}</p>
       <img
         class="first"
         @click="showPopup()"
@@ -14,38 +14,28 @@
         v-model="show"
         closeable
         position="bottom"
-        :style="{ height: '57%' }"
+        :style="{ height: '45.5%' }"
       >
         <div class="select">
           <span>更换服务车辆</span>
         </div>
-        <van-radio-group v-model="radio" checked-color="#5B97FF">
-          <div class="dan">
-            <span
-              >广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A
-              88888</span
-            >
-            <van-radio name="1"></van-radio>
-          </div>
-
-          <div class="dan">
-            <span
-              >广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A
-              88888</span
-            >
-            <van-radio name="2"></van-radio>
-          </div>
-          <div class="dan">
-            <span
-              >广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A
-              88888</span
-            >
-            <van-radio name="3"></van-radio>
-          </div>
-        </van-radio-group>
+        <div class="dan" v-for="(item, i) in list" :key="item">
+          <label
+            ><span>{{ item.model }}&nbsp;&nbsp;&nbsp;</span
+            ><span>{{ item.plate_num }}</span></label
+          >
+          <input
+            class="ipted"
+            type="radio"
+            name="radios"
+            :value="i"
+            v-model="radio"
+            @click="radiobtn(item.id)"
+          />
+        </div>
         <router-link :to="'cheku'">去车库添加车辆</router-link>
         <div id="bott">
-          <span class="las">选好了</span>
+          <span class="las" @click="over()">选好了</span>
         </div>
       </van-popup>
       <div class="right">
@@ -76,15 +66,15 @@
               <span>过期退</span>
             </div>
             <div class="standard">
-              <li v-for="value in rightlist" :key="value.id">
+              <li v-for="item1 in rightlist" :key="item1.id">
                 <div class="xiche">
                   <img src="../../assets/xiche.png" alt />
                 </div>
                 <div class="clear">
-                  <p>{{ value.title }}</p>
+                  <p>{{ item1.title }}</p>
                   <div class="yuyue">
-                    <p>¥{{ value.price }}</p>
-                    <p @click="toorder(value.id)">预约</p>
+                    <p>¥{{ item1.price }}</p>
+                    <p @click="toorder(item1.id)">预约</p>
                   </div>
                 </div>
               </li>
@@ -96,6 +86,7 @@
   </div>
 </template>
 <script>
+import { information } from "../api/apisum";
 export default {
   name: "jingxi",
   components: {},
@@ -103,16 +94,33 @@ export default {
     return {
       show: false,
       activeKey: 0,
-      radio: "1",
+      list: [],
+      // model:'',
+      gender: "广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888",
+      // gender: localStorage.setItem("广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888"),
+      radio: "0",
       activeIndex: 0,
       index: this.$route.query.num ? this.$route.query.num : 0,
       rightlist: [],
       items: [],
       itemslist: [],
-      menu_id: ""//车辆id
+      car_id: "" //车辆id
     };
   },
-  created() {
+  async created() {
+    let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    const res1 = await information(token);
+    console.log(res1.data.data);
+    this.list = res1.data.data;
+    let morenindex = this.list.findIndex(v => {
+      return v.status == 1;
+    });
+
+    console.log(morenindex);
+    this.gender = this.list[morenindex].model + this.list[morenindex].plate_num;
+    this.car_id = this.list[morenindex].id;
+    console.log("车的id" + this.car_id);
+    //  console.log(res.data.data)
     this.activeIndex = this.$route.query.num;
     console.log(this.activeIndex);
     this.axios.post("https://api.chejiangshan.com/usecar-top").then(res => {
@@ -168,14 +176,27 @@ export default {
     },
     toorder(b) {
       this.menu_id = this.itemslist[this.activeIndex].id;
+      let id = this.car_id;
       console.log(b);
       this.$router.push({
         name: "quickorder",
         query: {
-          // menu_id: this.menu_id,
-          car_id: b
+          menu_id: b,
+          car_id: id
         }
       });
+    },
+    radiobtn(a) {
+      console.log(a);
+      let findindex = this.list.findIndex(v => {
+        return v.id == a;
+      });
+      let gerres = this.list[findindex].model + this.list[findindex].plate_num;
+      this.car_id = this.list[findindex].id;
+      this.gender = gerres;
+    },
+    over() {
+      this.show = !this.show;
     }
   }
 };
@@ -183,6 +204,38 @@ export default {
 <style scoped>
 li {
   list-style: none;
+}
+.ipted {
+  width: 20px;
+  height: 20px;
+  background-color: #3f64fd;
+}
+input[type="radio"]:after {
+  position: absolute;
+  width: 10px;
+  height: 15px;
+  top: -38;
+  content: " ";
+  /* background-color:cornflowerblue; */
+  color: #5b97ff;
+  display: inline-block;
+  visibility: visible;
+  padding: 0px 3px;
+  border-radius: 50%;
+}
+input[type="checkbox"]::after {
+  position: absolute;
+  top: 0;
+  background-color: red;
+  color: #000;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  visibility: visible;
+  padding-left: 0px;
+  text-align: center;
+  content: " ";
+  border-radius: 3px;
 }
 header {
   padding-top: 15px;
@@ -215,6 +268,14 @@ header .first {
   color: rgba(51, 51, 51, 1);
   line-height: 17px;
   padding-left: 32%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  display: box;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 #bott {
   width: 100%;
@@ -256,6 +317,10 @@ header .first {
 }
 .sort-main {
   margin-top: 80px;
+  height: 586px;
+}
+.sort-main >>> .van-tree-select {
+  height: 586px;
 }
 .van-sidebar-item {
   width: 90px;
@@ -291,14 +356,15 @@ header .first {
 }
 .sort .van-sidebar {
   max-width: 90px;
-  height: 586px;
+  /* height: 586px; */
   background: #ffffff;
+  overflow: -Scroll;
+  overflow-y: hidden;
 }
-.van-tree-select {
-  height: 100%;
+.sort-main >>> .van-tree-select {
+  height: 586px !important;
 }
 .sort .van-grid {
-  /* height: 1930px; */
   background: #f9f9f9;
   display: block;
 }
@@ -306,10 +372,10 @@ header .first {
   background: #f6f7fb;
   color: #777777;
 }
-.sort .van-tree-select__content {
+.sort >>>  .van-tree-select__content  {
   height: 586px;
 }
-.sort .van-sidebar-item__text {
+  .sort .van-sidebar-item__text {
   display: flex;
   justify-content: center;
 }
@@ -371,17 +437,18 @@ header .first {
   justify-content: space-between;
   width: 345px;
   height: 80px;
+  margin: 0 auto;
   border-bottom: 1px solid #eeeeee;
 }
-.dan span {
-  padding-left: 15px;
+.dan label {
+  /* display: block; */
   width: 282px;
   height: 40px;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
-  line-height: 20px;
+  line-height: 40px;
 }
 header a {
   display: block;

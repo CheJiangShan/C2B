@@ -39,7 +39,7 @@
     <div class="bar"></div>
     <div class="repair">
       <div class="repaircar">
-        <img src="../../assets/xiaoche.png" alt="" />
+        <img src="../../assets/yuyue.png" alt="" />
       </div>
       <p>{{service.title}}</p>
       <span>X 1</span>
@@ -286,11 +286,10 @@ header p {
   width: 47px;
   height: 47px;
   margin-right: 15px;
-  border: 1px solid #ccc;
 }
 .repair .repaircar img {
   width: 45px;
-  height: 34px;
+  height: 45px;
 }
 .repair p {
   width: 260px;

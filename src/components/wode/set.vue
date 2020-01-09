@@ -89,6 +89,15 @@ export default {
       weixinstate: ""
     };
   },
+  created() {},
+  mounted() {
+    document
+      .querySelector("body")
+      .setAttribute("style", "background-color:#F6F7FB");
+  },
+  beforeDestroy() {
+    document.querySelector("body").removeAttribute("style");
+  },
   methods: {
     // 返回上一个页面
     fanhui() {
@@ -155,6 +164,7 @@ export default {
   height: 100%;
   overflow: auto;
   overflow: hidden;
+  background: #ffffff
 }
 li {
   list-style: none;

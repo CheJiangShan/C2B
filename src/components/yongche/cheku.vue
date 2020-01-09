@@ -68,7 +68,7 @@ export default {
   computed: {},
   methods: {
     fanhui() {
-      this.$router.push({ path: "/shouye" });
+      this.$router.go(-1)
     },
     // next() {},
     // 滑动

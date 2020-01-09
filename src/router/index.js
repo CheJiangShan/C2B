@@ -255,7 +255,72 @@ const router = new Router({
         needlogin: true
       },
       component: resolve => require(["@/components/pay/many"], resolve)
-    } //搜索新车或者二手车的结果
+    }, //搜索新车或者二手车的结果
+    {
+      path: "/completed",
+      name: "completed",
+      component: resolve => require(["@/components/yongche/completed"], resolve)
+    }, //用车保养的已完成
+    {
+      path: "/closed",
+      name: "closed",
+      component: resolve => require(["@/components/yongche/closed"], resolve)
+    }, //用车保养的已关闭
+    {
+      path: "/dingdan",
+      name: "dingdan",
+      component: resolve => require(["@/components/yongche/dingdan"], resolve)
+    }, //用车订单
+    {
+      path: "/set",
+      name: "set",
+      component: resolve => require(["@/components/wode/set"], resolve)
+    }, //设置
+    {
+      path: "/call",
+      name: "call",
+      component: resolve => require(["@/components/wode/call"], resolve)
+    }, //称呼
+    {
+      path: "/shop",
+      name: "shop",
+      component: resolve => require(["@/components/shop/shop"], resolve)
+    }, //商城
+    {
+      path: "/canshu",
+      name: "canshu",
+      component: resolve => require(["@/components/xunjiajilu/canshu"], resolve)
+    }, //询价记录 报价详情 参数配置
+    {
+      path: "/many",
+      name: "many",
+      component: resolve => require(["@/components/pay/many"], resolve)
+    }, //搜索新车或者二手车的结果
+    {
+      path: "/news",
+      name: "news",
+      component: resolve => require(["@/components/News/news"], resolve)
+    }, //消息
+    {
+      path: "/inform",
+      name: "inform",
+      component: resolve => require(["@/components/News/inform"], resolve)
+    }, //订单通知
+    {
+      path: "/system",
+      name: "system",
+      component: resolve => require(["@/components/News/system"], resolve)
+    }, //系统消息
+    {
+      path: "/newsDetail",
+      name: "newsDetail",
+      component: resolve => require(["@/components/News/newsDetail"], resolve)
+    }, //系统消息详情
+    {
+      path: "/activity",
+      name: "activity",
+      component: resolve => require(["@/components/News/activity"], resolve)
+    } //优惠活动详情
   ]
 });
 // 路由守卫进行拦截

@@ -44,7 +44,45 @@ export function getType() {
   return post("/veh-index");
 }
 
-// 爱车接口
+//用户
+export function getUser(token) {
+  return post("/usecar-msg", { token });
+}
+
+//技师信息
+export function technician() {
+  return post("/usecar-menji");
+}
+
+//服务项目
+// export function project(id1){
+//   return post("/usecar-2nd",{menu_id:id1})
+// }
+
+//服务分类
+export function select() {
+  return post("/usecar-top");
+}
+
+//订单列表
+export function orderDetail(token, status) {
+  return post("/usecar-orderlist", { token, status });
+}
+
+//快速预约
+export function quickOrder(t, m, c) {
+  return post("/usecar-order", {
+    token: t,
+    mmenu_id: m,
+    car_id: c
+  });
+}
+
+//用户车辆信息
+export function information(token) {
+  return post("/usecar-cars", { token });
+}
+
 export function lovecar(token) {
-  return post("/usecar-cars", { token: token });
+  return post("/usecar-cars", { token });
 }

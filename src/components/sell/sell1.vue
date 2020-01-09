@@ -24,7 +24,7 @@
           </mt-tab-item>
         </mt-navbar>
       </nav>
-      <img src="../../assets/1.png" alt />
+      <img @click="news()" src="../../assets/1.png" alt />
     </div>
     <div class="pic">
       <mt-swipe :auto="4000">
@@ -201,6 +201,9 @@ export default {
     },
     licheng() {
       this.meters = true;
+    },
+    news(){
+      this.$router.push({path:"/news"})
     },
     goto() {
       console.log(this.name);
