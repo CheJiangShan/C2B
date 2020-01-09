@@ -5,13 +5,13 @@
       <p class="ty">{{gender}}</p>
       <img class="first" @click="showPopup()" src="../../assets/sanjiao.png" alt />
       <!-- 更换服务车辆弹窗 -->
-      <van-popup v-model="show" closeable position="bottom" :style="{ height: '57%' }">
+      <van-popup v-model="show" closeable position="bottom" :style="{ height: '45.5%' }">
         <div class="select">
           <span>更换服务车辆</span>
         </div>
-        <div class="dan" v-for="(item,i) in list" :key="item">
+        <div class="dan" v-for="(item,i) in list" :key="item" >
           <label><span>{{item.model}}&nbsp;&nbsp;&nbsp;</span><span>{{item.plate_num}}</span></label>
-          <input class="ipted" type="radio" name="radios" :value="i" v-model="radio"  />
+          <input class="ipted" type="radio" name="radios" :value="i" v-model="radio" />
         </div>
         <router-link :to="'cheku'">去车库添加车辆</router-link>
         <div id="bott">
@@ -159,10 +159,6 @@ export default {
     showPopup() {
       console.log(1);
       this.show = true;
-    },
-    select(e) {
-      console.log(e.target.innerText);
-      //  console.log(id)
     },
     over() {
       this.show = !this.show;
