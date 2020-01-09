@@ -9,15 +9,15 @@
       <div class="text">
         <div class="pic">
           <img src="../../assets/17.png" alt />
-          <span>别克 英朗</span>
+          <span>{{ msglist.model }}</span>
         </div>
-        <p>豫A66666</p>
+        <p>{{ msglist.plate_num }}</p>
       </div>
       <p class="type">2019款 1.5T 双离合互联精英型 国VI</p>
       <div class="heading">
-        <p>车辆识别代码：SAJAA22H6CFV34381</p>
+        <p>车辆识别代码：{{ msglist.vin }}</p>
         <div class="code">
-          <p>发动机号码：605911334FG</p>
+          <p>发动机号码：{{ msglist.engine_num }}</p>
           <span>
             车辆详细配置
             <img src="../../assets/xiaojiantou.png" alt />
@@ -27,7 +27,10 @@
     </div>
     <div class="record">
       <div id="searchBar">
-        <mt-navbar :class="searchBarFixed == true ? 'isFixed' :''" v-model="selected">
+        <mt-navbar
+          :class="searchBarFixed == true ? 'isFixed' : ''"
+          v-model="selected"
+        >
           <mt-tab-item id="1">
             <div>
               <span>保养记录</span>
@@ -41,22 +44,36 @@
         </mt-navbar>
       </div>
       <mt-tab-container v-model="selected">
+        <!-- 保养记录 -->
         <mt-tab-container-item id="1">
-          <li v-for="value in 6" :key="value">
+          <li v-for="item in upkeeplist" :key="item.id">
             <div class="finish">
-              <span>陇海路店</span>
-              <span>已完成</span>
+              <span>{{ item.storm_name }}</span>
+              <span v-if="item.status == 1">待预约</span>
+              <span v-if="item.status == 2">待交付/维保中</span>
+              <span v-if="item.status == 3">已完工</span>
+              <span v-if="item.status == 0">已交付</span>
             </div>
             <div class="curing">
-              <span>小养护等</span>
+              <span>{{ item.title }}等</span>
               <span class="serve">共2次服务</span>
               <span>¥65.00</span>
             </div>
-            <p class="serial">订单编号：20191014123456123</p>
+            <p class="serial">订单编号：{{ item.order_num }}</p>
           </li>
+          <div class="noupdata" v-if="upkeeplist.length == 0">
+            <img
+              style="width:174px;
+height:201px;"
+              src="../../assets/que.png"
+              alt=""
+            />
+            <p>还没有保养过爱车</p>
+          </div>
         </mt-tab-container-item>
+
         <mt-tab-container-item id="2">
-          <li v-for="value in 6" :key="value">
+          <li v-for="value in ruleslist" :key="value">
             <div class="finish">
               <span>陇海路店</span>
               <span>已完成</span>
@@ -68,9 +85,19 @@
             </div>
             <p class="serial">订单编号：20191014123456123</p>
           </li>
+
+          <div class="rules" v-if="ruleslist.length == 0">
+            <img
+              style="width:174px;
+height:201px;"
+              src="../../assets/que.png"
+              alt=""
+            />
+            <p>行驶状况良好，没有违章记录哦</p>
+          </div>
         </mt-tab-container-item>
       </mt-tab-container>
-      <p class="next">以下为4S店养护记录</p>
+      <p class="next" v-show="upkeeplist.length > 0">以下为4S店养护记录</p>
     </div>
   </div>
 </template>
@@ -79,10 +106,38 @@ export default {
   data() {
     return {
       selected: "1",
-      searchBarFixed: false
+      searchBarFixed: false,
+      upkeeplist: [],
+      state: "",
+      msg: [],
+      // datashow: false, //4S店养护记录
+      ruleslist: [],
+      msglist: []
     };
   },
-  created() {},
+  created() {
+    // console.log(this.$route.query.id);
+    let id = this.$route.query.id;
+    if (this.selected == 1) {
+      this.axios
+        .post("https://api.chejiangshan.com/usecar-carmsg", {
+          token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+          car_id: id
+        })
+        .then(res => {
+          console.log(res);
+
+          if (res.data.data.order == "无记录") {
+            this.upkeeplist = [];
+          } else {
+            this.upkeeplist = res.data.data.order;
+          }
+          this.msglist = res.data.data.car;
+          console.log(this.msglist);
+          // this.datashow = true;
+        });
+    }
+  },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
   },
@@ -96,7 +151,7 @@ export default {
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
-      console.log(scrollTop);
+      // console.log(scrollTop);
       // let offsetTop = document.querySelector("#location").offsetTop;
       if (scrollTop > 140) {
         this.searchBarFixed = true;
@@ -106,10 +161,11 @@ export default {
       }
     }
   },
+  watch: {},
   destroyed() {
     window.removeEventListener("scroll", this.handleScroll);
   }
-}
+};
 </script>
 <style scoped>
 * {
@@ -153,6 +209,7 @@ header p {
   height: 149px;
   border-bottom: 1px solid #f6f7fb;
   padding-left: 15px;
+  margin-top: 80px;
 }
 .text {
   margin-top: 64px;
@@ -237,6 +294,36 @@ header p {
 }
 .record li:first-child {
   margin-top: 5px;
+}
+/* 空空如也 */
+.noupdata {
+  margin-top: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.noupdata p {
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(119, 119, 119, 1);
+  line-height: 22px;
+  margin-top: 40px;
+}
+
+.rules {
+  margin-top: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.rules p {
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(119, 119, 119, 1);
+  line-height: 22px;
+  margin-top: 40px;
 }
 .finish {
   width: 320px;

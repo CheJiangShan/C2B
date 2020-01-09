@@ -223,7 +223,15 @@ const router = new Router({
         needlogin: true
       },
       component: resolve => require(["@/components/wode/set"], resolve)
-    }, //快速预约
+    }, //我的设置
+    {
+      path: "/call",
+      name: "call",
+      meta: {
+        needlogin: true
+      },
+      component: resolve => require(["@/components/wode/call"], resolve)
+    }, //我的设置
     {
       path: "/shop",
       name: "shop",
@@ -251,36 +259,36 @@ const router = new Router({
   ]
 });
 // 路由守卫进行拦截
-router.beforeEach((to, from, next) => {
-  if (to.meta.needlogin) {
-    if (localStorage.getItem("token")) {
-      next();
-    } else {
-      MessageBox.confirm("", {
-        message: "主人,您还没有登录呦???",
-        title: "提示",
-        confirmButtonText: "前去登录",
-        cancelButtonText: "就是不去"
-      })
-        .then(action => {
-          if (action == "confirm") {
-            //确认的回调
-            console.log(1);
-            next({
-              path: "/login"
-            });
-          }
-        })
-        .catch(err => {
-          if (err == "cancel") {
-            //取消的回调
-            console.log(2);
-          }
-        });
-    }
-  } else {
-    next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.needlogin) {
+//     if (localStorage.getItem("token")) {
+//       next();
+//     } else {
+//       MessageBox.confirm("", {
+//         message: "主人,您还没有登录呦???",
+//         title: "提示",
+//         confirmButtonText: "前去登录",
+//         cancelButtonText: "就是不去"
+//       })
+//         .then(action => {
+//           if (action == "confirm") {
+//             //确认的回调
+//             console.log(1);
+//             next({
+//               path: "/login"
+//             });
+//           }
+//         })
+//         .catch(err => {
+//           if (err == "cancel") {
+//             //取消的回调
+//             console.log(2);
+//           }
+//         });
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
 export default router;

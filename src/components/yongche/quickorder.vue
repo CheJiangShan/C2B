@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <header>
-      <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+      <img @click="back()" src="../../assets/xiangqing.png" alt />
       <p>快速预约</p>
     </header>
     <div style=" height: 79px;"></div>
@@ -9,18 +9,18 @@
       <div class="owner">
         <div class="owner-left">
           <span>
-            张先生
+            {{ usermsg.username }}
           </span>
           <span>
-            136****1927
+            {{ usermsg.mobile }}
           </span>
         </div>
         <div class="owner-right">
-          <span>豫A 88888</span>
+          <span>{{ carmsg.plate_num }}</span>
         </div>
       </div>
       <div class="ownerCar">
-        <span>广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白</span>
+        <span>{{ carmsg.model }}</span>
       </div>
     </div>
     <div class="bar"></div>
@@ -34,14 +34,14 @@
           郑州市陇海路与城东路交叉口南500米路东
         </p>
       </div>
-      <span class="workname">技师王小五</span>
+      <span class="workname">{{ technician[0].realname }}</span>
     </div>
     <div class="bar"></div>
     <div class="repair">
       <div class="repaircar">
         <img src="../../assets/xiaoche.png" alt="" />
       </div>
-      <p>综合维修服务</p>
+      <p>{{service.title}}</p>
       <span>X 1</span>
     </div>
     <div class="bar"></div>
@@ -50,10 +50,10 @@
         <span>备注：</span>
         <textarea
           style="font-size: 12px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: rgba(164, 163, 163, 1);
-  line-height: 17px;"
+              font-family: PingFangSC-Regular, PingFang SC;
+              font-weight: 400;
+              color: rgba(164, 163, 163, 1);
+              line-height: 17px;"
           id="signtxt"
           placeholder="请输入服务需求"
         ></textarea>
@@ -88,15 +88,42 @@
 export default {
   data() {
     return {
-      show1: false
+      show1: false,
+      usermsg: [],
+      carmsg: [],
+      technician: [],
+      service:[]
     };
   },
+  created() {
+    // // console.log(this.$route.query.menu_id);
+    // let a = this.$route.query.menu_id;
+    // console.log(a);
+    // let b = this.$route.query.car_id;
+    // console.log(b);
+    this.axios
+      .post("https://api.chejiangshan.com/usecar-order", {
+        token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+        menu_id: 28,
+        car_id: 6
+      })
+      .then(res => {
+        console.log(res.data.data.user);
+        this.usermsg = res.data.data.user;
+        this.carmsg = res.data.data.car;
+        this.technician = res.data.data.artificer;
+        this.service = res.data.data.menu
+      });
+  },
   methods: {
+    back() {
+      this.$router.go(-1);
+    },
     addpic() {
       this.show1 = true;
     },
-    quxiao(){
-       this.show1 = false;
+    quxiao() {
+      this.show1 = false;
     },
     galleryImg() {
       let This = this;
@@ -125,7 +152,7 @@ export default {
           );
           This.tupianlist = base64;
           console.log(This.tupianlist + "我是转码后的base");
-          
+
           //这里可以请求接口
         };
       });

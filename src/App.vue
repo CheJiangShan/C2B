@@ -2,8 +2,8 @@
   <div id="app">
     <!-- <transition appear name="move"> -->
     <!-- <keep-alive> -->
-        <div v-if="isRouterAlive">
-      <router-view />
+    <div>
+      <router-view v-if="isRouterAlive"></router-view>
     </div>
     <!-- </keep-alive> -->
     <!-- </transition> -->
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name: "App",
+  name: "App",
   provide() {
     return {
       reload: this.reload
@@ -40,13 +40,13 @@ export default {
 // 手机端自适应：
 
 function bodyScale() {
-		var devicewidth = document.documentElement.clientWidth;
-		var scale = devicewidth / 375;
-		document.body.style.zoom = scale;
-	}
-	window.onload = window.onresize = function() {
-		bodyScale();
-	}
+  var devicewidth = document.documentElement.clientWidth;
+  var scale = devicewidth / 375;
+  document.body.style.zoom = scale;
+}
+window.onload = window.onresize = function() {
+  bodyScale();
+};
 </script>
 
 <style>
@@ -54,8 +54,8 @@ function bodyScale() {
   padding: 0;
   margin: 0;
 }
-a{
-  color: inherit
+a {
+  color: inherit;
 }
 @keyframes animationIn {
   0% {
