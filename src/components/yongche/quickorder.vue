@@ -39,7 +39,7 @@
     <div class="bar"></div>
     <div class="repair">
       <div class="repaircar">
-        <img src="../../assets/xiaoche.png" alt="" />
+        <img src="../../assets/yuyue.png" alt="" />
       </div>
       <p>综合维修服务</p>
       <span>X 1</span>
@@ -71,6 +71,29 @@
     </div>
   </div>
 </template>
+<script>
+import {quickOrder} from "../api/apisum"
+export default {
+  data() {
+    return {
+      // list: []
+    };
+  },
+  async created(){
+    let token="pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    const res=await  quickOrder(token,menu_id,car_id);
+    console.log(res)
+     this.list = res.data.data;
+  },
+  mounted() {},
+  computed: {},
+  methods: {
+    fanhui() {
+      this.$router.go(-1)
+    }
+  }
+};
+</script>
 <style scoped>
 * {
   margin: 0;
@@ -197,11 +220,10 @@ header p {
   width: 47px;
   height: 47px;
   margin-right: 15px;
-  border: 1px solid #ccc;
 }
 .repair .repaircar img {
   width: 45px;
-  height: 34px;
+  height: 45px;
 }
 .repair p {
   width: 260px;

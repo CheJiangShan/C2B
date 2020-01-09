@@ -95,7 +95,7 @@ header img {
 header p {
   font-size: 18px;
   color: #333333;
-  padding-left: 32%;
+  padding-left: 35%;
 }
 .hot {
   margin-top: 80px;

@@ -155,7 +155,31 @@ export default new Router({
       path: '/many',
       name:"many",
       component:resolve => require(['@/components/pay/many'],resolve)
-    }//搜索新车或者二手车的结果
-    
+    },//搜索新车或者二手车的结果
+    {
+      path: '/news',
+      name:"news",
+      component:resolve => require(['@/components/News/news'],resolve)
+    },//消息
+    {
+      path: '/inform',
+      name:"inform",
+      component:resolve => require(['@/components/News/inform'],resolve)
+    },//订单通知
+    {
+      path: '/system',
+      name:"system",
+      component:resolve => require(['@/components/News/system'],resolve)
+    },//系统消息
+    {
+      path: '/newsDetail',
+      name:"newsDetail",
+      component:resolve => require(['@/components/News/newsDetail'],resolve)
+    },//系统消息详情
+    {
+      path: '/activity',
+      name:"activity",
+      component:resolve => require(['@/components/News/activity'],resolve)
+    },//优惠活动详情
   ]
 })

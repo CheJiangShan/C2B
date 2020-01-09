@@ -2,31 +2,20 @@
   <div class="sort">
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
-      <p class="ty">广州本田-新</p>
+      <p class="ty">{{gender}}</p>
       <img class="first" @click="showPopup()" src="../../assets/sanjiao.png" alt />
       <!-- 更换服务车辆弹窗 -->
       <van-popup v-model="show" closeable position="bottom" :style="{ height: '57%' }">
         <div class="select">
           <span>更换服务车辆</span>
         </div>
-        <van-radio-group v-model="radio" checked-color="#5B97FF">
-          <div class="dan">
-            <span>广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888</span>
-            <van-radio name="1"></van-radio>
-          </div>
-
-          <div class="dan">
-            <span>广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888</span>
-            <van-radio name="2"></van-radio>
-          </div>
-          <div class="dan">
-            <span>广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888</span>
-            <van-radio name="3"></van-radio>
-          </div>
-        </van-radio-group>
+        <div class="dan" v-for="(item,i) in list" :key="item">
+          <label><span>{{item.model}}&nbsp;&nbsp;&nbsp;</span><span>{{item.plate_num}}</span></label>
+          <input class="ipted" type="radio" name="radios" :value="i" v-model="radio"  />
+        </div>
         <router-link :to="'cheku'">去车库添加车辆</router-link>
         <div id="bott">
-          <span class="las">选好了</span>
+          <span class="las" @click="over()">选好了</span>
         </div>
       </van-popup>
       <div class="right">
@@ -59,9 +48,9 @@
                 </div>
                 <div class="clear">
                   <p>标准洗车-五座轿车</p>
-                  <div class="yuyue">
+                  <div class="yuyue" @click="toOrder()">
                     <p>¥25.00</p>
-                    <p >预约</p>
+                    <p>预约</p>
                   </div>
                 </div>
               </li>
@@ -77,7 +66,7 @@
                   <p>小保养</p>
                   <div class="dabaoyang">
                     <p>¥160.00-325.00</p>
-                    <p @click="toOrder()">预约</p>
+                    <p>预约</p>
                   </div>
                 </div>
               </div>
@@ -124,6 +113,7 @@
   </div>
 </template>
 <script>
+import { information } from "../api/apisum";
 export default {
   name: "jingxi",
   components: {},
@@ -131,7 +121,11 @@ export default {
     return {
       show: false,
       activeKey: 0,
-      radio: "1",
+      list: [],
+      // model:'',
+      gender: "广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888",
+      // gender: localStorage.setItem("广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888"),
+      radio:"0",
       activeIndex: this.$route.query.num ? this.$route.query.num : 0,
       index: this.$route.query.num ? this.$route.query.num : 0,
       items: [
@@ -146,29 +140,57 @@ export default {
       ]
     };
   },
-  created() {},
+   async created(){
+    let token='pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT'
+      const res=await  information(token);
+      console.log(res.data.data)
+       this.list = res.data.data;
+      //  console.log(res.data.data)
+    },
   mounted() {},
   methods: {
     fanhui() {
       this.$router.push({ path: "/shouye" });
     },
     // 跳转到快速预约
-    toOrder(){
-      this.$router.push({ path: "/quickorder" });
-    },
+    toOrder() {
+      this.$router.push({ path: "/quickorder" });
+    },
     showPopup() {
       console.log(1);
       this.show = true;
     },
-    // toOrder(){
-    //   this.$router.push({ path: "/order" });
-    // }
+    select(e) {
+      console.log(e.target.innerText);
+      //  console.log(id)
+    },
+    over() {
+      this.show = !this.show;
+    }
   }
 };
 </script>
 <style scoped>
 li {
   list-style: none;
+}
+.ipted{
+  width: 20px;
+  height: 20px;
+  background-color: #3f64fd;
+}
+input[type=radio]:after {
+    position: absolute;
+    width: 10px;
+    height: 15px;
+    top: -38;
+    content: " ";
+    /* background-color:cornflowerblue; */
+    color: #5B97FF;
+    display: inline-block;
+    visibility: visible;
+    padding: 0px 3px;
+    border-radius: 50%;
 }
 header {
   padding-top: 15px;
@@ -201,6 +223,14 @@ header .first {
   color: rgba(51, 51, 51, 1);
   line-height: 17px;
   padding-left: 32%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  display: box;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 #bott {
   width: 100%;
@@ -277,14 +307,16 @@ header .first {
 }
 .sort .van-sidebar {
   max-width: 90px;
-  height: 1930px;
+  /* height: 1930px; */
   background: #ffffff;
+  overflow: -Scroll;
+  overflow-y: hidden;
 }
 .van-tree-select {
   height: 100%;
 }
 .sort .van-grid {
-  height: 1930px;
+  /* height: 1930px; */
   background: #f9f9f9;
   display: block;
 }
@@ -292,9 +324,9 @@ header .first {
   background: #f6f7fb;
   color: #777777;
 }
-.sort .van-tree-select__content {
+/* .sort .van-tree-select__content {
   height: 1930px;
-}
+} */
 .sort .van-sidebar-item__text {
   display: flex;
   justify-content: center;
@@ -353,17 +385,18 @@ header .first {
   justify-content: space-between;
   width: 345px;
   height: 80px;
+  margin: 0 auto;
   border-bottom: 1px solid #eeeeee;
 }
-.dan span {
-  padding-left: 15px;
+.dan label {
+  /* display: block; */
   width: 282px;
   height: 40px;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
-  line-height: 20px;
+  line-height: 40px;
 }
 header a {
   display: block;

@@ -24,7 +24,7 @@
           </mt-tab-item>
         </mt-navbar>
       </nav>
-      <img src="../../assets/1.png" alt />
+      <img @click="news()" src="../../assets/1.png" alt />
     </div>
     <!-- 轮播图 -->
     <div class="pic">
@@ -422,6 +422,9 @@ export default {
     },
     toSecond() {
       this.$router.push({ path: "/second" });
+    },
+    news(){
+      this.$router.push({path:"/news"})
     },
     onValuesChange(picker, values) {
       console.log(values);

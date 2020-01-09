@@ -21,10 +21,10 @@
           </mt-tab-item>
         </mt-navbar>
       </nav>
-      <img src="../../assets/1.png" alt />
+      <img  @click="news()" src="../../assets/1.png" alt />
     </div>
     <div class="kong">
-      <img src="../../assets/shop.png" alt />
+      <img  src="../../assets/shop.png" alt />
       <p>开发中......</p>
     </div>
     <foote></foote>
@@ -39,7 +39,11 @@ export default {
   data() {
     return { selected: "4" };
   },
-  methods: {}
+  methods: {
+    news(){
+      this.$router.push({path:"/news"})
+    },
+  }
 };
 </script>
 <style  scoped>

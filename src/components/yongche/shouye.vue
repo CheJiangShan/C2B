@@ -14,13 +14,17 @@
               <span>卖车</span>
             </router-link>
           </mt-tab-item>
-          <mt-tab-item id="3"><span>用车</span></mt-tab-item>
-          <mt-tab-item id="4"><router-link :to="'shop'">
+          <mt-tab-item id="3">
+            <span>用车</span>
+          </mt-tab-item>
+          <mt-tab-item id="4">
+            <router-link :to="'shop'">
               <span>商城</span>
-            </router-link></mt-tab-item>
+            </router-link>
+          </mt-tab-item>
         </mt-navbar>
       </nav>
-      <img src="../../assets/1.png" alt />
+      <img @click="news()" src="../../assets/1.png" alt />
     </div>
     <!-- header -->
     <div class="header">
@@ -33,11 +37,11 @@
         <img class="saoyosao" src="../../assets/6.png" alt />
       </div>
       <!-- 车主称呼 -->
-      <h1>您好，万先生</h1>
+      <h1>您好，{{username}}</h1>
       <div class="cheliang">
         <div class="cheliang-1">
-          <span>别克 英朗</span>
-          <p>2019款 1.5T 双离合互联精英型 国VI</p>
+          <span>{{model}}</span>
+          <p>{{plate_num}}</p>
         </div>
         <div class="cheliang-3" @click="cheku()">
           <img src="../../assets/8.png" alt />
@@ -107,12 +111,12 @@
           <img src="../../assets/24.png" alt />
           <div class="dianshangxia">
             <div class="didian-1">
-              <h3>陇海路店</h3>
+              <h3>{{storm_name}}</h3>
               <img src="../../assets/22.png" alt />
             </div>
             <div class="didian-2">
               <img src="../../assets/23.png" alt />
-              <span>郑州市陇海路与货站街</span>
+              <span>{{address}}</span>
             </div>
           </div>
         </div>
@@ -121,7 +125,7 @@
           <div class="dianshangxia">
             <div class="banzuming">
               <img src="../../assets/25.png" alt />
-              <span>王小五班组</span>
+              <span>{{realname}}</span>
             </div>
             <p>服务次数：666次</p>
           </div>
@@ -137,6 +141,7 @@
 </template>
 
 <script>
+import { getUser, technician } from "../api/apisum";
 import footeree from "../other/footer.vue";
 export default {
   name: "shouye",
@@ -145,23 +150,48 @@ export default {
   },
   data() {
     return {
-      selected: "3"
+      selected: "3",
+      username: "",
+      model: "",
+      plate_num: "",
+      storm_name: "",
+      address: "",
+      realname:''
     };
   },
-  created() {},
+  async created() {
+    //用户信息
+    let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    const res = await getUser(token);
+    console.log(res);
+    console.log(res.data.data);
+    this.username = res.data.data.user.username;
+    this.model = res.data.data.car_msg.model;
+    this.plate_num = res.data.data.car_msg.plate_num;
+    //首页技师信息
+    const res1 = await technician();
+    console.log(res1);
+    console.log(res1.data.data);
+    this.storm_name = res1.data.data.mendian.storm_name;
+    this.address = res1.data.data.mendian.address;
+    this.realname = res1.data.data.jishi.realname;
+  },
   mounted() {},
   methods: {
     cheku() {
       this.$router.push({ path: "/cheku" });
     },
-     toSort(num) {
+    toSort(num) {
       this.$router.push({
-        name: 'jingxi',
+        name: "jingxi",
         query: {
           num
         }
-      })
+      });
     },
+    news() {
+      this.$router.push({ path: "/news" });
+    }
   }
 };
 </script>
@@ -179,7 +209,7 @@ export default {
   overflow: hidden;
 }
 .roof {
-   padding-top: 15px;
+  padding-top: 15px;
   width: 100%;
   height: 50px;
   position: fixed;
@@ -216,13 +246,13 @@ nav .sell {
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
   color: #333333;
-  margin-bottom: -6px
+  margin-bottom: -6px;
 }
-.mint-navbar .mint-tab-item.is-selected span{
+.mint-navbar .mint-tab-item.is-selected span {
   font-size: 18px;
 }
-.mint-tab-item-label a span{
-  font-size: 16px
+.mint-tab-item-label a span {
+  font-size: 16px;
 }
 .header {
   width: 100%;
@@ -390,6 +420,14 @@ h1 {
 .didian-1 h3 {
   font-size: 14px;
   color: #333333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  display: box;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .didian-1 img {
   width: 25px;
@@ -433,6 +471,14 @@ h1 {
   font-size: 11px;
   color: #777777;
   padding-top: 6px;
+   overflow: hidden;
+  text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  display: box;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .yaoqing {
   height: 66px;

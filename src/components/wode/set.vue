@@ -65,6 +65,15 @@ export default {
       popupVisible: false
     };
   },
+  created() {},
+  mounted() {
+    document
+      .querySelector("body")
+      .setAttribute("style", "background-color:#F6F7FB");
+  },
+  beforeDestroy() {
+    document.querySelector("body").removeAttribute("style");
+  },
   methods: {
     fanhui() {
       this.$router.go(-1);
@@ -97,6 +106,7 @@ export default {
   height: 100%;
   overflow: auto;
   overflow: hidden;
+  background: #ffffff
 }
 li {
   list-style: none;
