@@ -1,27 +1,29 @@
 <template>
-  <div class="versions">
-    <p class="newversion">发现新版本</p>
-    <p class="versionEng">beta1.2.0</p>
-    <p class="content">新版本更新内容：</p>
-    <div class="content-item">
-      <p style="margin-bottom:10px">
-        1、新版本更新内容新版本更新内容新版本更新内容新版本更新内容
-      </p>
-      <p style="margin-bottom:10px">
-        2、新版本更新内容新版本更新内容新版本更新内容新版本更新内容
-      </p>
-      <p>
-        3、新版本更新内容新版本更新内容新版本更新内容新版本更新内过节费IG记录须交付距离想法V型，看
-      </p>
-    </div>
-    <div class="button">
-      <div class="cancel">
-        <span>暂不更新</span>
+  <div class="versionw">
+    <div class="versions">
+      <p class="newversion">发现新版本</p>
+      <p class="versionEng">beta1.2.0</p>
+      <p class="content">新版本更新内容：</p>
+      <div class="content-item">
+        <p style="margin-bottom:10px">
+          1、新版本更新内容新版本更新内容新版本更新内容新版本更新内容
+        </p>
+        <p style="margin-bottom:10px">
+          2、新版本更新内容新版本更新内容新版本更新内容新版本更新内容
+        </p>
+        <p>
+          3、新版本更新内容新版本更新内容新版本更新内容新版本更新内过节费IG记录须交付距离想法V型，看
+        </p>
       </div>
-      <div class="sure">
-        <span>
-          我要尝鲜
-        </span>
+      <div class="button">
+        <div class="cancel">
+          <span>暂不更新</span>
+        </div>
+        <div class="sure">
+          <span>
+            我要尝鲜
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -30,6 +32,12 @@
 export default {};
 </script>
 <style scoped>
+.versionw {
+  width: 375px;
+  height: 667px;
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+}
 .versions {
   width: 292px;
   height: 383px;
@@ -39,7 +47,7 @@ export default {};
   top: 142px;
   left: 41px;
 }
-.newversion {
+.versions .newversion {
   font-size: 18px;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
@@ -47,7 +55,7 @@ export default {};
   line-height: 25px;
   margin: 20px 0 0 20px;
 }
-.versionEng {
+.versions .versionEng {
   font-size: 12px;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
@@ -55,7 +63,7 @@ export default {};
   line-height: 17px;
   margin-left: 20px;
 }
-.content {
+.versions .content {
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -65,7 +73,7 @@ export default {};
   margin-left: 20px;
   margin-bottom: 10px;
 }
-.content-item p {
+.versionw .content-item p {
   width: 252px;
   margin-left: 20px;
   font-size: 13px;
@@ -75,7 +83,7 @@ export default {};
   line-height: 18px;
 }
 
-.button {
+.versions .button {
   width: 292px;
   height: 66px;
   background: rgba(255, 255, 255, 1);
@@ -85,7 +93,7 @@ export default {};
   box-sizing: border-box;
   padding: 16px 20px 20px 20px;
 }
-.button .cancel {
+.versionw .button .cancel {
   width: 100px;
   height: 30px;
   background: rgba(63, 100, 253, 1);
@@ -93,16 +101,16 @@ export default {};
   border-radius: 15px;
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
 }
-.button .cancel span {
+.versionw .button .cancel span {
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(255, 255, 255, 1);
   line-height: 20px;
 }
-.button .sure {
+.versionw .button .sure {
   width: 100px;
   height: 30px;
   background: rgba(63, 100, 253, 1);
@@ -110,9 +118,9 @@ export default {};
   border-radius: 15px;
   display: flex;
   justify-content: center;
-  align-items: center
+  align-items: center;
 }
-.button .sure span {
+.versionw .button .sure span {
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;

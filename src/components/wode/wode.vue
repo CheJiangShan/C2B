@@ -1,9 +1,40 @@
 <template>
   <div class="mine">
+    <!-- 版本 -->
+    <div class="versionw" v-show="versionshow">
+      <div class="versionsnew">
+        <p class="newversion">发现新版本</p>
+        <p class="versionEng">beta1.2.0</p>
+        <p class="contentnew">新版本更新内容：</p>
+        <div class="content-item">
+          <p style="margin-bottom:10px">
+            1、新版本更新内容新版本更新内容新版本更新内容新版本更新内容
+          </p>
+          <p style="margin-bottom:10px">
+            2、新版本更新内容新版本更新内容新版本更新内容新版本更新内容
+          </p>
+          <p>
+            3、新版本更新内容新版本更新内容新版本更新内容新版本更新内过节费IG记录须交付距离想法V型，看
+          </p>
+        </div>
+        <div class="button">
+          <div class="cancel" @click="noupdata()">
+            <span>暂不更新</span>
+          </div>
+          <div class="sure" @click="updata()">
+            <span>
+              我要尝鲜
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 遮罩完 -->
+
     <nav>
       <img class="shezhi" src="../../assets/shezhi.png" alt />
       <div class="set">
-        <img  @click="toSet()" class="head" src="../../assets/head.png" alt />
+        <img @click="toSet()" class="head" src="../../assets/head.png" alt />
         <div class="type">
           <p class="xiao">马小号</p>
           <p class="bie">别克 英朗</p>
@@ -49,7 +80,7 @@
       <img src="../../assets/26.png" alt />
     </div>
     <div class="last">
-      <div class="all">
+      <div class="all" @click="looknewversion()">
         <div class="edition">
           <img class="pic" src="../../assets/edition.png" alt />
           <span class="top">版本升级</span>
@@ -59,7 +90,7 @@
           <img class="jian" src="../../assets/xiaojiantou.png" alt />
         </div>
       </div>
-      <div class="all">
+      <div class="all" @click="lookus()">
         <div class="edition">
           <img class="pic" src="../../assets/about.png" alt />
           <span class="top">关于我们</span>
@@ -83,18 +114,44 @@
 </template>
 <script>
 import footeree from "../other/footer.vue";
+import { Toast } from "mint-ui";
 export default {
   name: "mine",
   components: {
     footeree
   },
   data() {
-    return {};
+    return {
+      versionshow: false
+    };
   },
   methods: {
     toSet() {
       this.$router.push({ path: "/set" });
     },
+    // 查看关于我们
+    lookus() {
+      this.$router.push({ path: "/aboutus" });
+    },
+    // 查看新版本
+    looknewversion() {
+      console.log(1111);
+      this.versionshow = true;
+    },
+    // 取消新版本
+    noupdata() {
+      this.versionshow = false;
+    },
+    // 应用新版本
+    updata() {
+      let instance = Toast("敬请期待");
+      setTimeout(() => {
+        instance.close();
+      }, 3000);
+      setTimeout(() => {
+        this.versionshow = false;
+      }, 2000);
+    }
   }
 };
 </script>
@@ -275,18 +332,18 @@ nav {
   margin-top: 13px;
   width: 345px;
   margin: 0 auto;
-  height: 220px
+  height: 220px;
 }
 .all {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 53px
+  height: 53px;
 }
 .pic {
   width: 20px;
   height: 20px;
-  margin: -3px auto
+  margin: -5px auto;
 }
 .top {
   font-size: 14px;
@@ -305,5 +362,102 @@ nav {
 .jian {
   width: 7px;
   height: 10px;
+}
+
+.versionw {
+  width: 375px;
+  height: 667px;
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  z-index: 99;
+}
+.versionsnew {
+  width: 292px;
+  height: 383px;
+  background: url("../../assets/version.png") no-repeat 0 0;
+  background-size: 292px 383px;
+  position: fixed;
+  top: 142px;
+  left: 41px;
+}
+.versionsnew .newversion {
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 25px;
+  margin: 20px 0 0 20px;
+}
+.versionsnew .versionEng {
+  font-size: 12px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 17px;
+  margin-left: 20px;
+  margin-bottom: 79px;
+}
+.versionsnew .contentnew {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 20px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+}
+.versionsnew .content-item p {
+  width: 252px;
+  margin-left: 20px;
+  font-size: 13px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(119, 119, 119, 1);
+  line-height: 18px;
+}
+
+.versionsnew .button {
+  width: 292px;
+  height: 66px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 16px 20px 20px 20px;
+}
+.versionsnew .button .cancel {
+  width: 100px;
+  height: 30px;
+  background: rgba(63, 100, 253, 1);
+  box-shadow: 0px 2px 4px 1px rgba(73, 162, 249, 0.29);
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.versionw .button .cancel span {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 20px;
+}
+.versionw .button .sure {
+  width: 100px;
+  height: 30px;
+  background: rgba(63, 100, 253, 1);
+  box-shadow: 0px 2px 4px 1px rgba(73, 162, 249, 0.29);
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.versionw .button .sure span {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 20px;
 }
 </style>

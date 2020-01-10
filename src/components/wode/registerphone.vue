@@ -2,7 +2,7 @@
   <div class="main">
     <header>
       <div class="header">
-        <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+        <img @click="back()" src="../../assets/xiangqing.png" alt />
         <p>修改注册手机号</p>
       </div>
     </header>
@@ -27,7 +27,7 @@
       </van-cell-group>
       <span class="getcode">获取验证码</span>
     </div>
-    <div class="next">
+    <div class="next" @click="tonew()">
       <div class="nextbtn">
         <span>下一步</span>
       </div>
@@ -35,7 +35,19 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  },
+  methods: {
+    back(){
+      this.$router.go(-1)
+    },
+    tonew() {
+      this.$router.push({ path: "/changephone" });
+    }
+  }
+};
 </script>
 <style scoped>
 * {
@@ -82,7 +94,7 @@ header {
   border-bottom: 1px solid rgba(246, 247, 251, 1);
   margin-left: 15px;
 }
-.phone{
+.phone {
   position: relative;
 }
 .phone >>> .van-field__label {
@@ -129,7 +141,7 @@ header {
 }
 .getcode {
   position: absolute;
-  top:66px;
+  top: 66px;
   right: 15px;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;

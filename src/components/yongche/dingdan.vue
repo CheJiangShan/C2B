@@ -36,12 +36,13 @@
       </div>
       <mt-tab-container v-model="selected">
         <mt-tab-container-item id="1">
-          <li v-for="item in list" :key="item">
+          <li v-for="item in list" :key="item" @click="toorder(item.id,item.status)">
             <div class="finish">
               <span>{{item.storm_name}}</span>
-              <span v-if="item.status==0">已交付</span>
+              <span v-if="item.status==0">已付款</span>
               <span v-if="item.status==1">待预约</span>
-              <span v-if="item.status==2">待交付/维保中</span>
+              <!-- <span v-if="item.status==-1">已关闭</span> -->
+              <span v-if="item.status==-1">待交付/维保中</span>
               <span v-if="item.status==3">已完工</span>
             </div>
             <div class="curing">
@@ -53,7 +54,7 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
-          <li v-for="item in list1" :key="item">
+          <li v-for="item in list1" :key="item" @click="toorder(item.id,item.status)">
             <div class="finish">
               <span>{{item.storm_name}}</span>
               <span>待预约</span>
@@ -67,7 +68,7 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="3">
-          <li v-for="item in list2" :key="item">
+          <li v-for="item in list2" :key="item" @click="toorder(item.id,item.status)">
             <div class="finish">
               <span>{{item.storm_name}}</span>
               <span>待交付/维保中</span>
@@ -81,10 +82,10 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="4">
-          <li v-for="item in list3" :key="item">
+          <li v-for="item in list3" :key="item" @click="toorder(item.id,item.status)">
             <div class="finish">
               <span>{{item.storm_name}}</span>
-              <span>待交付/维保中</span>
+              <span>已完工</span>
             </div>
             <div class="curing">
               <span>{{item.title}}</span>
@@ -95,7 +96,7 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="5">
-          <li v-for="item in list4" :key="item">
+          <li v-for="item in list4" :key="item" @click="toorder(item.id,item.status)">
             <div class="finish">
               <span>{{item.storm_name}}</span>
               <span>已交付</span>
@@ -110,7 +111,7 @@
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
-
+    <div class="slotBottom"></div>
     <footeree></footeree>
   </div>
 </template>
@@ -127,33 +128,68 @@ export default {
     return {
       selected: "1",
       list: [],
-      list1:[],
-      list3:[]
+      list1: [],
+      list2:[],
+      list3: [],
+      list4: []
     };
   },
   async created() {
     let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
-    const res = await orderDetail(token,"");
+    const res = await orderDetail(token, "");
     console.log(res);
     console.log(res.data.data);
     this.list = res.data.data;
-     const res1= await orderDetail(token,1)
-     console.log(res1)
-    this.list1= res1.data.data
-     const res2= await orderDetail(token,2)
-     console.log(res2)
-    this.list2= res2.data.data
-    const res3= await orderDetail(token,3)
-     console.log(res3)
-    this.list3= res3.data.data
-    const res4= await orderDetail(token,0)
-     console.log(res4)
-    this.list4= res4.data.data
+    const res1 = await orderDetail(token, 1);
+    console.log(res1);
+    this.list1 = res1.data.data;
+    const res2 = await orderDetail(token, -1);
+    console.log(res2);
+    this.list2 = res2.data.data;
+    const res3 = await orderDetail(token, 3);
+    console.log(res3);
+    this.list3 = res3.data.data;
+    const res4 = await orderDetail(token, 0);
+    console.log(res4);
+    this.list4 = res4.data.data;
   },
   mounted() {},
   methods: {
     fanhui() {
       this.$router.push({ path: "/shouye" });
+    },
+    //1:带预约，2：待交付/维保中，3：已完工 ，0：已交付
+  async  toorder(a, b) {
+      console.log(a);
+      console.log(b);
+      this.axios
+        .post("https://api.chejiangshan.com/usecar-ordermsg", {
+          token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+          order_id: a
+        })
+        .then(res => {
+          if (b === 0) {
+            this.$router.push({
+              path: "/closed",
+              query: {
+                order_id:a
+              }
+            });
+          } else if (b === 1) {
+            this.$router.push({ path: "/noorder", query: {
+                order_id:a
+              } });
+          } else if (b === -1) {
+            this.$router.push({ path: "/nopayment", query: {
+                order_id:a
+              } });
+          } else if (b === 3) {
+            this.$router.push({ path: "/completed", query: {
+                order_id:a
+              } });
+          }
+          console.log(res);
+        });
     }
   }
 };
@@ -199,8 +235,15 @@ header p {
 }
 .record {
   width: 100%;
-  margin-top: 80px;
+  /* margin-top: 80px; */
   /* height: 1000px */
+}
+#searchBar{
+  position:fixed;
+  top:80px;
+  left:0;
+  width: 100%;
+  z-index:99
 }
 .record .mint-tab-item {
   color: #a4a3a3;
@@ -218,7 +261,7 @@ header p {
   margin-bottom: 10px;
 }
 .mint-tab-container-item {
-  margin-top: 5px;
+  margin-top: 130px;
 }
 .finish {
   width: 345px;
@@ -280,5 +323,9 @@ header p {
   color: rgba(119, 119, 119, 1);
   line-height: 30px;
   text-align: center;
+}
+.slotBottom{
+  width: 100%;
+  height: 50px
 }
 </style>

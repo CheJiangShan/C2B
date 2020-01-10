@@ -2,16 +2,26 @@
   <div class="sort">
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
-      <p class="ty">{{gender}}</p>
+      <p class="ty">{{ gender }}</p>
       <img class="first" @click="showPopup()" src="../../assets/sanjiao.png" alt />
       <!-- 更换服务车辆弹窗 -->
       <van-popup v-model="show" closeable position="bottom" :style="{ height: '45.5%' }">
         <div class="select">
           <span>更换服务车辆</span>
         </div>
-        <div class="dan" v-for="(item,i) in list" :key="item" >
-          <label><span>{{item.model}}&nbsp;&nbsp;&nbsp;</span><span>{{item.plate_num}}</span></label>
-          <input class="ipted" type="radio" name="radios" :value="i" v-model="radio" />
+        <div class="dan" v-for="(item, i) in list" :key="item">
+          <label>
+            <span>{{ item.model }}&nbsp;&nbsp;&nbsp;</span>
+            <span>{{ item.plate_num }}</span>
+          </label>
+          <input
+            class="ipted"
+            type="radio"
+            name="radios"
+            :value="i"
+            v-model="radio"
+            @click="radiobtn(item.id)"
+          />
         </div>
         <router-link :to="'cheku'">去车库添加车辆</router-link>
         <div id="bott">
@@ -29,9 +39,9 @@
       </div>
     </header>
     <div class="sort-main">
-      <van-tree-select :items="items" :main-active-index.sync="activeIndex">
+      <van-tree-select :items="items" :main-active-index.sync="activeIndex" @click-nav="onNavClick">
         <template slot="content">
-          <van-grid v-if="activeIndex === 0">
+          <van-grid>
             <div class="top">
               <img src="../../assets/list.png" alt />
             </div>
@@ -42,71 +52,20 @@
               <span>过期退</span>
             </div>
             <div class="standard">
-              <li v-for="value in 2" :key="value">
+              <li v-for="item1 in rightlist" :key="item1.id">
                 <div class="xiche">
                   <img src="../../assets/xiche.png" alt />
                 </div>
                 <div class="clear">
-                  <p>标准洗车-五座轿车</p>
-                  <div class="yuyue" @click="toOrder()">
-                    <p>¥25.00</p>
-                    <p>预约</p>
+                  <p>{{ item1.title }}</p>
+                  <div class="yuyue">
+                    <p>¥{{ item1.price }}</p>
+                    <p @click="toorder(item1.id)">预约</p>
                   </div>
                 </div>
               </li>
             </div>
           </van-grid>
-          <van-grid v-if="activeIndex === 1">
-            <div class="keep">
-              <div class="big">
-                <div class="xiche">
-                  <img src="../../assets/xiche.png" alt />
-                </div>
-                <div class="clear">
-                  <p>小保养</p>
-                  <div class="dabaoyang">
-                    <p>¥160.00-325.00</p>
-                    <p>预约</p>
-                  </div>
-                </div>
-              </div>
-              <div class="state">
-                <h1>服务内容说明</h1>
-                <span>
-                  我是服务内容归还借款的风格可进行反馈最低价你
-                  今年的快感合适的话刚开始干活的干活干活控股吧
-                </span>
-              </div>
-              <div class="flow">
-                <h1>服务流程说明</h1>
-                <span>
-                  我是服务内容归还借款的风格可进行反馈最低价你
-                  今年的快感合适的话刚开始干活的干活干活控股吧
-                  京东方哈哈购房款VB小
-                </span>
-              </div>
-            </div>
-            <div class="xiao">
-              <div class="small">
-                <div class="xiche">
-                  <img src="../../assets/xiche.png" alt />
-                </div>
-                <div class="clear">
-                  <p>小保养</p>
-                  <div class="dabaoyang">
-                    <p>¥160.00-325.00</p>
-                    <p>预约</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </van-grid>
-          <van-grid v-if="activeIndex === 2"></van-grid>
-          <van-grid v-if="activeIndex === 3"></van-grid>
-          <van-grid v-if="activeIndex === 4"></van-grid>
-          <van-grid v-if="activeIndex === 5"></van-grid>
-          <van-grid v-if="activeIndex === 6"></van-grid>
-          <van-grid v-if="activeIndex === 7"></van-grid>
         </template>
       </van-tree-select>
     </div>
@@ -123,30 +82,56 @@ export default {
       activeKey: 0,
       list: [],
       // model:'',
-      gender: "广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888",
-      // gender: localStorage.setItem("广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888"),
-      radio:"0",
-      activeIndex: this.$route.query.num ? this.$route.query.num : 0,
+      gender: "",
+      radio: "0",
+      activeIndex: 0,
       index: this.$route.query.num ? this.$route.query.num : 0,
-      items: [
-        { text: "精洗" },
-        { text: "保养" },
-        { text: "钣金" },
-        { text: "改装" },
-        { text: "美容" },
-        { text: "维修" },
-        { text: "喷漆" },
-        { text: "翻新" }
-      ]
+      rightlist: [],
+      items: [],
+      itemslist: [],
+      car_id: "" //车辆id
     };
   },
-   async created(){
-    let token='pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT'
-      const res=await  information(token);
-      console.log(res.data.data)
-       this.list = res.data.data;
-      //  console.log(res.data.data)
-    },
+  async created() {
+    let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    const res1 = await information(token);
+    console.log(res1.data.data);
+    this.list = res1.data.data;
+    let morenindex = this.list.findIndex(v => {
+      return v.status == 1;
+    });
+
+    console.log(morenindex);
+    this.gender = this.list[morenindex].model + this.list[morenindex].plate_num;
+    this.car_id = this.list[morenindex].id;
+    console.log("车的id" + this.car_id);
+    //  console.log(res.data.data)
+    this.activeIndex = this.$route.query.num;
+    console.log(this.activeIndex);
+    this.axios.post("https://api.chejiangshan.com/usecar-top").then(res => {
+      res.data.data.forEach(v => {
+        this.items.push({
+          id: v.id,
+          text: v.title
+        });
+        this.itemslist.push({
+          id: v.id,
+          text: v.title
+        });
+      });
+      let id = this.$route.query.num;
+      let idd = this.items[id].id;
+      this.axios
+        .post("https://api.chejiangshan.com/usecar-2nd", {
+          menu_id: idd
+        })
+        .then(res => {
+          console.log(res);
+          this.rightlist = res.data.data;
+          console.log(this.rightlist);
+        });
+    });
+  },
   mounted() {},
   methods: {
     fanhui() {
@@ -160,6 +145,41 @@ export default {
       console.log(1);
       this.show = true;
     },
+    onNavClick(index) {
+      console.log(index);
+      let id = this.itemslist[index].id;
+      this.activeIndex = index;
+      this.axios
+        .post("https://api.chejiangshan.com/usecar-2nd", {
+          menu_id: id
+        })
+        .then(res => {
+          console.log(res.data.data);
+          console.log(this.rightlist);
+          this.rightlist = res.data.data;
+        });
+    },
+    toorder(b) {
+      this.menu_id = this.itemslist[this.activeIndex].id;
+      let id = this.car_id;
+      console.log(b);
+      this.$router.push({
+        name: "quickorder",
+        query: {
+          menu_id: b,
+          car_id: id
+        }
+      });
+    },
+    radiobtn(a) {
+      console.log(a);
+      let findindex = this.list.findIndex(v => {
+        return v.id == a;
+      });
+      let gerres = this.list[findindex].model + this.list[findindex].plate_num;
+      this.car_id = this.list[findindex].id;
+      this.gender = gerres;
+    },
     over() {
       this.show = !this.show;
     }
@@ -170,23 +190,37 @@ export default {
 li {
   list-style: none;
 }
-.ipted{
+.ipted {
   width: 20px;
   height: 20px;
   background-color: #3f64fd;
 }
-input[type=radio]:after {
-    position: absolute;
-    width: 10px;
-    height: 15px;
-    top: -38;
-    content: " ";
-    /* background-color:cornflowerblue; */
-    color: #5B97FF;
-    display: inline-block;
-    visibility: visible;
-    padding: 0px 3px;
-    border-radius: 50%;
+input[type="radio"]:after {
+  position: absolute;
+  width: 10px;
+  height: 15px;
+  top: -38;
+  content: " ";
+  /* background-color:cornflowerblue; */
+  color: #5b97ff;
+  display: inline-block;
+  visibility: visible;
+  padding: 0px 3px;
+  border-radius: 50%;
+}
+input[type="checkbox"]::after {
+  position: absolute;
+  top: 0;
+  background-color: red;
+  color: #000;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  visibility: visible;
+  padding-left: 0px;
+  text-align: center;
+  content: " ";
+  border-radius: 3px;
 }
 header {
   padding-top: 15px;
@@ -268,6 +302,10 @@ header .first {
 }
 .sort-main {
   margin-top: 80px;
+  height: 586px;
+}
+.sort-main >>> .van-tree-select {
+  height: 586px;
 }
 .van-sidebar-item {
   width: 90px;
@@ -303,16 +341,15 @@ header .first {
 }
 .sort .van-sidebar {
   max-width: 90px;
-  /* height: 1930px; */
+  /* height: 586px; */
   background: #ffffff;
   overflow: -Scroll;
   overflow-y: hidden;
 }
-.van-tree-select {
-  height: 100%;
+.sort-main >>> .van-tree-select {
+  height: 586px !important;
 }
 .sort .van-grid {
-  /* height: 1930px; */
   background: #f9f9f9;
   display: block;
 }
@@ -320,10 +357,10 @@ header .first {
   background: #f6f7fb;
   color: #777777;
 }
-/* .sort .van-tree-select__content {
-  height: 1930px;
-} */
-.sort .van-sidebar-item__text {
+.sort >>>  .van-tree-select__content  {
+  height: 586px;
+}
+  .sort .van-sidebar-item__text {
   display: flex;
   justify-content: center;
 }
@@ -362,7 +399,11 @@ header .first {
 }
 .yuyue {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  width: 190px;
+  box-sizing: border-box;
+  padding-right: 15px;
 }
 .select {
   width: 100px;
@@ -414,7 +455,7 @@ header a {
   color: rgba(255, 255, 255, 1);
   line-height: 17px;
   text-align: center;
-  margin-left: 84px;
+  /* margin-left: 84px; */
 }
 .keep {
   width: 265px;

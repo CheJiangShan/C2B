@@ -30,28 +30,28 @@ export function threeSearch() {
 }
 
 //新车详情
-export function newDetail(id) {           
-  return post("/deal-newmore",{ pid: id });
+export function newDetail(id) {
+  return post("/deal-newmore", { pid: id });
 }
 
 //二手车详情
-export function secondDetail(id) {           
-  return post("/deal-usedmore",{ pid: id });
+export function secondDetail(id) {
+  return post("/deal-usedmore", { pid: id });
 }
 
 //车型列表
-export function getType() {           
+export function getType() {
   return post("/veh-index");
 }
 
 //用户
-export function getUser(token){
-  return post("/usecar-msg",{token})
+export function getUser(token) {
+  return post("/usecar-msg", { token });
 }
 
 //技师信息
-export function technician(){
-  return post("/usecar-menji")
+export function technician() {
+  return post("/usecar-menji");
 }
 
 //服务项目
@@ -60,25 +60,34 @@ export function technician(){
 // }
 
 //服务分类
-export function select(){
-  return post("/usecar-top")
+export function select() {
+  return post("/usecar-top");
 }
 
 //订单列表
-export function orderDetail(token,status){
-  return post("/usecar-orderlist",{token,status})
+export function orderDetail(token, status) {
+  return post("/usecar-orderlist", { token, status });
+}
+
+//订单详情
+export function orderDeta(token,order_id) {
+  return post("/usecar-ordermsg",{token,order_id});
 }
 
 //快速预约
-export function quickOrder(t,m,c){
-  return post("/usecar-order",{
-    token:t,
-    mmenu_id:m,
-    car_id:c
-  })
+export function quickOrder(t, m, c) {
+  return post("/usecar-order", {
+    token: t,
+    mmenu_id: m,
+    car_id: c
+  });
 }
 
 //用户车辆信息
-export function information(token){
-  return post("/usecar-cars",{token})
+export function information(token) {
+  return post("/usecar-cars", { token });
+}
+
+export function lovecar(token) {
+  return post("/usecar-cars", { token });
 }

@@ -2,7 +2,7 @@
   <div class="main">
     <header>
       <div class="header">
-        <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+        <img @click="back()" src="../../assets/xiangqing.png" alt />
         <p>关于我们</p>
       </div>
     </header>
@@ -19,7 +19,17 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  name: "mine",
+  data() {
+    return {};
+  },
+  methods: {
+    back() {
+      this.$router.go(-1);
+    }
+  }
+};
 </script>
 <style scoped>
 * {

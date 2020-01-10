@@ -67,15 +67,15 @@
           <img src="../../assets/11.png" alt />
           <span>精洗</span>
         </div>
-        <div class="mokuai" @click="toSort(1)">
+        <div class="mokuai" @click="toSort(2)">
           <img src="../../assets/12.png" alt />
           <span>保养</span>
         </div>
-        <div class="mokuai" @click="toSort(2)">
+        <div class="mokuai" @click="toSort(4)">
           <img src="../../assets/13.png" alt />
           <span>钣金</span>
         </div>
-        <div class="mokuai" @click="toSort(3)">
+        <div class="mokuai" @click="toSort(6)">
           <img src="../../assets/14.png" alt />
           <span>改装</span>
         </div>
@@ -83,15 +83,15 @@
           <img src="../../assets/15.png" alt />
           <span>事故上报</span>
         </div>
-        <div class="mokuai" @click="toSort(4)">
+        <div class="mokuai" @click="toSort(1)">
           <img src="../../assets/17.png" alt />
           <span>美容</span>
         </div>
-        <div class="mokuai" @click="toSort(5)">
+        <div class="mokuai" @click="toSort(3)">
           <img src="../../assets/18.png" alt />
           <span>维修</span>
         </div>
-        <div class="mokuai" @click="toSort(6)">
+        <div class="mokuai" @click="toSort(5)">
           <img src="../../assets/21.png" alt />
           <span>喷漆</span>
         </div>
@@ -266,7 +266,7 @@ nav .sell {
   display: flex;
   justify-content: space-between;
   margin: 0 20px;
-  padding-top: 15px;
+  padding-top: 29px;
   align-items: center;
 }
 .tianqi .tianqi-1 {

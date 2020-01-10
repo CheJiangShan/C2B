@@ -16,20 +16,37 @@
         <span>称呼</span>
         <div class="right">
           <span style="font-size:14px">马先生</span>
-          <img style="margin:-2px auto" src="../../assets/xiaojiantou.png" alt />
+          <img
+            style="margin:-2px auto"
+            src="../../assets/xiaojiantou.png"
+            alt
+          />
         </div>
       </div>
-      <div class="edit" @click="toFixed()">
+      <div
+        class="edit  weixin"
+        @click="
+          toFixed();
+          remove();
+        "
+      >
         <span>绑定微信</span>
         <div class="right">
+          <span class="weixinstate" style="font-size:14px">{{
+            weixinstate
+          }}</span>
           <img src="../../assets/xiaojiantou.png" alt />
         </div>
       </div>
-      <div class="edit">
+      <div class="edit" @click="tophone()">
         <span>注册手机号</span>
         <div class="right">
           <span style="font-size:14px">13000000000</span>
-          <img style="margin:-2px auto" src="../../assets/xiaojiantou.png" alt />
+          <img
+            style="margin:-2px auto"
+            src="../../assets/xiaojiantou.png"
+            alt
+          />
         </div>
       </div>
     </div>
@@ -51,18 +68,25 @@
         <p @click="Cancle()">取消</p>
       </div>
     </van-action-sheet>
+    <!-- <mt-popup v-model="popupVisible"  position="bottom">
+      ...
+    </mt-popup> -->
     <mt-popup v-model="popupVisible">绑定成功</mt-popup>
+    <mt-popup v-model="removeshow">解绑成功</mt-popup>
   </div>
 </template>
 <script>
+import { MessageBox } from "mint-ui";
 export default {
   name: "set",
   components: {},
   data() {
     return {
-      show: false,
-      show1: false,
-      popupVisible: false
+      show: false, //照片相册
+      show1: false, //是弹出的绑定微信的界面
+      popupVisible: false,
+      removeshow: false,
+      weixinstate: ""
     };
   },
   created() {},
@@ -75,16 +99,23 @@ export default {
     document.querySelector("body").removeAttribute("style");
   },
   methods: {
+    // 返回上一个页面
     fanhui() {
-      this.$router.go(-1);
+      this.$router.push({ path: "/wode" });
     },
+    //
     toCall() {
       this.$router.push({ path: "/call" });
+    },
+    // 跳转手机号
+    tophone() {
+      this.$router.push({ path: "/registerphone" });
     },
     toFixed() {
       this.show1 = true;
     },
     Cancle() {
+      this.weixinstate = "";
       this.show1 = !this.show1;
     },
     toChange() {
@@ -94,8 +125,35 @@ export default {
       this.show = !this.show;
     },
     Success() {
-      this.popupVisible = true;
+      this.popupVisible = true; //绑定成功弹出层
       this.show1 = !this.show1;
+      this.weixinstate = "已绑定";
+      this.state = false;
+    },
+    remove() {
+      if (this.weixinstate == "已绑定") {
+        this.show1 = false;
+        MessageBox.confirm("", {
+          message: "确定解除绑定",
+          confirmButtonText: "确定",
+          cancelButtonText: "取消"
+        })
+          .then(action => {
+            if (action == "confirm") {
+              //确认的回调
+              console.log(1);
+              this.weixinstate = "";
+              this.removeshow = true;
+            }
+          })
+          .catch(err => {
+            if (err == "cancel") {
+              //取消的回调
+              this.weixinstate = "已绑定";
+              console.log(2);
+            }
+          });
+      }
     }
   }
 };
@@ -155,6 +213,14 @@ header p {
   width: 9px;
   height: 16px;
   margin: 8px auto;
+}
+.weixin {
+  position: relative;
+}
+.weixinstate {
+  position: absolute;
+  top: 13px;
+  right: 14px;
 }
 .edit span {
   font-size: 16px;
