@@ -9,52 +9,53 @@
       <span>待预约</span>
     </div>
     <div class="time-detail">
-      <span
-        >车小二预计最快可在2019-10-15 10:00由技师王小五班组为您进行服务</span
-      >
+      <span>车小二预计最快可在2019-10-15 10:00由技师王小五班组为您进行服务</span>
     </div>
-    <div class="technician-pic"></div>
-    <div class="technician-name"><span>技师 王小五</span></div>
+    <div class="technician-pic">
+      <img src="../../assets/attention1.png" alt />
+    </div>
+    <div class="technician-name">
+      <span>{{realname}}</span>
+    </div>
     <div class="listenw">
       <div class="listen">
-        <img src="../../assets/attention.png" alt="" />
+        <img src="../../assets/attention.png" alt />
         <span>实际服务时间稍后由车小二与您电话确认，请注意接听电话</span>
-    </div>
+      </div>
     </div>
     <div class="bar"></div>
     <div class="car-owner">
       <div class="owner">
         <div class="owner-left">
-          <span>
-            张先生
-          </span>
-          <span>
-            136****1927
-          </span>
+          <span>{{username}}</span>
+          <span>{{mobile}}</span>
         </div>
         <div class="owner-right">
-          <span>豫A 88888</span>
+          <span>{{plate_num}}</span>
         </div>
       </div>
       <div class="ownerCar">
-        <span>广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白</span>
+        <span>{{model}}</span>
       </div>
       <div class="owneraddress">
-        <img src="../../assets/diangwei1.png" alt="" />
+        <img src="../../assets/diangwei1.png" alt />
         <div class="owneraddressTxt">
-          <p>陇海路店</p>
-          <p>郑州市陇海路与城东路交叉口南500米路东</p>
+          <p>{{storm_name}}</p>
+          <p>{{address}}</p>
         </div>
       </div>
     </div>
     <div class="bar"></div>
     <div class="repair-service">
       <div class="repair-left">
-        <img src="../../assets/xiaoche.png" alt="" />
+        <img src="../../assets/xiaoche.png" alt />
       </div>
       <div class="repair-txt">
-        <p>综合维修服务</p>
-        <p><span>¥线下报价及支付</span><span>X 1</span></p>
+        <p>{{title}}</p>
+        <p>
+          <span>¥线下报价及支付</span>
+          <span>X 1</span>
+        </p>
       </div>
     </div>
     <div class="bar"></div>
@@ -62,10 +63,16 @@
       <div class="order-detail">
         <p>
           <span>订单编号:</span>
-          <span>2019100715324510017</span>
+          <span>{{order_num}}</span>
         </p>
-        <p><span>下单时间:</span><span>2019-10-07 12:34</span></p>
-        <p class="payway"><span>支付方式:</span><span>线下支付</span></p>
+        <p>
+          <span>下单时间:</span>
+          <span>{{create_time}}</span>
+        </p>
+        <p class="payway">
+          <span>支付方式:</span>
+          <span>线下支付</span>
+        </p>
       </div>
       <div class="receiver">
         <p>预约确认中…</p>
@@ -74,7 +81,51 @@
   </div>
 </template>
 <script>
-export default {};
+import { orderDeta } from "../api/apisum";
+export default {
+  data() {
+    return {
+      username: "",
+      order_num: "",
+      plate_num: "",
+      model: "",
+      mobile: "",
+      storm_name: "",
+      address: "",
+      title: "",
+      realname: "",
+      create_time: "",
+      yuyue_time: "",
+      end_time: ""
+    };
+  },
+  async created() {
+    let id = this.$route.query.order_id;
+    console.log(id);
+    let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    const res = await orderDeta(token, id);
+    console.log(res.data.data);
+    this.username = res.data.data.username;
+    this.realname = res.data.data.realname;
+    this.mobile = res.data.data.mobile;
+    this.order_num = res.data.data.order_num;
+    this.model = res.data.data.model;
+    this.plate_num=res.data.data.plate_num;
+    this.storm_name=res.data.data.storm_name;
+    this.address=res.data.data.address;
+    this.title=res.data.data.title;
+    this.create_time=res.data.data.create_time;
+    this.yuyue_time=res.data.data.yuyue_time;
+    this.end_time=res.data.data.end_time
+  },
+  mounted() {},
+  computed: {},
+  methods: {
+    fanhui() {
+      this.$router.go(-1);
+    }
+  }
+};
 </script>
 <style scoped>
 * {
@@ -132,44 +183,44 @@ header p {
   color: rgba(119, 119, 119, 1);
   line-height: 17px;
 }
-.technician-pic {
+.technician-pic img {
   width: 60px;
   height: 60px;
   margin-left: 158px;
   border-radius: 50%;
-  background: #666;
   margin-bottom: 10px;
 }
 .technician-name {
-  margin-left: 154px;
+  /* margin-left: 154px; */
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
   line-height: 17px;
   margin-bottom: 12px;
+  text-align: center;
 }
-.listenw{
+.listenw {
   width: 100%;
   display: flex;
-  justify-content: center
+  justify-content: center;
 }
 .listen {
   margin-bottom: 20px;
   display: flex;
   justify-content: flex-start;
-  align-items: center
+  align-items: center;
 }
 .listen img {
   width: 14px;
   height: 14px;
 }
 .listen span {
-font-size:11px;
-font-family:PingFangSC-Regular,PingFang SC;
-font-weight:400;
-color:rgba(164,163,163,1);
-line-height:16px;
+  font-size: 11px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(164, 163, 163, 1);
+  line-height: 16px;
 }
 
 .bar {

@@ -36,6 +36,7 @@
       </div>
       <mt-tab-container v-model="selected">
         <mt-tab-container-item id="1">
+<<<<<<< HEAD
           <li v-for="item in list" :key="item" @click="toorder(item.id)">
             <div class="finish">
               <span>{{ item.storm_name }}</span>
@@ -43,6 +44,16 @@
               <span v-if="item.status == 1">待预约</span>
               <span v-if="item.status == 2">待交付/维保中</span>
               <span v-if="item.status == 3">已完工</span>
+=======
+          <li v-for="item in list" :key="item" @click="toorder(item.id,item.status)">
+            <div class="finish">
+              <span>{{item.storm_name}}</span>
+              <span v-if="item.status==0">已付款</span>
+              <span v-if="item.status==1">待预约</span>
+              <!-- <span v-if="item.status==-1">已关闭</span> -->
+              <span v-if="item.status==-1">待交付/维保中</span>
+              <span v-if="item.status==3">已完工</span>
+>>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             </div>
             <div class="curing">
               <span>{{ item.title }}</span>
@@ -53,7 +64,11 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
+<<<<<<< HEAD
           <li v-for="item in list1" :key="item" @click="toorder(item.id)">
+=======
+          <li v-for="item in list1" :key="item" @click="toorder(item.id,item.status)">
+>>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             <div class="finish">
               <span>{{ item.storm_name }}</span>
               <span>待预约</span>
@@ -67,7 +82,11 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="3">
+<<<<<<< HEAD
           <li v-for="item in list2" :key="item" @click="toorder(item.id)">
+=======
+          <li v-for="item in list2" :key="item" @click="toorder(item.id,item.status)">
+>>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             <div class="finish">
               <span>{{ item.storm_name }}</span>
               <span>待交付/维保中</span>
@@ -81,10 +100,17 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="4">
+<<<<<<< HEAD
           <li v-for="item in list3" :key="item" @click="toorder(item.id)">
             <div class="finish">
               <span>{{ item.storm_name }}</span>
               <span>待交付/维保中</span>
+=======
+          <li v-for="item in list3" :key="item" @click="toorder(item.id,item.status)">
+            <div class="finish">
+              <span>{{item.storm_name}}</span>
+              <span>已完工</span>
+>>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             </div>
             <div class="curing">
               <span>{{ item.title }}</span>
@@ -95,7 +121,11 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="5">
+<<<<<<< HEAD
           <li v-for="item in list4" :key="item" @click="toorder(item.id)">
+=======
+          <li v-for="item in list4" :key="item" @click="toorder(item.id,item.status)">
+>>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             <div class="finish">
               <span>{{ item.storm_name }}</span>
               <span>已交付</span>
@@ -110,7 +140,7 @@
         </mt-tab-container-item>
       </mt-tab-container>
     </div>
-
+    <div class="slotBottom"></div>
     <footeree></footeree>
   </div>
 </template>
@@ -128,7 +158,9 @@ export default {
       selected: "1",
       list: [],
       list1: [],
-      list3: []
+      list2:[],
+      list3: [],
+      list4: []
     };
   },
   async created() {
@@ -140,7 +172,7 @@ export default {
     const res1 = await orderDetail(token, 1);
     console.log(res1);
     this.list1 = res1.data.data;
-    const res2 = await orderDetail(token, 2);
+    const res2 = await orderDetail(token, -1);
     console.log(res2);
     this.list2 = res2.data.data;
     const res3 = await orderDetail(token, 3);
@@ -155,16 +187,38 @@ export default {
     fanhui() {
       this.$router.push({ path: "/shouye" });
     },
-    toorder(a) {
+    //1:带预约，2：待交付/维保中，3：已完工 ，0：已交付
+  async  toorder(a, b) {
       console.log(a);
-      // this.axios
-      //   .post("https://api.chejiangshan.com/usecar-ordermsg", {
-      //     token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
-      //     order_id: a
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //   });
+      console.log(b);
+      this.axios
+        .post("https://api.chejiangshan.com/usecar-ordermsg", {
+          token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+          order_id: a
+        })
+        .then(res => {
+          if (b === 0) {
+            this.$router.push({
+              path: "/closed",
+              query: {
+                order_id:a
+              }
+            });
+          } else if (b === 1) {
+            this.$router.push({ path: "/noorder", query: {
+                order_id:a
+              } });
+          } else if (b === -1) {
+            this.$router.push({ path: "/nopayment", query: {
+                order_id:a
+              } });
+          } else if (b === 3) {
+            this.$router.push({ path: "/completed", query: {
+                order_id:a
+              } });
+          }
+          console.log(res);
+        });
     }
   }
 };
@@ -209,8 +263,15 @@ header p {
 }
 .record {
   width: 100%;
-  margin-top: 80px;
+  /* margin-top: 80px; */
   /* height: 1000px */
+}
+#searchBar{
+  position:fixed;
+  top:80px;
+  left:0;
+  width: 100%;
+  z-index:99
 }
 .record .mint-tab-item {
   color: #a4a3a3;
@@ -228,7 +289,7 @@ header p {
   margin-bottom: 10px;
 }
 .mint-tab-container-item {
-  margin-top: 5px;
+  margin-top: 130px;
 }
 .finish {
   width: 345px;
@@ -290,5 +351,9 @@ header p {
   color: rgba(119, 119, 119, 1);
   line-height: 30px;
   text-align: center;
+}
+.slotBottom{
+  width: 100%;
+  height: 50px
 }
 </style>

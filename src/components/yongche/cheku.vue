@@ -39,6 +39,7 @@
         </div>
       </li>
     </div>
+    <div class="slotBottom"></div>
     <div class="footer">
       <img src="../../assets/sao.png" alt />
       <span>扫描行驶证添加爱车</span>
@@ -68,7 +69,7 @@ export default {
   computed: {},
   methods: {
     fanhui() {
-      this.$router.go(-1)
+      this.$router.push({path:'/shouye'})
     },
     // next() {},
     // 滑动
@@ -270,6 +271,10 @@ header p {
   bottom: 0;
   left: 0;
   z-index: 999;
+}
+.slotBottom{
+  width: 100%;
+  height: 263px
 }
 .delete {
   position: absolute;

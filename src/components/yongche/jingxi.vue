@@ -3,27 +3,17 @@
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
       <p class="ty">{{ gender }}</p>
-      <img
-        class="first"
-        @click="showPopup()"
-        src="../../assets/sanjiao.png"
-        alt
-      />
+      <img class="first" @click="showPopup()" src="../../assets/sanjiao.png" alt />
       <!-- 更换服务车辆弹窗 -->
-      <van-popup
-        v-model="show"
-        closeable
-        position="bottom"
-        :style="{ height: '45.5%' }"
-      >
+      <van-popup v-model="show" closeable position="bottom" :style="{ height: '45.5%' }">
         <div class="select">
           <span>更换服务车辆</span>
         </div>
         <div class="dan" v-for="(item, i) in list" :key="item">
-          <label
-            ><span>{{ item.model }}&nbsp;&nbsp;&nbsp;</span
-            ><span>{{ item.plate_num }}</span></label
-          >
+          <label>
+            <span>{{ item.model }}&nbsp;&nbsp;&nbsp;</span>
+            <span>{{ item.plate_num }}</span>
+          </label>
           <input
             class="ipted"
             type="radio"
@@ -49,11 +39,7 @@
       </div>
     </header>
     <div class="sort-main">
-      <van-tree-select
-        :items="items"
-        :main-active-index.sync="activeIndex"
-        @click-nav="onNavClick"
-      >
+      <van-tree-select :items="items" :main-active-index.sync="activeIndex" @click-nav="onNavClick">
         <template slot="content">
           <van-grid>
             <div class="top">
@@ -96,8 +82,7 @@ export default {
       activeKey: 0,
       list: [],
       // model:'',
-      gender: "广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888",
-      // gender: localStorage.setItem("广州本田-新飞度 1.5L 2019年产 CVT舒适天窗版 冰晶白 豫A 88888"),
+      gender: "",
       radio: "0",
       activeIndex: 0,
       index: this.$route.query.num ? this.$route.query.num : 0,

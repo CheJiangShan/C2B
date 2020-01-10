@@ -69,6 +69,11 @@ export function orderDetail(token, status) {
   return post("/usecar-orderlist", { token, status });
 }
 
+//订单详情
+export function orderDeta(token,order_id) {
+  return post("/usecar-ordermsg",{token,order_id});
+}
+
 //快速预约
 export function quickOrder(t, m, c) {
   return post("/usecar-order", {
