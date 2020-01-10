@@ -36,76 +36,76 @@
       </div>
       <mt-tab-container v-model="selected">
         <mt-tab-container-item id="1">
-          <li v-for="item in list" :key="item">
+          <li v-for="item in list" :key="item" @click="toorder(item.id)">
             <div class="finish">
-              <span>{{item.storm_name}}</span>
-              <span v-if="item.status==0">已交付</span>
-              <span v-if="item.status==1">待预约</span>
-              <span v-if="item.status==2">待交付/维保中</span>
-              <span v-if="item.status==3">已完工</span>
+              <span>{{ item.storm_name }}</span>
+              <span v-if="item.status == 0">已交付</span>
+              <span v-if="item.status == 1">待预约</span>
+              <span v-if="item.status == 2">待交付/维保中</span>
+              <span v-if="item.status == 3">已完工</span>
             </div>
             <div class="curing">
-              <span>{{item.title}}</span>
+              <span>{{ item.title }}</span>
               <span class="serve">共2次服务</span>
               <span>¥65.00</span>
             </div>
-            <p class="serial">订单编号：{{item.order_num}}</p>
+            <p class="serial">订单编号：{{ item.order_num }}</p>
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
-          <li v-for="item in list1" :key="item">
+          <li v-for="item in list1" :key="item" @click="toorder(item.id)">
             <div class="finish">
-              <span>{{item.storm_name}}</span>
+              <span>{{ item.storm_name }}</span>
               <span>待预约</span>
             </div>
             <div class="curing">
-              <span>{{item.title}}</span>
+              <span>{{ item.title }}</span>
               <span class="serve">共2次服务</span>
               <span>¥65.00</span>
             </div>
-            <p class="serial">订单编号：{{item.order_num}}</p>
+            <p class="serial">订单编号：{{ item.order_num }}</p>
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="3">
-          <li v-for="item in list2" :key="item">
+          <li v-for="item in list2" :key="item" @click="toorder(item.id)">
             <div class="finish">
-              <span>{{item.storm_name}}</span>
+              <span>{{ item.storm_name }}</span>
               <span>待交付/维保中</span>
             </div>
             <div class="curing">
-              <span>{{item.title}}</span>
+              <span>{{ item.title }}</span>
               <span class="serve">共2次服务</span>
               <span>¥65.00</span>
             </div>
-            <p class="serial">订单编号：{{item.order_num}}</p>
+            <p class="serial">订单编号：{{ item.order_num }}</p>
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="4">
-          <li v-for="item in list3" :key="item">
+          <li v-for="item in list3" :key="item" @click="toorder(item.id)">
             <div class="finish">
-              <span>{{item.storm_name}}</span>
+              <span>{{ item.storm_name }}</span>
               <span>待交付/维保中</span>
             </div>
             <div class="curing">
-              <span>{{item.title}}</span>
+              <span>{{ item.title }}</span>
               <span class="serve">共2次服务</span>
               <span>¥65.00</span>
             </div>
-            <p class="serial">订单编号：{{item.order_num}}</p>
+            <p class="serial">订单编号：{{ item.order_num }}</p>
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="5">
-          <li v-for="item in list4" :key="item">
+          <li v-for="item in list4" :key="item" @click="toorder(item.id)">
             <div class="finish">
-              <span>{{item.storm_name}}</span>
+              <span>{{ item.storm_name }}</span>
               <span>已交付</span>
             </div>
             <div class="curing">
-              <span>{{item.title}}</span>
+              <span>{{ item.title }}</span>
               <span class="serve">共2次服务</span>
               <span>¥65.00</span>
             </div>
-            <p class="serial">订单编号：{{item.order_num}}</p>
+            <p class="serial">订单编号：{{ item.order_num }}</p>
           </li>
         </mt-tab-container-item>
       </mt-tab-container>
@@ -127,38 +127,48 @@ export default {
     return {
       selected: "1",
       list: [],
-      list1:[],
-      list3:[]
+      list1: [],
+      list3: []
     };
   },
   async created() {
     let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
-    const res = await orderDetail(token,"");
+    const res = await orderDetail(token, "");
     console.log(res);
     console.log(res.data.data);
     this.list = res.data.data;
-     const res1= await orderDetail(token,1)
-     console.log(res1)
-    this.list1= res1.data.data
-     const res2= await orderDetail(token,2)
-     console.log(res2)
-    this.list2= res2.data.data
-    const res3= await orderDetail(token,3)
-     console.log(res3)
-    this.list3= res3.data.data
-    const res4= await orderDetail(token,0)
-     console.log(res4)
-    this.list4= res4.data.data
+    const res1 = await orderDetail(token, 1);
+    console.log(res1);
+    this.list1 = res1.data.data;
+    const res2 = await orderDetail(token, 2);
+    console.log(res2);
+    this.list2 = res2.data.data;
+    const res3 = await orderDetail(token, 3);
+    console.log(res3);
+    this.list3 = res3.data.data;
+    const res4 = await orderDetail(token, 0);
+    console.log(res4);
+    this.list4 = res4.data.data;
   },
   mounted() {},
   methods: {
     fanhui() {
       this.$router.push({ path: "/shouye" });
+    },
+    toorder(a) {
+      console.log(a);
+      // this.axios
+      //   .post("https://api.chejiangshan.com/usecar-ordermsg", {
+      //     token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+      //     order_id: a
+      //   })
+      //   .then(res => {
+      //     console.log(res);
+      //   });
     }
   }
 };
 </script>
-
 
 <style scoped>
 * {

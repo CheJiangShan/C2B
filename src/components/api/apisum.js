@@ -82,7 +82,8 @@ export function quickOrder(t, m, c) {
 export function information(token) {
   return post("/usecar-cars", { token });
 }
-
+//爱车详情
 export function lovecar(token) {
   return post("/usecar-cars", { token });
 }
+

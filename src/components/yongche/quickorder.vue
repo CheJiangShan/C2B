@@ -41,7 +41,7 @@
       <div class="repaircar">
         <img src="../../assets/yuyue.png" alt="" />
       </div>
-      <p>{{service.title}}</p>
+      <p>{{ service.title }}</p>
       <span>X 1</span>
     </div>
     <div class="bar"></div>
@@ -49,6 +49,7 @@
       <div class="sign">
         <span>备注：</span>
         <textarea
+          ref="moretext"
           style="font-size: 12px;
               font-family: PingFangSC-Regular, PingFang SC;
               font-weight: 400;
@@ -56,27 +57,23 @@
               line-height: 17px;"
           id="signtxt"
           placeholder="请输入服务需求"
+          v-model="textarea"
         ></textarea>
       </div>
       <div class="uploadpic">
         <p>车况图片：</p>
         <div class="pic">
-          <img
-            src="../../assets/upload.png"
-            alt=""
-            v-for="item in 0"
-            :key="item.id"
-          />
+          <img :src="item" alt="" v-for="(item, index) in qwe" :key="index" />
           <img src="../../assets/upload.png" alt="" @click="addpic()" />
         </div>
-        <div class="submit">
+        <div class="submit" @click="submitcontent()">
           <span>提交</span>
         </div>
       </div>
     </div>
 
     <van-action-sheet v-model="show1">
-      <ul>
+      <ul class="phonelist">
         <li class="paizhao" @click="captureImage()">拍照</li>
         <li class="paizhao" @click="galleryImg()">从相册选择</li>
         <li class="paizhao" @click="quxiao()">取消</li>
@@ -85,6 +82,7 @@
   </div>
 </template>
 <script>
+import { Toast } from "mint-ui";
 export default {
   data() {
     return {
@@ -92,15 +90,19 @@ export default {
       usermsg: [],
       carmsg: [],
       technician: [],
-      service:[]
+      service: [],
+      textarea: "",
+      menu_id: "",
+      car_id: "",
+      imgSrc: "", //展示的图片路径
+      tupianlist: [], //展示的图片容器
+      qwe: []
     };
   },
   created() {
-    // // console.log(this.$route.query.menu_id);
-    // let a = this.$route.query.menu_id;
-    // console.log(a);
-    // let b = this.$route.query.car_id;
-    // console.log(b);
+    // console.log(this.$route.query.menu_id);
+    this.menu_id = this.$route.query.menu_id;
+    this.car_id = this.$route.query.car_id;
     this.axios
       .post("https://api.chejiangshan.com/usecar-order", {
         token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
@@ -108,11 +110,12 @@ export default {
         car_id: 6
       })
       .then(res => {
-        console.log(res.data.data.user);
+        // console.log(res.data.data.user);
         this.usermsg = res.data.data.user;
         this.carmsg = res.data.data.car;
         this.technician = res.data.data.artificer;
-        this.service = res.data.data.menu
+        this.service = res.data.data.menu;
+        // console.log(this.service.title);
       });
   },
   methods: {
@@ -125,6 +128,7 @@ export default {
     quxiao() {
       this.show1 = false;
     },
+    // 相册中选择
     galleryImg() {
       let This = this;
       console.log("从相册中选择图片:");
@@ -150,12 +154,97 @@ export default {
             "image/jpg",
             1 || 0.8
           );
-          This.tupianlist = base64;
-          console.log(This.tupianlist + "我是转码后的base");
-
+          console.log(This.imgSrc);
+          This.qwe.push(This.imgSrc);
+          This.tupianlist.push(base64);
+          console.log("图片" + This.tupianlist);
+          // console.log(This.tupianlist + "我是转码后的base");
           //这里可以请求接口
         };
       });
+    },
+    // 拍照
+    captureImage(e) {
+      let This = this;
+      var cmr = plus.camera.getCamera(); //获取摄像头管理对象
+      var res = cmr.supportedImageResolutions[0]; //字符串数组，摄像头支持的拍照分辨率
+      var fmt = cmr.supportedImageFormats[0]; //字符串数组，摄像头支持的拍照文件格式
+      console.log("拍照分辨率: " + res + ", 拍照文件格式: " + fmt);
+      cmr.captureImage(
+        function(path) {
+          plus.gallery.save(path, params => {
+            let file = params.file;
+            console.log(path + "path");
+            console.log(params.file + "file");
+            //编码为base64
+            var img = new Image();
+            img.src = file;
+            img.onload = function() {
+              var that = img;
+              var w = that.width,
+                h = that.height,
+                scale = w / h;
+              w = 320 || w;
+              h = w / scale;
+              var canvas = document.createElement("canvas");
+              canvas.width = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+              canvas.height = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+              var ctx = canvas.getContext("2d");
+              ctx.drawImage(that, 0, 0, 300, 300);
+              var base64 = canvas.toDataURL(
+                "image/png",
+                "image/jpeg",
+                "image/jpg",
+                1 || 0.8
+              );
+              console.log(base64 + "64编码");
+              This.tupianlist.push(base64);
+            };
+          });
+          //进行拍照操作
+          // 通过URL参数获取目录对象或文件对象
+          plus.io.resolveLocalFileSystemURL(path, function(entry) {
+            var tmpPath = entry.toLocalURL(); //获取目录路径转换为本地路径URL地址
+            This.imgSrc = tmpPath;
+            This.qwe.push(tmpPath);
+          });
+        },
+        function(error) {
+          //捕获图像失败回调
+          console.log("捕获图像失败: " + error.message);
+        },
+        { resolution: res, format: fmt }
+      );
+    },
+    submitcontent() {
+      console.log(110);
+      console.log(this.car_id);
+      console.log(this.menu_id);
+      console.log(this.textarea);
+      this.axios
+        .post("https://api.chejiangshan.com/usecar-setorder", {
+          token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+          car_id: this.car_id,
+          menu_id: this.menu_id,
+          storm_id: 2,
+          artificer_id: 2,
+          pic: this.tupianlist,
+          remark: this.textarea
+        })
+        .then(res => {
+          if (res.data.code == 1) {
+            let instance = Toast(res.data.msg);
+            setTimeout(() => {
+              instance.close();
+            }, 1000);
+          }
+          if (res.data.code == -1) {
+            let instance = Toast(res.data.msg);
+            setTimeout(() => {
+              instance.close();
+            }, 1000);
+          }
+        });
     }
   }
 };
@@ -308,8 +397,7 @@ header p {
   line-height: 17px;
   margin-top: 15px;
 }
-.bottom {
-}
+
 .bottom .sign {
   height: 125px;
   display: flex;
@@ -378,5 +466,16 @@ textarea::-webkit-input-placeholder {
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
   line-height: 22px;
+}
+.paizhao {
+  height: 45px;
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
