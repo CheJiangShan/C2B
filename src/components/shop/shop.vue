@@ -27,6 +27,7 @@
       <img  src="../../assets/shop.png" alt />
       <p>开发中......</p>
     </div>
+    <div class="slotBottom"></div>
     <foote></foote>
   </div>
 </template>
@@ -121,6 +122,7 @@ header p {
 }
 .kong {
   margin-top: 80px;
+  height: 100%
 }
 .kong img {
   width: 153px;
@@ -134,5 +136,9 @@ header p {
   color: rgba(119, 119, 119, 1);
   line-height: 120px;
   text-align: center;
+}
+.slotBottom{
+  height: 130px;
+  width: 100%;
 }
 </style>

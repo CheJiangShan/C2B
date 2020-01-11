@@ -357,10 +357,17 @@ header p {
   left: 0;
   z-index: 999;
 }
+<<<<<<< HEAD
 .slotBottom {
   width: 100%;
   height: 263px;
 }
+=======
+/* .slotBottom{
+  width: 100%;
+  height: 263px
+} */
+>>>>>>> 90a420fde83ba7ba8709bc617b99fde9a1c3533a
 .delete {
   position: absolute;
   top: 36px;
