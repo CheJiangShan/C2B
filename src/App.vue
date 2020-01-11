@@ -38,7 +38,6 @@ export default {
   }
 };
 // 手机端自适应：
-
 function bodyScale() {
   var devicewidth = document.documentElement.clientWidth;
   var scale = devicewidth / 375;

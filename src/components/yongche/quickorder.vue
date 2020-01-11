@@ -100,7 +100,6 @@ export default {
     };
   },
   created() {
-    // console.log(this.$route.query.menu_id);
     this.menu_id = this.$route.query.menu_id;
     this.car_id = this.$route.query.car_id;
     this.axios
@@ -110,12 +109,10 @@ export default {
         car_id: 6
       })
       .then(res => {
-        // console.log(res.data.data.user);
         this.usermsg = res.data.data.user;
         this.carmsg = res.data.data.car;
         this.technician = res.data.data.artificer;
         this.service = res.data.data.menu;
-        // console.log(this.service.title);
       });
   },
   methods: {
@@ -232,11 +229,19 @@ export default {
           remark: this.textarea
         })
         .then(res => {
+          console.log(res);
           if (res.data.code == 1) {
             let instance = Toast(res.data.msg);
             setTimeout(() => {
               instance.close();
             }, 1000);
+            console.log(res.data.data.id);
+            this.$router.push({
+              name: "noorder",
+              query: {
+                order_id: res.data.data.id
+              }
+            });
           }
           if (res.data.code == -1) {
             let instance = Toast(res.data.msg);

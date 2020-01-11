@@ -144,7 +144,7 @@ export default {
   computed: {},
   methods: {
     fanhui() {
-      this.$router.push({ path: "/cheku" });
+      this.$router.go(-1);
     },
     handleScroll() {
       var scrollTop =

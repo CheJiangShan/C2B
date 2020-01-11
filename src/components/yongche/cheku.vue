@@ -40,7 +40,7 @@
       </li>
     </div>
     <div class="slotBottom"></div>
-    <div class="footer">
+    <div class="footer" @click="captureImage()">
       <img src="../../assets/sao.png" alt />
       <span>扫描行驶证添加爱车</span>
     </div>
@@ -69,7 +69,7 @@ export default {
   computed: {},
   methods: {
     fanhui() {
-      this.$router.push({path:'/shouye'})
+      this.$router.push({ path: "/shouye" });
     },
     // next() {},
     // 滑动
@@ -124,14 +124,13 @@ export default {
     },
     //删除
     deleteItem(id, state) {
-      let that = this
+      let that = this;
       let index = this.lovecarlist.findIndex(v => {
         return v.id == id;
       });
       if (state == 1) {
-        that.reload()
+        that.reload();
       }
-      // console.log(index);
       this.lovecarlist.splice(index, 1);
       this.axios
         .post("https://api.chejiangshan.com/usecar-carsdel", {
@@ -175,8 +174,94 @@ export default {
             }, 3000);
           }
         });
+    },
+    captureImage(e) {
+      let This = this;
+      var cmr = plus.camera.getCamera(); //获取摄像头管理对象
+      var res = cmr.supportedImageResolutions[0]; //字符串数组，摄像头支持的拍照分辨率
+      var fmt = cmr.supportedImageFormats[0]; //字符串数组，摄像头支持的拍照文件格式
+      console.log("拍照分辨率: " + res + ", 拍照文件格式: " + fmt);
+      cmr.captureImage(
+        function(path) {
+          plus.gallery.save(path, params => {
+            let file = params.file;
+            console.log(path + "path");
+            console.log(params.file + "file");
+            //编码为base64
+            var img = new Image();
+            img.src = file;
+            img.onload = function() {
+              var that = img;
+              var w = that.width,
+                h = that.height,
+                scale = w / h;
+              w = 320 || w;
+              h = w / scale;
+              var canvas = document.createElement("canvas");
+              canvas.width = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+              canvas.height = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+              var ctx = canvas.getContext("2d");
+              ctx.drawImage(that, 0, 0, 300, 300);
+              var base64 = canvas.toDataURL(
+                "image/png",
+                "image/jpeg",
+                "image/jpg",
+                1 || 0.8
+              );
+              console.log(base64 + "64编码");
+              This.tupianlist = base64;
+              This.axios
+                .post("https://api.chejiangshan.com/usecar-addcar", {
+                  token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+                  pic: This.tupianlist
+                })
+                .then(res => {
+                  console.log(res);
+                  let instance = Toast("正在发送，请稍后");
+                  setTimeout(() => {
+                    instance.close();
+                  }, 1000);
+                  if (res.data.code == 1) {
+                    let instance = Toast(res.data.msg);
+                    setTimeout(() => {
+                      instance.close();
+                    }, 1000);
+                    This.reload();
+                  } else {
+                    let instance = Toast(res.data.msg);
+                    setTimeout(() => {
+                      instance.close();
+                    }, 1000);
+                  }
+                });
+            };
+          });
+          //进行拍照操作
+          // 通过URL参数获取目录对象或文件对象
+          // plus.io.resolveLocalFileSystemURL(path, function(entry) {
+          //   var tmpPath = entry.toLocalURL(); //获取目录路径转换为本地路径URL地址
+          //   This.imgSrc = tmpPath;
+          //   This.qwe.push(tmpPath);
+          // });
+        },
+        function(error) {
+          //捕获图像失败回调
+          console.log("捕获图像失败: " + error.message);
+        },
+        { resolution: res, format: fmt }
+      );
     }
   }
+};
+// 手机端自适应：
+
+function bodyScale() {
+  var devicewidth = document.documentElement.clientWidth;
+  var scale = devicewidth / 375;
+  document.body.style.zoom = scale;
+}
+window.onload = window.onresize = function() {
+  bodyScale();
 };
 </script>
 <style scoped>
@@ -272,9 +357,9 @@ header p {
   left: 0;
   z-index: 999;
 }
-.slotBottom{
+.slotBottom {
   width: 100%;
-  height: 263px
+  height: 263px;
 }
 .delete {
   position: absolute;
@@ -365,6 +450,9 @@ header p {
   color: rgba(255, 255, 255, 1);
   display: flex;
   align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 .footer img {
   width: 20px;

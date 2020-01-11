@@ -7,5 +7,17 @@
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      function bodyScale() {
+        var devicewidth = document.documentElement.clientWidth;
+        var scale = devicewidth / 375;
+        document.body.style.zoom = scale;
+      }
+      window.onload = window.onresize = function() {
+        bodyScale();
+      };
+      </script>
   </body>
+  
 </html>
+

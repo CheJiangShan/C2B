@@ -37,24 +37,24 @@
         <img class="saoyosao" src="../../assets/6.png" alt />
       </div>
       <!-- 车主称呼 -->
-      <h1>您好，{{username}}</h1>
+      <h1>您好，{{ username }}</h1>
       <div class="cheliang">
         <div class="cheliang-1">
-          <span>{{model}}</span>
-          <p>{{plate_num}}</p>
+          <span>{{ model }}</span>
+          <p>{{ plate_num }}</p>
         </div>
         <div class="cheliang-3" @click="cheku()">
           <img src="../../assets/8.png" alt />
-          <span>2</span>
+          <span>{{ car_num }}</span>
         </div>
       </div>
       <!-- 记录 -->
       <div class="jilu">
-        <div class="baoyangjilu">
+        <div class="baoyangjilu" @click="tobaoyang()">
           <img src="../../assets/9.png" alt />
           <span>保养记录</span>
         </div>
-        <div class="weizhangjilu">
+        <div class="weizhangjilu" @click="breakrules()">
           <img src="../../assets/10.png" alt />
           <span>违章记录</span>
         </div>
@@ -111,12 +111,12 @@
           <img src="../../assets/24.png" alt />
           <div class="dianshangxia">
             <div class="didian-1">
-              <h3>{{storm_name}}</h3>
+              <h3>{{ storm_name }}</h3>
               <img src="../../assets/22.png" alt />
             </div>
             <div class="didian-2">
               <img src="../../assets/23.png" alt />
-              <span>{{address}}</span>
+              <span>{{ address }}</span>
             </div>
           </div>
         </div>
@@ -125,7 +125,7 @@
           <div class="dianshangxia">
             <div class="banzuming">
               <img src="../../assets/25.png" alt />
-              <span>{{realname}}</span>
+              <span>{{ realname }}</span>
             </div>
             <p>服务次数：666次</p>
           </div>
@@ -156,7 +156,9 @@ export default {
       plate_num: "",
       storm_name: "",
       address: "",
-      realname:''
+      realname: "",
+      carid: "",
+      car_num: ""
     };
   },
   async created() {
@@ -168,6 +170,8 @@ export default {
     this.username = res.data.data.user.username;
     this.model = res.data.data.car_msg.model;
     this.plate_num = res.data.data.car_msg.plate_num;
+    this.carid = res.data.data.car_msg.id;
+    this.car_num = res.data.data.car_num;
     //首页技师信息
     const res1 = await technician();
     console.log(res1);
@@ -191,11 +195,18 @@ export default {
     },
     news() {
       this.$router.push({ path: "/news" });
+    },
+    tobaoyang() {
+      this.$router.push({
+        name: "aiche",
+        query: {
+          id: this.carid
+        }
+      });
     }
   }
 };
 </script>
-
 
 <style scoped>
 * {
@@ -471,7 +482,7 @@ h1 {
   font-size: 11px;
   color: #777777;
   padding-top: 6px;
-   overflow: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   -ms-text-overflow: ellipsis;
   display: box;
