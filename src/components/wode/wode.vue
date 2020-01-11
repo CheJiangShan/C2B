@@ -165,7 +165,7 @@ nav {
   width: 100%;
   height: 205px;
   background: #3f64fd;
-  position: relative;
+  /* position: relative; */
 }
 .shezhi {
   width: 21px;
@@ -220,9 +220,10 @@ nav {
   box-shadow: 0px 2px 7px 0px rgba(38, 95, 254, 0.21);
   border-radius: 5px;
   margin: 0 auto;
-  position: absolute;
-  left: 15px;
-  top: 175px;
+  /* position: absolute; */
+  /* left: 15px;
+  top: 175px; */
+  margin-top: -30px;
   display: flex;
   align-items: center;
 }

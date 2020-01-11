@@ -272,10 +272,10 @@ header p {
   left: 0;
   z-index: 999;
 }
-.slotBottom{
+/* .slotBottom{
   width: 100%;
   height: 263px
-}
+} */
 .delete {
   position: absolute;
   top: 36px;

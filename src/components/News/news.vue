@@ -34,6 +34,7 @@
         </div>
       </div>
     </div>
+    <div class="slotBottom"></div>
   </div>
 </template>
 
@@ -136,5 +137,9 @@ header p {
   line-height: 15px;
   border-radius: 50%;
   text-align: center;
+}
+.slotBottom{
+  width:100%;
+  height: 500px;
 }
 </style>

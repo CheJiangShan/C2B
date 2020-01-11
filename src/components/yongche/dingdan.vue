@@ -36,15 +36,6 @@
       </div>
       <mt-tab-container v-model="selected">
         <mt-tab-container-item id="1">
-<<<<<<< HEAD
-          <li v-for="item in list" :key="item" @click="toorder(item.id)">
-            <div class="finish">
-              <span>{{ item.storm_name }}</span>
-              <span v-if="item.status == 0">已交付</span>
-              <span v-if="item.status == 1">待预约</span>
-              <span v-if="item.status == 2">待交付/维保中</span>
-              <span v-if="item.status == 3">已完工</span>
-=======
           <li v-for="item in list" :key="item" @click="toorder(item.id,item.status)">
             <div class="finish">
               <span>{{item.storm_name}}</span>
@@ -53,7 +44,6 @@
               <!-- <span v-if="item.status==-1">已关闭</span> -->
               <span v-if="item.status==-1">待交付/维保中</span>
               <span v-if="item.status==3">已完工</span>
->>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             </div>
             <div class="curing">
               <span>{{ item.title }}</span>
@@ -64,11 +54,7 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="2">
-<<<<<<< HEAD
-          <li v-for="item in list1" :key="item" @click="toorder(item.id)">
-=======
           <li v-for="item in list1" :key="item" @click="toorder(item.id,item.status)">
->>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             <div class="finish">
               <span>{{ item.storm_name }}</span>
               <span>待预约</span>
@@ -82,11 +68,7 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="3">
-<<<<<<< HEAD
-          <li v-for="item in list2" :key="item" @click="toorder(item.id)">
-=======
           <li v-for="item in list2" :key="item" @click="toorder(item.id,item.status)">
->>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             <div class="finish">
               <span>{{ item.storm_name }}</span>
               <span>待交付/维保中</span>
@@ -100,17 +82,10 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="4">
-<<<<<<< HEAD
-          <li v-for="item in list3" :key="item" @click="toorder(item.id)">
-            <div class="finish">
-              <span>{{ item.storm_name }}</span>
-              <span>待交付/维保中</span>
-=======
           <li v-for="item in list3" :key="item" @click="toorder(item.id,item.status)">
             <div class="finish">
               <span>{{item.storm_name}}</span>
               <span>已完工</span>
->>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             </div>
             <div class="curing">
               <span>{{ item.title }}</span>
@@ -121,11 +96,7 @@
           </li>
         </mt-tab-container-item>
         <mt-tab-container-item id="5">
-<<<<<<< HEAD
-          <li v-for="item in list4" :key="item" @click="toorder(item.id)">
-=======
           <li v-for="item in list4" :key="item" @click="toorder(item.id,item.status)">
->>>>>>> b096fe022cc71725a51f9888d1726c3475239c5b
             <div class="finish">
               <span>{{ item.storm_name }}</span>
               <span>已交付</span>
@@ -275,6 +246,9 @@ header p {
 }
 .record .mint-tab-item {
   color: #a4a3a3;
+}
+.mt-tab-container{
+  width: 100%
 }
 .record .mint-navbar .mint-tab-item.is-selected {
   color: #3f64fd;

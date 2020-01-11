@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <!-- <transition appear name="move"> -->
     <!-- <keep-alive> -->
     <div>
-      <router-view v-if="isRouterAlive"></router-view>
+      <transition :name="transitionName">
+        <router-view  class="child-view" v-if="isRouterAlive"></router-view>
+      </transition>
     </div>
     <!-- </keep-alive> -->
-    <!-- </transition> -->
   </div>
 </template>
 
@@ -15,7 +15,8 @@ export default {
   name: "App",
   provide() {
     return {
-      reload: this.reload
+      reload: this.reload,
+      transitionName: "slide-right"
     };
   },
   data() {
@@ -34,6 +35,13 @@ export default {
       this.$nextTick(function() {
         this.isRouterAlive = true;
       });
+    }
+  },
+  watch: {
+    $route(to, from) {
+      const toDepth = to.path.split("/").length;
+      const fromDepth = from.path.split("/").length;
+      this.transitionName = toDepth < fromDepth ? "slide-right" : "slide-left";
     }
   }
 };
@@ -57,7 +65,36 @@ window.onload = window.onresize = function() {
 a {
   color: inherit;
 }
-@keyframes animationIn {
+.child-view {
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  transition-delay: 0.1s;
+}
+.slide-left-enter,
+.slide-right-leave-active {
+  opacity: 0;
+  -webkit-transform: translate(30px, 0);
+  transform: translate(30px, 0);
+}
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  -webkit-transform: translate(-30px, 0);
+  transform: translate(-30px, 0);
+}
+/* .fade-enter {
+  opacity: 0;
+}
+.fade-leave {
+  opacity: 1;
+}
+.fade-enter-active {
+  transition: opacity 0.8s;
+}
+.fade-leave-active {
+  opacity: 0;
+  transition: opacity 0.8s;
+} */
+/* @keyframes animationIn {
   0% {
     transform: translate(-100%, 0);
   }
@@ -95,5 +132,5 @@ a {
 }
 .move-leave-active {
   animation: animationOut 0.2s;
-}
+} */
 </style>

@@ -79,7 +79,7 @@
           <img src="../../assets/14.png" alt />
           <span>改装</span>
         </div>
-        <div class="mokuai">
+        <div class="mokuai" @click="toWait()" >
           <img src="../../assets/15.png" alt />
           <span>事故上报</span>
         </div>
@@ -99,7 +99,7 @@
           <img src="../../assets/19.png" alt />
           <span>翻新</span>
         </div>
-        <div class="mokuai">
+        <div class="mokuai" @click="toWait()">
           <img src="../../assets/20.png" alt />
           <span>查看更多</span>
         </div>
@@ -143,6 +143,7 @@
 <script>
 import { getUser, technician } from "../api/apisum";
 import footeree from "../other/footer.vue";
+import { Toast } from "mint-ui";
 export default {
   name: "shouye",
   components: {
@@ -191,6 +192,15 @@ export default {
     },
     news() {
       this.$router.push({ path: "/news" });
+    },
+    toWait(){
+       {
+      let shangbaoshuju = "敬请期待";
+      let instance = Toast(shangbaoshuju);
+      setTimeout(() => {
+        instance.close();
+      }, 2000);
+    }
     }
   }
 };
