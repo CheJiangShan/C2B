@@ -2,7 +2,7 @@
   <div class="mine">
     <!-- 顶部 -->
     <header>
-      <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+      <img  style="padding:5px"  @click="fanhui()" src="../../assets/xiangqing.png" alt />
       <p>爱车详情</p>
     </header>
     <div class="bieke">
@@ -105,7 +105,7 @@ height:201px;"
 export default {
   data() {
     return {
-      selected: "1",
+      selected: this.$route.query.selected ? this.$route.query.selected : "1",
       searchBarFixed: false,
       upkeeplist: [],
       state: "",
@@ -121,7 +121,7 @@ export default {
     if (this.selected == 1) {
       this.axios
         .post("https://api.chejiangshan.com/usecar-carmsg", {
-          token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+          token: localStorage.getItem("token"),
           car_id: id
         })
         .then(res => {

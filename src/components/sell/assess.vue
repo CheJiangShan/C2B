@@ -3,10 +3,15 @@
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
       <span>评估报告</span>
-      <van-popup v-model="show1" closeable position="bottom" :style="{ height: '18%' }">
+      <van-popup
+        v-model="show1"
+        closeable
+        position="bottom"
+        :style="{ height: '18%' }"
+      >
         <div class="lu">
           <van-icon name="chat-o" size="30" color="#1989fa" />
-          <van-icon name="star-o"  size="30" color="gold"/>
+          <van-icon name="star-o" size="30" color="gold" />
           <van-icon name="friends-o" size="30" color="#07c160" />
         </div>
         <div class="titl">
@@ -66,16 +71,23 @@
         </p>
         <p>
           车身颜色:
-          <span style="font-size:12px" @click="showPopup1()" :v-model="carcolorparam">
-            {{
-            carcolorparam
-            }}
+          <span
+            style="font-size:12px"
+            @click="showPopup1()"
+            :v-model="carcolorparam"
+          >
+            {{ carcolorparam }}
           </span>
           <img src="../../assets/xiaojiantou.png" alt />
         </p>
 
         <!-- 车况弹出层 -->
-        <van-popup v-model="show" closeable position="bottom" :style="{ height: '38%' }">
+        <van-popup
+          v-model="show"
+          closeable
+          position="bottom"
+          :style="{ height: '38%' }"
+        >
           <div class="select">
             <span>选择车况</span>
           </div>
@@ -86,13 +98,20 @@
               :pay-money="item.name"
               :class="activeClass == item.id ? 'active' : ''"
               @click="ddd($event, item.id)"
-            >{{ item.name }}</button>
+            >
+              {{ item.name }}
+            </button>
           </div>
           <div class="sure" @click="toSure()">确定</div>
         </van-popup>
 
         <!-- 车身颜色弹窗 -->
-        <van-popup v-model="CarColorShow" closeable position="bottom" :style="{ height: '38%' }">
+        <van-popup
+          v-model="CarColorShow"
+          closeable
+          position="bottom"
+          :style="{ height: '38%' }"
+        >
           <div class="select">
             <span>选择颜色</span>
           </div>
@@ -102,7 +121,9 @@
               :key="item.id"
               :class="activeClassColor == item.id ? 'active' : ''"
               @click="colorsurebtn(item.id, item.name)"
-            >{{ item.name }}</button>
+            >
+              {{ item.name }}
+            </button>
           </div>
           <div class="sure" @click="toSure1()">确定</div>
         </van-popup>
@@ -119,7 +140,9 @@
         <div class="guan">
           <h1>外观：原厂漆，漆面轻微瑕疵；车窗玻璃光洁。</h1>
           <h1>内饰：方向盘及按键无磨损；座椅及内饰崭新；车内无异味。</h1>
-          <h1>工况：发动机及变速箱运行良好且无维修；底盘及电气系统运营良好；暗示保养且记录完整。</h1>
+          <h1>
+            工况：发动机及变速箱运行良好且无维修；底盘及电气系统运营良好；暗示保养且记录完整。
+          </h1>
         </div>
       </div>
     </div>
@@ -234,28 +257,14 @@ export default {
     };
   },
   async created() {
-    let token = "xt3Oxc4Se6vzMgdH2KE832axJYimIa6o";
-    localStorage.setItem("token", token);
+    let token = localStorage.getItem("token");
     let suozaidi = localStorage.getItem("suozaidi");
     let id = localStorage.getItem("id");
     console.log(id);
     // let list=localStorage.getItem("list");
     let timer = localStorage.getItem("timer");
     let miles = localStorage.getItem("miles");
-
     const assessres = await assess(token, suozaidi, id, timer, miles);
-    console.log(assessres);
-    // this.axios
-    //   .post("https://api.chejiangshan.com/assess", {
-    //     token: token,
-    //     city: suozaidi,
-    //     veh_id: id,
-    //     car_license: timer,
-    //     mileage: miles
-    //   })
-    //   .then(res => {
-    //     console.log(res.data);
-    //   });
   },
   mounted() {
     //  let list = localStorage.getItem(list);
@@ -288,11 +297,7 @@ export default {
       this.aaaa = id;
       this.yx = false;
       this.yx1 = true;
-      // this.$refs.change.style.background="red"
-      // console.log(event)
-      // console.log( this.$refs.change)
       this.activeClass = id;
-      // console.log(id);
     },
     colorsurebtn(id, name) {
       this.activeClassColor = id;
@@ -366,12 +371,12 @@ header span {
 .total img {
   width: 80px;
   height: 71px;
-  margin-left: 20px
+  margin-left: 20px;
 }
 .total img:last-child {
   width: 7px;
   height: 12px;
-  margin: -1px 3px
+  margin: -1px 3px;
 }
 .total span {
   font-size: 16px;
@@ -383,6 +388,9 @@ header span {
 .contain {
   margin-left: 8px;
   height: 88px;
+  box-sizing: border-box;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .Ctype {
   font-size: 16px;
@@ -390,11 +398,11 @@ header span {
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
   line-height: 22px;
-  margin-left: 100px;
-  word-break:keep-all;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis; 
+  /* margin-left: 100px; */
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .check {
   margin-left: 100px;
@@ -404,7 +412,7 @@ header span {
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(164, 163, 163, 1);
-  line-height: 66px;
+  line-height: 46px;
 }
 .middle {
   width: 100%;

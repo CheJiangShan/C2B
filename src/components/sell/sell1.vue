@@ -206,10 +206,10 @@ export default {
       this.$router.push({path:"/news"})
     },
     goto() {
-      console.log(this.name);
-      console.log(this.userregion);
-      console.log(this.timeValue);
-      console.log(this.value1);
+      // console.log(this.name);
+      // console.log(this.userregion);
+      // console.log(this.timeValue);
+      // console.log(this.value1);
       if (this.name == "请选择") {
         let instance = Toast("请选择车型");
         setTimeout(() => {

@@ -143,6 +143,14 @@ const router = new Router({
       component: resolve => require(["@/components/yongche/shouye"], resolve)
     }, //卖车首页
     {
+      path: "/carstore",
+      name: "carstore",
+      meta: {
+        needlogin: true
+      },
+      component: resolve => require(["@/components/yongche/carstore"], resolve)
+    }, //店铺列表
+    {
       path: "/cheku",
       name: "cheku",
       meta: {
@@ -217,6 +225,15 @@ const router = new Router({
       component: resolve => require(["@/components/yongche/dingdan"], resolve)
     }, //用车订单
     {
+      path: "/technician",
+      name: "technician",
+      meta: {
+        needlogin: true
+      },
+      component: resolve =>
+        require(["@/components/yongche/technician"], resolve)
+    },
+    {
       path: "/set",
       name: "set",
       meta: {
@@ -231,6 +248,14 @@ const router = new Router({
         needlogin: true
       },
       component: resolve => require(["@/components/wode/call"], resolve)
+    }, //我的设置
+    {
+      path: "/sex",
+      name: "sex",
+      meta: {
+        needlogin: true
+      },
+      component: resolve => require(["@/components/wode/sex"], resolve)
     }, //我的设置
     {
       path: "/shop",
@@ -324,36 +349,39 @@ const router = new Router({
   ]
 });
 // 路由守卫进行拦截
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.needlogin) {
-//     if (localStorage.getItem("token")) {
-//       next();
-//     } else {
-//       MessageBox.confirm("", {
-//         message: "主人,您还没有登录呦???",
-//         title: "提示",
-//         confirmButtonText: "前去登录",
-//         cancelButtonText: "就是不去"
-//       })
-//         .then(action => {
-//           if (action == "confirm") {
-//             //确认的回调
-//             console.log(1);
-//             next({
-//               path: "/login"
-//             });
-//           }
-//         })
-//         .catch(err => {
-//           if (err == "cancel") {
-//             //取消的回调
-//             console.log(2);
-//           }
-//         });
-//     }
-//   } else {
-//     next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.meta.needlogin) {
+    if (localStorage.getItem("token")) {
+      next();
+    } else {
+      next({
+        path: "/"
+      });
+      MessageBox.confirm("", {
+        message: "主人,您还没有登录呦???",
+        title: "提示",
+        confirmButtonText: "前去登录",
+        cancelButtonText: "就是不去"
+      })
+        .then(action => {
+          if (action == "confirm") {
+            //确认的回调
+            console.log(1);
+            next({
+              path: "/login"
+            });
+          }
+        })
+        .catch(err => {
+          if (err == "cancel") {
+            //取消的回调
+            console.log(2);
+          }
+        });
+    }
+  } else {
+    next();
+  }
+});
 
 export default router;

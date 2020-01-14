@@ -2,7 +2,7 @@
   <div class="main">
     <header>
       <div class="header">
-        <img @click="back()" src="../../assets/xiangqing.png" alt />
+        <img  style="padding:5px"  @click="back()" src="../../assets/xiangqing.png" alt />
         <p>关于我们</p>
       </div>
     </header>

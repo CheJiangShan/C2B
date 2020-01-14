@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <header>
-      <img @click="back()" src="../../assets/xiangqing.png" alt />
+      <img  style="padding:5px"  @click="back()" src="../../assets/xiangqing.png" alt />
       <p>快速预约</p>
     </header>
     <div style=" height: 79px;"></div>
@@ -28,13 +28,14 @@
       <img src="../../assets/diangwei1.png" alt="" />
       <div class="address">
         <p>
-          陇海路店
+          {{ storm_name }}
         </p>
         <p>
-          郑州市陇海路与城东路交叉口南500米路东
+          {{ storm_address }}
         </p>
       </div>
-      <span class="workname">{{ technician[0].realname }}</span>
+      <!-- {{ technician[0].realname }} -->
+      <span class="workname">快速减肥</span>
     </div>
     <div class="bar"></div>
     <div class="repair">
@@ -83,6 +84,7 @@
 </template>
 <script>
 import { Toast } from "mint-ui";
+import { quickOrder } from "../api/apisum";
 export default {
   data() {
     return {
@@ -96,24 +98,52 @@ export default {
       car_id: "",
       imgSrc: "", //展示的图片路径
       tupianlist: [], //展示的图片容器
-      qwe: []
+      qwe: [],
+      storm_name: "",
+      storm_address: ""
     };
   },
-  created() {
+  async created() {
+    let storm_id = localStorage.getItem("storm_id");
+    console.log(storm_id);
     this.menu_id = this.$route.query.menu_id;
     this.car_id = this.$route.query.car_id;
-    this.axios
-      .post("https://api.chejiangshan.com/usecar-order", {
-        token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
-        menu_id: 28,
-        car_id: 6
-      })
-      .then(res => {
-        this.usermsg = res.data.data.user;
-        this.carmsg = res.data.data.car;
-        this.technician = res.data.data.artificer;
-        this.service = res.data.data.menu;
-      });
+    let token = localStorage.getItem("token");
+    const res = await quickOrder(token, this.menu_id, this.car_id, storm_id);
+    console.log(res);
+    if (res.data.code == 1) {
+      this.usermsg = res.data.data.user;
+      this.carmsg = res.data.data.car;
+      this.technician = res.data.data.artificer;
+      this.service = res.data.data.menu;
+      this.storm_name = res.data.data.storm.storm_name;
+      this.storm_address = res.data.data.storm.address;
+    } else {
+      let instance = Toast(res.data.msg);
+      setTimeout(() => {
+        instance.close();
+      }, 1000);
+    }
+    //  token: t,
+    // menu_id: m,
+    // car_id: c,
+    // storm_id: s
+    // this.axios
+    //   .post("https://api.chejiangshan.com/usecar-order", {
+    //     token: token,
+    //     menu_id: 28,
+    //     car_id: 6,
+    //     storm_id: 1
+    //   })
+    //   .then(res => {
+    //     console.log(res.data.data.storm.storm_name);
+    //     this.usermsg = res.data.data.user;
+    //     this.carmsg = res.data.data.car;
+    //     this.technician = res.data.data.artificer;
+    //     this.service = res.data.data.menu;
+    //     this.storm_name = res.data.data.storm.storm_name;
+    //     this.storm_address = res.data.data.storm.address;
+    //   });
   },
   methods: {
     back() {
@@ -218,9 +248,10 @@ export default {
       console.log(this.car_id);
       console.log(this.menu_id);
       console.log(this.textarea);
+      let token = localStorage.getItem("token");
       this.axios
         .post("https://api.chejiangshan.com/usecar-setorder", {
-          token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+          token: token,
           car_id: this.car_id,
           menu_id: this.menu_id,
           storm_id: 2,

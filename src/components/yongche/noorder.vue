@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <header>
-      <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+      <img  style="padding:5px"  @click="fanhui()" src="../../assets/xiangqing.png" alt />
       <p>订单详情</p>
     </header>
     <div style=" height: 64px;"></div>
@@ -102,7 +102,7 @@ export default {
   async created() {
     let id = this.$route.query.order_id;
     console.log(id);
-    let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    let token = localStorage.getItem("token");;
     const res = await orderDeta(token, id);
     console.log(res.data.data);
     this.username = res.data.data.username;
@@ -133,7 +133,7 @@ export default {
   padding: 0;
 }
 .main {
-  width: 375px;
+  width: 100%;
 }
 header {
   padding-top: 15px;
@@ -224,7 +224,7 @@ header p {
 }
 
 .bar {
-  width: 375px;
+  width: 100%;
   height: 15px;
   background: rgba(246, 247, 251, 1);
 }
@@ -345,7 +345,7 @@ header p {
 
 .order .order-detail {
   /* height: 160px; */
-  width: 375px;
+  width: 100%;
   box-sizing: border-box;
   padding: 20px 0 0 15px;
   font-size: 13px;
@@ -370,7 +370,7 @@ header p {
 .order .receiver {
   height: 40px;
   background: rgba(207, 207, 207, 1);
-  width: 375px;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

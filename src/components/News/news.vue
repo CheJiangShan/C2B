@@ -61,7 +61,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .news {
   width: 100%;

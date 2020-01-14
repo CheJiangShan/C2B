@@ -1,73 +1,62 @@
 <template>
   <div class="call">
     <header>
-      <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
-      <p>称呼</p>
+      <img
+        style="padding:5px"
+        @click="fanhui()"
+        src="../../assets/xiangqing.png"
+        alt
+      />
+      <p>修改称呼</p>
     </header>
+    <div style="height:80px"></div>
     <div class="middle">
-      <div class="edit">
-        <span>您的行驶证姓名</span>
-        <div class="right">
-          <span>马小号</span>
-        </div>
-      </div>
-      <div class="edit">
-        <span>您的用户名</span>
-        <div class="right">
-          <span style="color:#333333">马小号</span>
-        </div>
-      </div>
-      <div class="edit">
-        <span>启用尊称</span>
-        <div class="right">
-          <mt-switch v-model="value" @change="turn"></mt-switch>
-        </div>
-      </div>
-      <div class="edit" v-show="hid">
-        <span style="margin-left:171px;font-size:14px">马</span>
-        <div class="right1">
-          <span style="font-size:14px">先生</span>
-          <span style="background:#F0F5FF;color:#000;margin-left:30px;font-size:14px">女士</span>
-        </div>
-      </div>
+      <input type="text" placeholder="请输入你的昵称" v-model="username" />
+    </div>
+    <div class="bottom" @click="changename()">
+      <img src="../../assets/next.png" alt="" />
     </div>
   </div>
 </template>
 <script>
+import { Toast } from "mint-ui";
+import { changemessage } from "./../api/apisum";
 export default {
   name: "set",
   components: {},
   data() {
     return {
-     hid:false,
-      value: false
+      hid: false,
+      value: false,
+      username: ""
     };
   },
   methods: {
     fanhui() {
       this.$router.go(-1);
     },
-    turn: function() {
-      // console.log(this.value);
-      // this.value = !this.value;
-      // this.hid=true
-      if(this.value == true){
-        this.hid=true
+    async changename() {
+      if (this.username) {
+        let token = localStorage.getItem("token");
+        let type = 2;
+        let content = this.username;
+        const res = await changemessage(token, type, content);
+        console.log(res);
+        this.$router.push({
+          name: "sex"
+        });
       }
-      if(this.value == false){
-        this.hid=false
+      if (this.username == "") {
+        let instance = Toast("请填写您的用户名");
+        setTimeout(() => {
+          instance.close();
+        }, 1000);
       }
     }
   }
 };
 </script>
-<style  scoped>
-.call {
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  overflow: hidden;
-}
+<style scoped>
 header {
   padding-top: 15px;
   padding-left: 15px;
@@ -89,45 +78,44 @@ header img {
 header p {
   font-size: 18px;
   color: #333333;
-  padding-left: 38%;
+  padding-left: 33%;
 }
 .middle {
-  margin-top: 80px;
-  width: 100%;
-}
-.edit {
-  height: 50px;
-  width: 345px;
+  width: 80%;
+  height: 43px;
+  background: rgba(246, 246, 246, 1);
+  border-radius: 7px;
   margin: 0 auto;
-  border-bottom: 1px solid #f6f7fb;
+  margin-top: 20px;
+  margin-bottom: 29px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
-.edit span {
-  font-size: 16px;
+.middle input {
+  border: 0;
+  background: rgba(246, 246, 246, 1);
+  margin-left: 15px;
+  font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
 }
-.right span {
-  font-size: 14px;
-  font-family: PingFangSC-Regular, PingFang SC;
-  font-weight: 400;
-  color: rgba(119, 119, 119, 1);
-  line-height: 20px;
+.bottom {
+  width: 206px;
+  height: 39px;
+  background: linear-gradient(
+    90deg,
+    rgba(115, 157, 255, 1) 0%,
+    rgba(25, 94, 216, 1) 100%
+  );
+  border-radius: 3px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.right1{
-  display: flex
-}
-.right1 span{
-width:45px;
-height:20px;
-background:#5B97FF
-;border-radius:2px;
-color:#fff;
-display: block;
-text-align: center;
-line-height: 20px;
+.bottom img {
+  width: 48px;
+  height: 22px;
 }
 </style>

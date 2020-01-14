@@ -1,11 +1,26 @@
 <template>
   <div class="sort">
     <header>
-      <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+      <img
+        style="padding:5px"
+        @click="fanhui()"
+        src="../../assets/xiangqing.png"
+        alt
+      />
       <p class="ty">{{ gender }}</p>
-      <img class="first" @click="showPopup()" src="../../assets/sanjiao.png" alt />
+      <img
+        class="first"
+        @click="showPopup()"
+        src="../../assets/sanjiao.png"
+        alt
+      />
       <!-- 更换服务车辆弹窗 -->
-      <van-popup v-model="show" closeable position="bottom" :style="{ height: '45.5%' }">
+      <van-popup
+        v-model="show"
+        closeable
+        position="bottom"
+        :style="{ height: '45.5%' }"
+      >
         <div class="select">
           <span>更换服务车辆</span>
         </div>
@@ -39,7 +54,11 @@
       </div>
     </header>
     <div class="sort-main">
-      <van-tree-select :items="items" :main-active-index.sync="activeIndex" @click-nav="onNavClick">
+      <van-tree-select
+        :items="items"
+        :main-active-index.sync="activeIndex"
+        @click-nav="onNavClick"
+      >
         <template slot="content">
           <van-grid>
             <div class="top">
@@ -65,6 +84,18 @@
                 </div>
               </li>
             </div>
+            <div
+              v-if="rightlist.length == 0"
+              style="margin:8px 52px;text-align:center"
+            >
+              <img
+                style="width:174px;
+height:201px;"
+                src="../../assets/que.png"
+                alt
+              />
+              <p style="color: #777777;font-size:14px">还没有服务项目哦~</p>
+            </div>
           </van-grid>
         </template>
       </van-tree-select>
@@ -72,6 +103,7 @@
   </div>
 </template>
 <script>
+import { Toast } from "mint-ui";
 import { information } from "../api/apisum";
 export default {
   name: "jingxi",
@@ -82,7 +114,7 @@ export default {
       activeKey: 0,
       list: [],
       // model:'',
-      gender: "",
+      gender: "暂无车辆",
       radio: "0",
       activeIndex: 0,
       index: this.$route.query.num ? this.$route.query.num : 0,
@@ -93,21 +125,19 @@ export default {
     };
   },
   async created() {
-    let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    let token = localStorage.getItem("token");
     const res1 = await information(token);
-    console.log(res1.data.data);
-    this.list = res1.data.data;
-    let morenindex = this.list.findIndex(v => {
-      return v.status == 1;
-    });
-
-    console.log(morenindex);
-    this.gender = this.list[morenindex].model + this.list[morenindex].plate_num;
-    this.car_id = this.list[morenindex].id;
-    console.log("车的id" + this.car_id);
-    //  console.log(res.data.data)
+    if (res1.data.code == 1) {
+      console.log(res1.data.data);
+      this.list = res1.data.data;
+      let morenindex = this.list.findIndex(v => {
+        return v.status == 1;
+      });
+      this.gender =
+        this.list[morenindex].model + this.list[morenindex].plate_num;
+      this.car_id = this.list[morenindex].id;
+    }
     this.activeIndex = this.$route.query.num;
-    console.log(this.activeIndex);
     this.axios.post("https://api.chejiangshan.com/usecar-top").then(res => {
       res.data.data.forEach(v => {
         this.items.push({
@@ -138,9 +168,6 @@ export default {
       this.$router.push({ path: "/shouye" });
     },
     // 跳转到快速预约
-    toOrder() {
-      this.$router.push({ path: "/quickorder" });
-    },
     showPopup() {
       console.log(1);
       this.show = true;
@@ -154,22 +181,26 @@ export default {
           menu_id: id
         })
         .then(res => {
-          console.log(res.data.data);
-          console.log(this.rightlist);
           this.rightlist = res.data.data;
         });
     },
     toorder(b) {
       this.menu_id = this.itemslist[this.activeIndex].id;
-      let id = this.car_id;
-      console.log(b);
-      this.$router.push({
-        name: "quickorder",
-        query: {
-          menu_id: b,
-          car_id: id
-        }
-      });
+      if (this.car_id) {
+        let id = this.car_id;
+        this.$router.push({
+          name: "quickorder",
+          query: {
+            menu_id: b,
+            car_id: id
+          }
+        });
+      } else {
+        let instance = Toast("请先去添加爱车");
+        setTimeout(() => {
+          instance.close();
+        }, 2000);
+      }
     },
     radiobtn(a) {
       console.log(a);

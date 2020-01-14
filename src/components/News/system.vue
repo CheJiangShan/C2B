@@ -2,13 +2,15 @@
   <div v-if="have" class="inform">
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
-      <p style="font-size:18px;color:#333;padding:0px 109px 0px 106px">系统消息</p>
+      <p style="font-size:18px;color:#333;padding:0px 109px 0px 106px">
+        系统消息
+      </p>
       <p>全部已读</p>
     </header>
     <div class="date">
       <p>12月22日</p>
     </div>
-    <div class="indent"  @click="toDetail()">
+    <div class="indent" @click="toDetail()">
       <div class="left">
         <p>春节期间物流</p>
         <p>春节期间，车江山物流正常营业，内容内容内容内容内容内容内</p>
@@ -22,7 +24,9 @@
   <div v-else class="que">
     <header>
       <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
-      <p style="font-size:18px;color:#333;padding:0px 109px 0px 106px">订单通知</p>
+      <p style="font-size:18px;color:#333;padding:0px 109px 0px 106px">
+        订单通知
+      </p>
       <p>全部已读</p>
     </header>
     <div class="kong">
@@ -54,8 +58,8 @@ export default {
     fanhui() {
       this.$router.go(-1);
     },
-    toDetail(){
-        this.$router.push({path:'newsDetail'})
+    toDetail() {
+      this.$router.push({ path: "newsDetail" });
     }
   }
 };
@@ -154,10 +158,10 @@ header p:last-child {
   font-weight: 400;
   color: rgba(119, 119, 119, 1);
   display: inline-block;
-  white-space: nowrap; 
-  width: 100%; 
+  white-space: nowrap;
+  width: 100%;
   overflow: hidden;
-  text-overflow:ellipsis;
+  text-overflow: ellipsis;
 }
 .right {
   display: flex;

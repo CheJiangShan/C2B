@@ -2,7 +2,7 @@
   <div class="mine">
     <!-- 顶部 -->
     <header>
-      <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+      <img style="padding:5px" @click="fanhui()" src="../../assets/xiangqing.png" alt />
       <p>我的车库</p>
     </header>
     <div class="second">
@@ -60,7 +60,7 @@ export default {
     };
   },
   async created() {
-    let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    let token = localStorage.getItem("token");
     const res = await lovecar(token);
     console.log(res.data.data);
     this.lovecarlist = res.data.data;
@@ -134,7 +134,7 @@ export default {
       this.lovecarlist.splice(index, 1);
       this.axios
         .post("https://api.chejiangshan.com/usecar-carsdel", {
-          token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+          token: localStorage.getItem("token"),
           cid: id
         })
         .then(res => {
@@ -152,9 +152,10 @@ export default {
       console.log(id);
       // console.log(e);
       let that = this;
+      let token = localStorage.getItem("token");
       this.axios
         .post("https://api.chejiangshan.com/usecar-carschg", {
-          token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+          token: token,
           cid: id
         })
         .then(res => {
@@ -212,7 +213,7 @@ export default {
               This.tupianlist = base64;
               This.axios
                 .post("https://api.chejiangshan.com/usecar-addcar", {
-                  token: "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT",
+                  token: localStorage.getItem("token"),
                   pic: This.tupianlist
                 })
                 .then(res => {
@@ -320,7 +321,7 @@ header p {
   padding-left: 16px;
 }
 .list li {
-  width: 345px;
+  width: 90%;
   height: 106px;
   background: rgba(240, 245, 255, 1);
   border-radius: 5px;
@@ -357,17 +358,10 @@ header p {
   left: 0;
   z-index: 999;
 }
-<<<<<<< HEAD
-.slotBottom {
-  width: 100%;
-  height: 263px;
-}
-=======
 /* .slotBottom{
   width: 100%;
   height: 263px
 } */
->>>>>>> 90a420fde83ba7ba8709bc617b99fde9a1c3533a
 .delete {
   position: absolute;
   top: 36px;
@@ -397,17 +391,18 @@ header p {
   line-height: 53px;
   margin-top: 25px;
 }
-.up .default {
-  border: 1px solid #cacaca;
+.up .setdefault {
+  border: 1px solid rgba(91, 151, 255, 1);
   border-radius: 10px;
-  background: #cacaca;
+  /* background: #cacaca; */
+  background: rgba(91, 151, 255, 1);
   width: 48px;
   height: 16px;
   display: flex;
   justify-content: center;
   margin-top: 25px;
 }
-.up .default::after {
+.up .setdefault::after {
   font-size: 11px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -415,16 +410,17 @@ header p {
   line-height: 16px;
   content: "默认";
 }
-.up .setdefault {
+.up .default {
   width: 60px;
   height: 16px;
-  background: rgba(91, 151, 255, 1);
+  background: #cacaca;
+  border: 1px solid #cacaca;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   margin-top: 25px;
 }
-.up .setdefault::after {
+.up .default::after {
   font-size: 11px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
@@ -451,12 +447,15 @@ header p {
 .footer {
   width: 100%;
   height: 40px;
-  background: #5b97ff;
+  background: rgba(63, 100, 253, 1);
+  font-size: 16px;
   font-family: PingFangSC-Medium, PingFang SC;
   font-weight: 500;
   color: rgba(255, 255, 255, 1);
+  line-height: 22px;
   display: flex;
   align-items: center;
+  justify-content: center;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -464,6 +463,6 @@ header p {
 .footer img {
   width: 20px;
   height: 17px;
-  padding: 0 5px 0 100px;
+  /* padding: 0 5px 0 100px; */
 }
 </style>

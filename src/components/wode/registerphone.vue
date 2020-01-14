@@ -2,7 +2,12 @@
   <div class="main">
     <header>
       <div class="header">
-        <img @click="back()" src="../../assets/xiangqing.png" alt />
+        <img
+          style="padding:5px"
+          @click="back()"
+          src="../../assets/xiangqing.png"
+          alt
+        />
         <p>修改注册手机号</p>
       </div>
     </header>
@@ -25,7 +30,11 @@
           >
         </van-field>
       </van-cell-group>
-      <span class="getcode">获取验证码</span>
+      <div class="getcode" @click="getcode(userphone)">
+        <span @click="getcode(userphone)" v-show="xianshi1">{{ message }}</span>
+        <span v-show="xianshi2">{{ message }}</span>
+      </div>
+      <!-- <span class="getcode" >获取验证码</span> -->
     </div>
     <div class="next" @click="tonew()">
       <div class="nextbtn">
@@ -37,14 +46,85 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      userphone: localStorage.getItem("shoujihao"),
+      xianshi1: true,
+      xianshi2: false,
+      message: "获取验证码",
+      token: "",
+      totalTime: 60, //记录具体倒计时时间
+      timer: "cloak", // 定时器名称
+      canClick: true //添加canClick  判断按钮能否点击
+    };
   },
   methods: {
-    back(){
-      this.$router.go(-1)
+    back() {
+      this.$router.go(-1);
     },
     tonew() {
       this.$router.push({ path: "/changephone" });
+    },
+    // 获取验证码
+    getcode(userphone) {
+      let types = 4;
+      // var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
+      // if (this.userphone == "") {
+      //   let instance = Toast("请输入手机号码");
+      //   setTimeout(() => {
+      //     instance.close();
+      //   }, 2000);
+      // } else if (!reg.test(this.userphone)) {
+      //   let instance = Toast("手机格式不正确");
+      //   setTimeout(() => {
+      //     instance.close();
+      //   }, 2000);
+      // }
+      this.axios
+        .post("https://api.chejiangshan.com/send", {
+          tel: this.userphone,
+          type: types
+        })
+        .then(res => {
+          console.log(res);
+          let shuju = res.data;
+          console.log(shuji);
+          if (shuju.code == 1) {
+            this.xianshi1 = false;
+            this.xianshi2 = true;
+            let instance = Toast(shuju.msg);
+            setTimeout(() => {
+              instance.close();
+            }, 2000);
+            //手机号验证码倒计时
+            if (!this.canClick) return; //改动的是这两行代码,限制点击
+            let that = this;
+            this.canClick = false;
+            that.message = that.totalTime + "s后重新发送"; //这里解决60秒不见了的问题
+            that.cloak = setInterval(function() {
+              that.totalTime--;
+              if (that.totalTime > 0) {
+                that.message = that.totalTime + "s后重新发送";
+                that.xianshi1 = false;
+                that.xianshi2 = true;
+              }
+              if (that.totalTime <= 0) {
+                //当倒计时小于等于0时清除定时器
+                window.clearInterval(that.cloak);
+                that.message = "获取验证码";
+                that.totalTime = 60;
+                that.xianshi2 = false;
+                that.xianshi1 = true;
+              }
+            }, 1000);
+            //
+          } else if (shuju.code == -1) {
+            let shuju = res.data;
+            let instance = Toast(shuju.msg);
+            setTimeout(() => {
+              instance.close();
+            }, 2000);
+          }
+        });
     }
   }
 };
@@ -141,12 +221,34 @@ header {
 }
 .getcode {
   position: absolute;
-  top: 66px;
+  top: 50px;
   right: 15px;
+  height: 50px;
+  line-height: 50px;
+  width: 80px;
   font-size: 14px;
   font-family: PingFangSC-Regular, PingFang SC;
   font-weight: 400;
   color: rgba(91, 151, 255, 1);
-  line-height: 20px;
+  /* font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(91, 151, 255, 1);
+  line-height: 20px; */
 }
+
+.getcode span {
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: rgba(91, 151, 255, 1);
+}
+/* .getcode {
+  width: 90px;
+  height: 16px;
+  border: 0;
+  font-size: 11px;
+  color: #a4a3a3;
+  background: 0;
+} */
 </style>

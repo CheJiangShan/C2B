@@ -11,26 +11,39 @@
       <form>
         <div class="phonbe1">
           <input class="dalu" type="number" v-model="dalu" placeholder="+86" />
-          <input class="ipt1" type="number" v-model="userphone" placeholder="请输入手机号" />
+          <input
+            class="ipt1"
+            type="number"
+            v-model="userphone"
+            placeholder="请输入手机号"
+          />
           <!-- 获取手机验证码按钮 -->
           <div class="ipt2" @click="getcode(userphone)">
-            <span @click="getcode(userphone)" v-show="xianshi1">{{ message }}</span>
+            <span @click="getcode(userphone)" v-show="xianshi1">{{
+              message
+            }}</span>
             <span v-show="xianshi2">{{ message }}</span>
           </div>
-
         </div>
         <div class="yanzheng1">
           <span>验证码</span>
-          <input class="ipt3" v-model="passworld" type="text" placeholder="请输入验证码" />
+          <input
+            class="ipt3"
+            v-model="passworld"
+            type="text"
+            placeholder="请输入验证码"
+          />
         </div>
-        <div class="btn4" @click="login(userphone,passworld)">登录</div>
+        <div class="btn4" @click="login(userphone, passworld)">登录</div>
         <!-- <div id="bj" @click="benjiyijiandenglu()">本机一键登录</div> -->
       </form>
       <!--  -->
     </div>
     <div class="liuyan">
       <img src="../../assets/16.png" alt />
-      <p>登录即视为同意《网络服务协议》和《隐私政策》，并使用本手机号码注册和登录</p>
+      <p>
+        登录即视为同意《网络服务协议》和《隐私政策》，并使用本手机号码注册和登录
+      </p>
     </div>
   </div>
 </template>
@@ -54,7 +67,7 @@ export default {
   },
   methods: {
     // 获取验证码
-    getcode(dalu, userphone) {
+    getcode(userphone) {
       let types = 4;
       var reg = 11 && /^((13|14|15|17|18)[0-9]{1}\d{8})$/;
       if (this.userphone == "") {
@@ -76,8 +89,8 @@ export default {
         .then(res => {
           let shuju = res.data;
           if (shuju.code == 1) {
-              this.xianshi1 = false;
-                this.xianshi2 = true;
+            this.xianshi1 = false;
+            this.xianshi2 = true;
             let instance = Toast(shuju.msg);
             setTimeout(() => {
               instance.close();
@@ -91,7 +104,7 @@ export default {
               that.totalTime--;
               if (that.totalTime > 0) {
                 that.message = that.totalTime + "s后重新发送";
-                 that.xianshi1 = false;
+                that.xianshi1 = false;
                 that.xianshi2 = true;
               }
               if (that.totalTime <= 0) {
@@ -130,12 +143,10 @@ export default {
             localStorage.setItem("shoujihao", res.data.data.mobile);
             let denglushuju = res.data;
             let instance = Toast(denglushuju.msg);
-            console.log(res);
             setTimeout(() => {
               instance.close();
             }, 2000);
-            // this.$router.push({  path: '/shouye' });
-            // this.$router.push({ path: "/" });
+            this.$router.push({ path: "/" });
           } else if (res.data.code == -1) {
             console.log(res, "失败");
             let denglushuju = res.data;
@@ -149,9 +160,6 @@ export default {
   }
 };
 </script>
-
-
-
 <style scoped>
 * {
   margin: 0;
@@ -224,7 +232,7 @@ form {
   color: #a4a3a3;
   background: 0;
 }
-.ipt2 span{
+.ipt2 span {
   font-size: 11px;
   color: #a4a3a3;
 }

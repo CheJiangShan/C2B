@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <header>
-      <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+      <img  style="padding:5px"  @click="fanhui()" src="../../assets/xiangqing.png" alt />
       <p>订单详情</p>
     </header>
     <div style=" height: 64px;"></div>
@@ -119,7 +119,7 @@ export default {
   async created() {
     let id = this.$route.query.order_id;
     console.log(id);
-    let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    let token = localStorage.getItem("token");
     const res = await orderDeta(token, id);
     console.log(res.data.data);
     this.username = res.data.data.username;

@@ -34,20 +34,29 @@
           <p>未来三天多云</p>
           <span>适宜洗车</span>
         </div>
-        <img class="saoyosao" src="../../assets/6.png" alt />
+        <img
+          @click="captureImage()"
+          class="saoyosao"
+          src="../../assets/6.png"
+          alt
+        />
       </div>
       <!-- 车主称呼 -->
-      <h1>您好，{{ username }}</h1>
+      <h1>您好，{{ username ? username : "亲爱的用户!" }}</h1>
       <div class="cheliang">
-        <div class="cheliang-1">
+        <div class="cheliang-1" v-if="chelaing">
           <span>{{ model }}</span>
           <p>{{ plate_num }}</p>
+        </div>
+        <div class="cheliang-1" v-else>
+          <p class="cheliangtxt">扫描行驶证，快速添加爱车~</p>
         </div>
         <div class="cheliang-3" @click="cheku()">
           <img src="../../assets/8.png" alt />
           <span>{{ car_num }}</span>
         </div>
       </div>
+
       <!-- 记录 -->
       <div class="jilu">
         <div class="baoyangjilu" @click="tobaoyang()">
@@ -104,15 +113,14 @@
           <span>查看更多</span>
         </div>
       </div>
-
       <!-- 地点班组 -->
       <div class="didianbanzu">
-        <div class="didian">
+        <div class="didian" @click="tocarstore()">
           <img src="../../assets/24.png" alt />
           <div class="dianshangxia">
             <div class="didian-1">
               <h3>{{ storm_name }}</h3>
-              <img src="../../assets/22.png" alt />
+              <!-- <img src="../../assets/22.png" alt /> -->
             </div>
             <div class="didian-2">
               <img src="../../assets/23.png" alt />
@@ -120,8 +128,8 @@
             </div>
           </div>
         </div>
-        <div class="banzu">
-          <img src="../../assets/30.gif" alt />
+        <div class="banzu" @click="totechnician()">
+          <img src="../../assets/jishi.png" alt />
           <div class="dianshangxia">
             <div class="banzuming">
               <img src="../../assets/25.png" alt />
@@ -158,25 +166,43 @@ export default {
       address: "",
       realname: "",
       carid: "",
-      car_num: ""
+      car_num: "",
+      storm_id: localStorage.getItem("storm_id")
+        ? localStorage.getItem("storm_id")
+        : "",
+      artificer_id: localStorage.getItem("artificer_id")
+        ? localStorage.getItem("artificer_id")
+        : "",
+      chelaing: false
     };
   },
   async created() {
-    //用户信息
-    let token = "pWEHKxg4sFdLGWEx-mQfdlFy-9eKA1UT";
+    let token = localStorage.getItem("token");
     const res = await getUser(token);
-    console.log(res);
-    console.log(res.data.data);
-    this.username = res.data.data.user.username;
-    this.model = res.data.data.car_msg.model;
-    this.plate_num = res.data.data.car_msg.plate_num;
-    this.carid = res.data.data.car_msg.id;
-    this.car_num = res.data.data.car_num;
-    //首页技师信息
-    const res1 = await technician();
+    if (res.data.code == 1) {
+      this.username = res.data.data.user.username;
+      this.cheliangshow = true;
+      this.cheliang = false;
+      if (res.data.data.car_msg != "") {
+        this.model = res.data.data.car_msg.model;
+        this.plate_num = res.data.data.car_msg.plate_num;
+        this.carid = res.data.data.car_msg.id;
+        this.chelaing = true;
+      } else {
+        this.chelaing = false;
+      }
+      this.car_num = res.data.data.car_num;
+    }
+    //首页技师信息s
+    // console.log(this.storm_id);
+    // console.log(this.artificer_id);
+    let storm_id = this.storm_id;
+    let artificer_id = this.artificer_id;
+    const res1 = await technician(storm_id, artificer_id);
     console.log(res1);
-    console.log(res1.data.data);
+    console.log(res1.data.data.mendian);
     this.storm_name = res1.data.data.mendian.storm_name;
+    localStorage.setItem("storm_id", res1.data.data.mendian.id);
     this.address = res1.data.data.mendian.address;
     this.realname = res1.data.data.jishi.realname;
   },
@@ -204,6 +230,15 @@ export default {
         }
       });
     },
+    breakrules() {
+      this.$router.push({
+        name: "aiche",
+        query: {
+          id: this.carid,
+          selected: "2"
+        }
+      });
+    },
     toWait() {
       {
         let shangbaoshuju = "敬请期待";
@@ -212,6 +247,95 @@ export default {
           instance.close();
         }, 2000);
       }
+    },
+    tocarstore() {
+      this.$router.push({
+        name: "carstore"
+      });
+    },
+    totechnician() {
+      this.$router.push({
+        name: "technician"
+      });
+    },
+    captureImage(e) {
+      let This = this;
+      var cmr = plus.camera.getCamera(); //获取摄像头管理对象
+      var res = cmr.supportedImageResolutions[0]; //字符串数组，摄像头支持的拍照分辨率
+      var fmt = cmr.supportedImageFormats[0]; //字符串数组，摄像头支持的拍照文件格式
+      console.log("拍照分辨率: " + res + ", 拍照文件格式: " + fmt);
+      cmr.captureImage(
+        function(path) {
+          plus.gallery.save(path, params => {
+            let file = params.file;
+            console.log(path + "path");
+            console.log(params.file + "file");
+            //编码为base64
+            var img = new Image();
+            img.src = file;
+            img.onload = function() {
+              var that = img;
+              var w = that.width,
+                h = that.height,
+                scale = w / h;
+              w = 320 || w;
+              h = w / scale;
+              var canvas = document.createElement("canvas");
+              canvas.width = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+              canvas.height = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+              var ctx = canvas.getContext("2d");
+              ctx.drawImage(that, 0, 0, 300, 300);
+              var base64 = canvas.toDataURL(
+                "image/png",
+                "image/jpeg",
+                "image/jpg",
+                1 || 0.8
+              );
+              console.log(base64 + "64编码");
+              This.tupianlist = base64;
+              This.axios
+                .post("https://api.chejiangshan.com/usecar-addcar", {
+                  token: localStorage.getItem("token"),
+                  pic: This.tupianlist
+                })
+                .then(res => {
+                  console.log(res);
+                  let instance = Toast("正在发送，请稍后");
+                  setTimeout(() => {
+                    instance.close();
+                  }, 1000);
+                  if (res.data.code == 1) {
+                    let instance = Toast(res.data.msg);
+                    setTimeout(() => {
+                      instance.close();
+                    }, 1000);
+                    // This.reload();
+                    This.$router.push({
+                      path: "/cheku"
+                    });
+                  } else {
+                    let instance = Toast(res.data.msg);
+                    setTimeout(() => {
+                      instance.close();
+                    }, 1000);
+                  }
+                });
+            };
+          });
+          //进行拍照操作
+          // 通过URL参数获取目录对象或文件对象
+          // plus.io.resolveLocalFileSystemURL(path, function(entry) {
+          //   var tmpPath = entry.toLocalURL(); //获取目录路径转换为本地路径URL地址
+          //   This.imgSrc = tmpPath;
+          //   This.qwe.push(tmpPath);
+          // });
+        },
+        function(error) {
+          //捕获图像失败回调
+          console.log("捕获图像失败: " + error.message);
+        },
+        { resolution: res, format: fmt }
+      );
     }
   }
 };
@@ -312,6 +436,7 @@ nav .sell {
 .saoyosao {
   width: 20px;
   height: 17px;
+  padding: 5px 0 5px 5px;
 }
 h1 {
   font-size: 18px;
@@ -329,6 +454,14 @@ h1 {
 .cheliang-1 {
   display: flex;
   flex-direction: column;
+}
+.cheliang .cheliangtxt {
+  margin-top: 52px;
+  font-size: 14px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 20px;
 }
 .cheliang-1 span {
   font-size: 16px;
@@ -415,9 +548,13 @@ h1 {
 .didianbanzu {
   height: 73px;
   background: #ffffff;
-  padding: 15px;
+  /* padding: 15px; */
   margin-top: 20px;
   display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding-right: 15px;
+  padding-left: 15px;
   justify-content: space-between;
 }
 .dianshangxia {
@@ -503,5 +640,6 @@ h1 {
 .yaoqing {
   height: 66px;
   margin: 0 auto;
+  margin-top: 15px
 }
 </style>

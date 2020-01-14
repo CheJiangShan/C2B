@@ -36,13 +36,13 @@
       <div class="set">
         <img @click="toSet()" class="head" src="../../assets/head.png" alt />
         <div class="type">
-          <p class="xiao">马小号</p>
-          <p class="bie">别克 英朗</p>
-          <p class="kuan">2019款 1.5T 双离合互联精英型 国VI</p>
+          <p class="xiao">{{ username }}</p>
+          <p class="bie">{{ model }}</p>
+          <p class="kuan">{{ plate_num }}</p>
         </div>
         <div class="car" @click="cheku()">
           <img src="../../assets/8.png" alt />
-          <span>2</span>
+          <span>{{ car_num }}</span>
           <p></p>
         </div>
       </div>
@@ -50,7 +50,7 @@
     <div class="purse">
       <img src="../../assets/purse.png" alt />
       <span class="qian">我的钱包</span>
-      <span>¥1280.00</span>
+      <span>¥{{ usermoney }}</span>
       <p>提现</p>
     </div>
     <!-- 预约记录 -->
@@ -113,6 +113,7 @@
   </div>
 </template>
 <script>
+import { getUser } from "../api/apisum";
 import footeree from "../other/footer.vue";
 import { Toast } from "mint-ui";
 export default {
@@ -122,8 +123,28 @@ export default {
   },
   data() {
     return {
-      versionshow: false
+      versionshow: false,
+      username: localStorage.getItem("username"),
+      usermoney: localStorage.getItem("usermoney"),
+      model: "",
+      car_num: "",
+      plate_num: ""
     };
+  },
+  async created() {
+    let token = localStorage.getItem("token");
+    const res = await getUser(token);
+    if (res.data.code == 1) {
+      this.model = res.data.data.car_msg.model;
+      this.plate_num = res.data.data.car_msg.plate_num;
+      // this.carid = res.data.data.car_msg.id;
+      this.car_num = res.data.data.car_num;
+    } else {
+      let instance = Toast(res.data.msg);
+      setTimeout(() => {
+        instance.close();
+      }, 1000);
+    }
   },
   methods: {
     toSet() {
@@ -151,6 +172,9 @@ export default {
       setTimeout(() => {
         this.versionshow = false;
       }, 2000);
+    },
+    cheku() {
+      this.$router.push({ path: "/cheku" });
     }
   }
 };
@@ -163,7 +187,7 @@ export default {
 }
 nav {
   width: 100%;
-  height: 205px;
+  height: 187px;
   background: #3f64fd;
   /* position: relative; */
 }
@@ -177,8 +201,11 @@ nav {
 .set {
   width: 100%;
   height: 70px;
+  box-sizing: border-box;
   padding-left: 15px;
+  padding-right: 15px;
   display: flex;
+  justify-content: space-between;
 }
 .head {
   width: 70px;
@@ -186,6 +213,7 @@ nav {
 }
 .type {
   margin-left: 10px;
+  flex: 1;
   /* display: flex */
 }
 .xiao {
@@ -209,8 +237,8 @@ nav {
   color: #fff;
 }
 .car img {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 15px;
   margin: 38px 0 0 40px;
 }
 .purse {

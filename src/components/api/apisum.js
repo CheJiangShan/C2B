@@ -49,9 +49,19 @@ export function getUser(token) {
   return post("/usecar-msg", { token });
 }
 
-//技师信息
-export function technician() {
-  return post("/usecar-menji");
+//门店技师信息
+export function technician(a, b) {
+  return post("/usecar-menji", {
+    storm_id: a,
+    artificer_id: b
+  });
+}
+
+// 技师列表
+export function jishiall(a) {
+  return post("/usecar-artificer", {
+    storm_id: a
+  });
 }
 
 //服务项目
@@ -70,16 +80,17 @@ export function orderDetail(token, status) {
 }
 
 //订单详情
-export function orderDeta(token,order_id) {
-  return post("/usecar-ordermsg",{token,order_id});
+export function orderDeta(token, order_id) {
+  return post("/usecar-ordermsg", { token, order_id });
 }
 
 //快速预约
-export function quickOrder(t, m, c) {
+export function quickOrder(t, m, c, s) {
   return post("/usecar-order", {
     token: t,
-    mmenu_id: m,
-    car_id: c
+    menu_id: m,
+    car_id: c,
+    storm_id: s
   });
 }
 
@@ -91,4 +102,16 @@ export function information(token) {
 export function lovecar(token) {
   return post("/usecar-cars", { token });
 }
+// 全部门店信息
+export function allstore() {
+  return post("/usecar-stormall");
+}
 
+// 修改用户信息
+export function changemessage(to, t, c) {
+  return post("/mine-change", {
+    token: to,
+    type: t,
+    content: c
+  });
+}

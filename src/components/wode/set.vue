@@ -1,21 +1,27 @@
 <template>
   <div class="set">
     <header>
-      <img @click="fanhui()" src="../../assets/xiangqing.png" alt />
+      <img
+        style="padding:5px"
+        @click="fanhui()"
+        src="../../assets/xiangqing.png"
+        alt
+      />
       <p>账号设置</p>
     </header>
     <div class="big">
       <div class="edit" @click="toChange()">
         <span>头像</span>
         <div class="right">
-          <img src="../../assets/one.png" alt />
+          <img v-if="!imgSrc" src="../../assets/one.png" alt />
+          <img v-if="imgSrc" :src="imgSrc" alt="" />
           <img src="../../assets/xiaojiantou.png" alt />
         </div>
       </div>
       <div class="edit" @click="toCall()">
         <span>称呼</span>
         <div class="right">
-          <span style="font-size:14px">马先生</span>
+          <span style="font-size:14px">{{ username }}</span>
           <img
             style="margin:-2px auto"
             src="../../assets/xiaojiantou.png"
@@ -41,7 +47,7 @@
       <div class="edit" @click="tophone()">
         <span>注册手机号</span>
         <div class="right">
-          <span style="font-size:14px">13000000000</span>
+          <span style="font-size:14px">{{phone}}</span>
           <img
             style="margin:-2px auto"
             src="../../assets/xiaojiantou.png"
@@ -51,13 +57,13 @@
       </div>
     </div>
     <div class="middle"></div>
-    <div class="exit">
+    <div class="exit" @click="quit()">
       <p>退出登录</p>
     </div>
     <van-action-sheet v-model="show">
       <ul>
-        <li class="paizhao">拍照</li>
-        <li class="paizhao">从相册选择</li>
+        <li class="paizhao" @click="captureImage()">拍照</li>
+        <li class="paizhao" @click="galleryImg()">从相册选择</li>
         <li class="paizhao" @click="toCancle()">取消</li>
       </ul>
     </van-action-sheet>
@@ -76,6 +82,7 @@
   </div>
 </template>
 <script>
+import { Toast } from "mint-ui";
 import { MessageBox } from "mint-ui";
 export default {
   name: "set",
@@ -86,7 +93,10 @@ export default {
       show1: false, //是弹出的绑定微信的界面
       popupVisible: false,
       removeshow: false,
-      weixinstate: ""
+      weixinstate: "",
+      username: localStorage.getItem("username"),
+      imgSrc: "",
+      phone:localStorage.getItem("shoujihao")
     };
   },
   created() {},
@@ -154,6 +164,73 @@ export default {
             }
           });
       }
+    },
+    quit() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      localStorage.removeItem("usermoney");
+      localStorage.removeItem("touxiang");
+      localStorage.removeItem("shoujihao");
+      let shangbaoshuju = "您已退出";
+      let instance = Toast(shangbaoshuju);
+      setTimeout(() => {
+        instance.close();
+      }, 2000);
+    },
+    galleryImg() {
+      let This = this;
+      console.log("从相册中选择图片:");
+      plus.gallery.pick(function(path) {
+        This.imgSrc = path; //path 是本地路径
+        let img = new Image();
+        img.src = path;
+        img.onload = function(path) {
+          var that = img;
+          var w = that.width, //320
+            h = that.height, //426
+            scale = w / h;
+          w = 320 || w;
+          h = w / scale;
+          var canvas = document.createElement("canvas");
+          canvas.width = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+          canvas.height = 300; //这个设置不能丢，否者会成为canvas默认的300*150的大小
+          var ctx = canvas.getContext("2d");
+          ctx.drawImage(that, 0, 0, 300, 300);
+          var base64 = canvas.toDataURL(
+            "image/png",
+            "image/jpeg",
+            "image/jpg",
+            1 || 0.8
+          );
+          console.log(This.imgSrc);
+          // This.qwe.push(This.imgSrc);
+          This.tupianlist = base64;
+          console.log("图片" + This.tupianlist);
+          // console.log(This.tupianlist + "我是转码后的base");
+          //这里可以请求接口
+          This.axios
+            .post("https://api.chejiangshan.com/mine-change", {
+              token: localStorage.getItem("token"),
+              type: 1,
+              content: This.tupianlist
+            })
+            .then(res => {
+              console.log(res);
+              if (res.data.code) {
+                let instance = Toast("更换成功");
+                setTimeout(() => {
+                  instance.close();
+                }, 1000);
+              } else {
+                let msg = res.data.msg;
+                let instance = Toast(msg);
+                setTimeout(() => {
+                  instance.close();
+                }, 1000);
+              }
+            });
+        };
+      });
     }
   }
 };
@@ -164,7 +241,7 @@ export default {
   height: 100%;
   overflow: auto;
   overflow: hidden;
-  background: #ffffff
+  background: #ffffff;
 }
 li {
   list-style: none;
